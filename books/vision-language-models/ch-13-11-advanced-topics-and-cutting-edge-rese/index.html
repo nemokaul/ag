@@ -1041,10 +1041,10 @@ decoded_output = processor.decode(generated_ids, skip_special_tokens=True)</pre>
 
       
       <div class="_nextContainer_8feuc_10 flex items-center justify-end gap-3 min-w-0" data-testid=statusBarNext>
-        <button class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition-all cursor-pointer" title="Toggle chapter completion status" id=bottom-mark-complete-btn type=button>
-          <span class="mark-complete-icon text-[11px]">○</span>
-          <span class=mark-complete-text>Mark Complete</span>
-        </button>
+        <div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all select-none border-theme-border/60 text-theme-muted" title="Reading progress is automated — complete by reading" id=bottom-reading-status-badge>
+          <span class="status-indicator-dot text-[10px]">●</span>
+          <span class=status-indicator-text>Reading (0%)</span>
+        </div>
         
         <a aria-label="Next Chapter" class="orm-Link-root flex items-center justify-end gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm py-1" href=https://nemokaul.github.io/ag/books/vision-language-models/ch-14-index id=reader-next-link>
           <span class="_title_8feuc_164 truncate max-w-[120px] sm:max-w-[220px]">Next</span>
@@ -1078,6 +1078,8 @@ decoded_output = processor.decode(generated_ids, skip_special_tokens=True)</pre>
   </div>
 
 
+  
+  <div aria-live=polite class=floating-tooltip id=floating-tooltip role=tooltip>Progress is automated — complete by reading</div>
 
 
   
