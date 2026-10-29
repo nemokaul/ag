@@ -1,0 +1,1038 @@
+<!doctype html><html class=scroll-smooth data-theme=light lang=en><meta charset=UTF-8><meta content="width=device-width,initial-scale=1" name=viewport><title>5. Post-Training Vision Language Models — AI E-Book Reader</title><meta content="Chapter 5. Post-Training Vision Language Models Until now, we have been living the full “from scratch” fantasy. We took a tiny vision-language model (VLM), wired images into text, fought with padding and packing, watched the loss wobble its way down,..." name=description><link href=http://localhost:1111/favicon.svg rel=icon type=image/svg+xml><link rel="alternate icon" href=http://localhost:1111/favicon.ico><script>(function(){const e=localStorage.getItem("ebook_reader_theme")||"light";document.documentElement.setAttribute("data-theme",e),e==="dark"||e==="black"?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark")})()</script><link href=http://localhost:1111/css/orm-icons.css rel=stylesheet><link href=http://localhost:1111/css/packt-book.css rel=stylesheet><link href=http://localhost:1111/css/style.css rel=stylesheet><link href=http://localhost:1111/css/reader.css rel=stylesheet><script src=http://localhost:1111/js/books-data.js></script><script defer src=http://localhost:1111/js/reader.js></script><body class="min-h-screen flex flex-col antialiased bg-theme-bg text-theme-text transition-colors duration-200"><div data-authors="Merve Noyan, Andrés Marafioti, Miquel Farré, Orr Zohar" data-book-title="Vision Language Models" data-chapter-title="5. Post-Training Vision Language Models" data-pub-date="June 9, 2026" data-publisher="O'Reilly Media, Inc." class=hidden data-book-id=vision-language-models data-chapter-number=7 data-chapter-slug=ch-07-5-post-training-vision-language-models data-cover-image=/books/vision-language-models/cover.png data-next-url=/books/vision-language-models/ch-08-6-core-architectures-of-vision-language-/ data-prev-url=/books/vision-language-models/ch-06-4-training-data-and-preprocessing-for-vl/ data-total-chapters=15 id=reader-metadata></div><div class="relative min-h-screen flex flex-col transition-all duration-200 bg-theme-bg text-theme-text" id=reader-layout-root><header class="sticky top-0 z-20 w-full border-b backdrop-blur-md transition-all duration-200" id=reader-top-header><div class="max-w-[1700px] mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-4 text-xs"><div class="flex items-center gap-3 min-w-0"><a aria-label="Library Home" class="shrink-0 flex items-center gap-1.5 hover:opacity-80 transition-opacity" href=http://localhost:1111/><svg class="h-4.5 w-auto" viewbox="0 0 137 26" fill="none"><path d="M27.2625 6.503c1.6125.0 2.925-1.32693 2.925-2.95716S28.9125.626596 27.2625.588684c-1.6125.0-2.925 1.326926-2.925 2.957156S25.65 6.503 27.2625 6.503zM3.9375 13.1376c0-2.3505.9375-4.47361 2.475-6.02802 1.5375-1.5544 3.6-2.50221 5.925-2.50221 2.325.0 4.425.94781 5.9625 2.50221 1.5375 1.55441 2.475 3.67752 2.475 6.02802.0 2.3506-.9375 4.4358-2.4375 6.0281C16.8 20.7201 14.7 21.6679 12.375 21.6679S7.95 20.7201 6.4125 19.1657c-1.5375-1.5544-2.475-3.6775-2.475-6.0281zM12.375.626584C5.55.626584.0 6.2376.0 13.1376c0 6.9001 5.5125 12.4732 12.375 12.5111 6.825.0 12.375-5.611 12.375-12.5111.0-6.9-5.55-12.511016-12.375-12.511016zM36.975 10.9709V4.98079h7.9875c1.65.0 2.9625 1.32693 2.9625 2.99507s-1.3125 2.99504-2.9625 2.99504H36.975zm9.9375 3.7533c2.85-.8719 4.95-3.5258 4.95-6.71043C51.8625 4.14672 48.75 1 44.925 1H33V24.9985h3.975V14.9896h5.5125L48.45 24.9985h4.6125l-6.15-10.2743zM72.375 1V4.98079H59.8125V11.0088h11.925v3.9808H59.8125v6.0281H72.375v3.9808H55.8375V1H72.375zM80.475 1H76.5V24.9985H80.475V1zM84.6 1V24.9985h15.412V21.0177H88.575V1H84.6zm18.638 23.9985V1h3.937V21.0177h11.438v3.9808H103.238zM131.437 1H136.237l-8.925 13.0797V24.9985h-3.937V14.0418L114.45 1h4.8l6.112 8.90939L131.437 1z" clip-rule="evenodd" fill="#D3002D" fill-rule="evenodd"/></svg> </a><span class=opacity-40>/</span><a class="font-semibold text-theme-text hover:text-[#D3002D] truncate max-w-[140px] sm:max-w-xs transition-colors" title="Vision Language Models" href=/books/vision-language-models/> Vision Language Models </a><span class="opacity-40 hidden sm:inline">/</span><span class="text-theme-muted truncate hidden sm:inline" title="5. Post-Training Vision Language Models"> 5. Post-Training Vision Language Models</span></div><div class="flex items-center gap-3 shrink-0"><div class="flex items-center gap-2"><span class="text-[11px] font-semibold font-mono text-[#238636] dark:text-[#3fb950]" id=top-book-progress-pct>0% complete</span><div class="w-16 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"><div class="h-full bg-[#17D2CC] transition-all duration-300" id=top-book-progress-bar style=width:0%></div></div></div><div class="h-3.5 w-px bg-[#d0d7de] dark:bg-[#30363d]"></div><button class="p-1.5 rounded-md text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="Backup & Restore Progress" id=backup-modal-btn type=button><svg class="w-3.5 h-3.5" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M8 7H5A2 2 0 003 9v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4-4 4m0 0-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></button><button class="p-1.5 rounded-md text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="Toggle Theme" id=theme-toggle-btn type=button><svg class="w-3.5 h-3.5 dark:hidden" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003.0 0012 21a9.003 9.003.0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <svg class="w-3.5 h-3.5 hidden dark:block" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728.0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></button></div></div></header><div class="relative flex-1 flex w-full transition-all duration-300 min-h-0 overflow-hidden" id=reader-stage><div class="flex-1 h-full min-h-0 overflow-y-auto overscroll-contain transition-all duration-300" id=reader-content-scroll><section class="flex-1 px-4 sm:px-8 md:px-12 pt-8 pb-32 mx-auto w-full max-w-4xl transition-all duration-300" data-testid=contentViewer lang=en><div data-testid=enhancedAnnotatable><div class=noOutline id=book-content tabindex=-1><div class="orm-ChapterReader-readerContainer mx-auto"><div id=sbo-rt-content><article class="select-text reader-prose" id=reader-content-inner><div class="reader-chapter-body prose prose-lg dark:prose-invert max-w-none"><section data-pdf-bookmark="Chapter 5. Post-Training Vision Language Models" data-type=chapter><div class=chapter id=ch05_post_training_vision_language_models_1776349012792816><h1><span class=label>Chapter 5. </span>Post-Training Vision Language Models</h1><p>Until now, we have been living the full “from scratch” fantasy. We<a data-secondary="overview of" data-primary=post-training data-type=indexterm id=id699></a> took a tiny vision-language model (VLM), wired images into text, fought with padding and packing, watched the loss wobble its way down, and even made it answer a few questions about bears and mountains. That is roughly what pretraining and basic supervised training look like in miniature.<p>In practice, though, most people do not spin up a VLM from nothing. You usually start from a strong base model that already knows a lot about language and images, and then you nudge it into the behavior you actually want. That second phase is what people call post-training. It has three big ingredients:<dl><dt>Supervised fine-tuning (SFT)<dd><p>This is where you show the model lots of “here is a prompt, here is a good answer” pairs so it can follow instructions and handle the tasks you care about.</p><dt>Alignment<dd><p>This is where you teach the model what humans actually prefer, using techniques like reinforcement learning from human feedback, or RLHF (direct preference optimization, mixed preference optimization, and group relative policy optimization) so that the answers are not just correct but also helpful and safe.</p><dt>Reinforcement learning with verifiable rewards (RLVR)<dd><p>This<a data-primary="reinforcement learning with verifiable rewards (RLVR)" data-type=indexterm id=id700></a> replaces human preferences with verifiable reward functions (like math or code results) for increased performance on tasks that can be verified.</dl><p class=pagebreak-before>In this chapter, we will look at both parts. We will start with parameter efficient fine-tuning techniques like low-rank adaptation (LoRA) and weight-decomposed low-rank adaptation (DoRA), which let you adapt huge VLMs by training only a tiny fraction of their weights. Then we will dive into alignment, using the transformers reinforcement learning (TRL) and parameter efficient fine-tuning (PEFT) libraries to put these ideas into practice on real multimodal models.<aside data-type=sidebar><div class=sidebar id=ch05_learning_objective_1776349012793050><h1>Learning Objective</h1><p>In this chapter, we will learn how to apply fine-tuning to make models more helpful and performant in any given task.</div></aside><section data-pdf-bookmark="Supervised Fine-Tuning" data-type=sect1><div class=sect1 id=ch05_supervised_fine_tuning_1776349012793120><h1>Supervised Fine-Tuning</h1><p>SFT as a paradigm has existed for a long time, since<a data-secondary="supervised fine-tuning" data-primary=post-training data-type=indexterm id=id701></a><a data-primary="supervised fine-tuning (SFT)" data-type=indexterm id=id702></a><a data-secondary="supervised fine-tuning" data-primary=fine-tuning data-type=indexterm id=id703></a> the early models like ULMFiT or BERT model came out. It is essentially just supervised learning, where you have labels and features, and you train the model to recognize the patterns. The term “fine-tuning” came from the process of taking a versatile pretrained model and further adjusting (fine-tuning) its weights to teach it a new task or a domain, or just improving its performance on a task it can already do. We have many bleeding-edge vision-language-actions (VLAs), yet we see models fine-tuning them on tasks where they fall short. Many models use the <code>Qwen-VL</code> series to fine-tune on document AI or computer-use agents for instance.<p>If fine-tuning VLAs are just like fine-tuning other models, how does it differ? It’s a matter of representation. How we shape the data is as follows: input image + input (user) text prompt + trigger token → (assistant) output generation. If the model has a system prompt, we add it to the beginning of this equation. If there are multiple conversation turns, it becomes: input image + user text prompt + assistant <span class=keep-together>answer +</span> user text prompt → assistant answer. If you have been fine-tuning large language models (LLMs), you would know that this is very similar, except this time we add an image.<p>Given there’s so many special tokens, this process requires a lot of attention not to mess up. Thanks to the processors of transformers, we don’t have to deal with them! Let’s take a look:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>AutoProcessor</code>
+<p><code class=n>processor</code> <code class=o>=</code> <code class=n>AutoProcessor</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code><code class=s2>"Qwen/Qwen3-VL-8B-Instruct"</code><code class=p>)</code>
+<code class=n>messages</code> <code class=o>=</code> <code class=p>[</code>
+<code class=p>{</code>
+<code class=s2>"role"</code><code class=p>:</code> <code class=s2>"system"</code><code class=p>,</code>
+<code class=s2>"content"</code><code class=p>:</code> <code class=p>[{</code><code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code> <code class=s2>"text"</code><code class=p>:</code> <code class=s2>"You are a helpful assistant."</code><code class=p>}],</code>
+<code class=p>},</code>
+<code class=p>{</code>
+<code class=s2>"role"</code><code class=p>:</code> <code class=s2>"user"</code><code class=p>,</code>
+<code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+<code class=p>{</code>
+<code class=s2>"type"</code><code class=p>:</code> <code class=s2>"image"</code><code class=p>,</code>
+<code class=s2>"image"</code><code class=p>:</code> <code class=s2>"https://oreil.ly/v4wds"</code><code class=p>,</code>
+<code class=p>},</code>
+<code class=p>{</code><code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code> <code class=s2>"text"</code><code class=p>:</code> <code class=s2>"Describe this image."</code><code class=p>},</code>
+<code class=p>],</code>
+<code class=p>},</code>
+<code class=p>]</code>
+<code class=n>inputs</code> <code class=o>=</code> <code class=n>processor</code><code class=o>.</code><code class=n>apply_chat_template</code><code class=p>(</code>
+<code class=n>messages</code><code class=p>,</code>
+<code class=n>tokenize</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>add_generation_prompt</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>return_dict</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>return_tensors</code><code class=o>=</code><code class=s2>"pt"</code><code class=p>,</code>
+<code class=p>)</code></pre><p>Here we initialize the processor, pass a system prompt and user image and text inputs, and call <code>apply_chat_template</code> on the messages. Passing in <code>tokenize=True</code> will tokenize the input and add special tokens. <code>add_generation_prompt=True</code> adds tokens to the end of the prompt to indicate the start of the assistant response, which is often just the word “assistant” to trigger assistant response.<p>Here’s what we get if we don’t pass <code>tokenize=True</code>:<pre data-code-language=text data-type=programlisting>&lt;|im_start|>system
+You are a helpful assistant.&lt;|im_end|>
+&lt;|im_start|>user
+&lt;|vision_start|>&lt;|image_pad|>&lt;|vision_end|>Describe this image.&lt;|im_end|>
+&lt;|im_start|>assistant</pre><p>When training, we do not pass <code>add_generation_prompt=True</code>, since we already have assistant responses at hand, because we added assistant responses ourselves:<pre data-code-language=python data-type=programlisting><code class=n>messages</code> <code class=o>=</code> <code class=p>[</code>
+    <code class=p>{</code>
+        <code class=s2>"role"</code><code class=p>:</code> <code class=s2>"system"</code><code class=p>,</code>
+        <code class=s2>"content"</code><code class=p>:</code> <code class=p>[{</code><code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code> <code class=s2>"text"</code><code class=p>:</code> <code class=s2>"You are a helpful assistant."</code><code class=p>}],</code>
+    <code class=p>},</code>
+    <code class=p>{</code>
+        <code class=s2>"role"</code><code class=p>:</code> <code class=s2>"user"</code><code class=p>,</code>
+        <code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+            <code class=p>{</code>
+                <code class=s2>"type"</code><code class=p>:</code> <code class=s2>"image"</code><code class=p>,</code>
+                <code class=s2>"image"</code><code class=p>:</code> <code class=s2>"https://oreil.ly/v4wds"</code><code class=p>,</code>
+            <code class=p>},</code>
+            <code class=p>{</code><code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code> <code class=s2>"text"</code><code class=p>:</code> <code class=s2>"Describe this image."</code><code class=p>},</code>
+        <code class=p>],</code>
+    <code class=p>},</code>
+    <code class=p>{</code>
+        <code class=s2>"role"</code><code class=p>:</code> <code class=s2>"assistant"</code><code class=p>,</code>
+        <code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+            <code class=p>{</code><code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code> <code class=s2>"text"</code><code class=p>:</code> <code class=s2>"This is the image of a bee."</code><code class=p>},</code>
+        <code class=p>],</code>
+    <code class=p>},</code>
+<code class=p>]</code></pre><p>You might ask if this is wasteful, as it’s autoregressive training and starts from the first token and continuously generates the next token starting from <code>&lt;|im_start|></code> to the assistant trigger. It is, so we apply a technique called <em>prompt masking</em>, so the model never learns how to generate the input itself. TRL, the library we will use, handles this under the hood for us!<p>We will take a look at an applied example soon. But first, let’s look at some new paradigms to efficiently fine-tune models.</div></section><section data-pdf-bookmark="Parameter Efficient Fine-Tuning" data-type=sect1><div class=sect1 id=ch05_parameter_efficient_fine_tuning_1776349012793200><h1>Parameter Efficient Fine-Tuning</h1><p>Parameter efficient fine-tuning (PEFT) is a family of<a data-secondary="parameter efficient fine-tuning" data-primary=post-training data-type=indexterm id=PTparam05></a><a data-primary="parameter efficient fine-tuning (PEFT)" data-type=indexterm id=parameff05></a><a data-primary="low-rank adaptation (LoRA) of LLMs." data-type=indexterm id=Lora05></a> techniques that train only small parts of model weights to save compute. The PEFT paradigm has become popular with a technique called <a href=https://oreil.ly/SZWla>LoRA of LLMs</a>. But first, what is a <em>rank</em>? The<a data-primary=rank data-type=indexterm id=id704></a> rank of a matrix is the minimum number of linearly independent rows or columns.<p>When we say “linearly independent” here, it means that we count the number of rows or columns that we cannot reproduce one from another. To put in simpler words, rank is how many independent components you need to express that matrix using simpler matrices. If rank is 1, the entire matrix can be written as the one outer product. If rank is 5, you need 5 different matrices to express a matrix. So it’s a matter of compression versus expressivity. You can see this in <a data-type=xref href=#ch05_figure_1_1776349012777086>Figure 5-1</a> (based on an illustration in <a href=https://oreil.ly/SZWla>Edward J. Hu et al., “LoRA: Low-Rank Adaptation of Large Language Models”</a>).<figure><div class=figure id=ch05_figure_1_1776349012777086><img alt="Diagram illustrating LoRA, showing integration of pre-trained weights with matrices A and B for low-rank adaptation in large language models." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0501.png><h6><span class=label>Figure 5-1. </span>LoRA illustrated.</h6></div></figure><p>Assume you have weights that have the shape of d × k. When doing a full fine-tune, all the changes you will make to this weight matrix will result in a d × k number of updates. Instead of fine-tuning all weights, LoRA parameterizes the weight updates in two matrices, B and A, where B has shape d × r and A has shape r × k. Multiplying BA and summing it up with the original weight matrix yields the updated weights. B and A are lower-rank matrices (i.e., r &lt;&lt; min(d, k)), and we freeze the original weights. Hence we have less trainable parameters when applying LoRA. In practice, the LoRA update is scaled by α/r (where α is the LoRA alpha hyperparameter), which controls the magnitude of the adapter’s contribution to the original weights, allowing you to adjust the strength of the update independently of the rank.<p>When setting up LoRA, higher rank means higher expressivity but also a higher number of trainable parameters. In the original paper, the authors only track the updates for the attention modules (key, query, value). Nowadays it’s more common to target all linear layers on top of it.<p><a href=https://oreil.ly/3iJnM>DoRA</a> is an<a data-primary="weight-decomposed low-rank adaptation (DoRA)" data-type=indexterm id=id705></a><a data-primary="DoRA (weight-decomposed low-rank adaptation)" data-type=indexterm id=id706></a> upgrade to LoRA, which decomposes the weights into magnitude m and direction v matrices:<div data-type=equation><math display=inline><mrow><msub><mi>W</mi><mn>0</mn></msub><mo>=</mo><mi>m</mi><mo>·</mo><mfrac><mrow><mi>V</mi></mrow><mrow><mo>‖</mo><mi>V</mi><msub><mo>‖</mo><mi>c</mi></msub></mrow></mfrac></mrow></math></div><p>DoRA keeps the magnitude part trainable and uses a LoRA‐style low-rank update on the directional part:<div data-type=equation><math display=inline><mrow><mi>W</mi><mi>’</mi><mo>=</mo><mi>m</mi><mo>·</mo><mfrac><mrow><msub><mi>W</mi><mn>0</mn></msub><mo>+</mo><mi>B</mi><mi>A</mi></mrow><mrow><mo>‖</mo><msub><mi>W</mi><mn>0</mn></msub><mo>+</mo><mi>B</mi><mi>A</mi><msub><mo>‖</mo><mi>c</mi></msub></mrow></mfrac></mrow></math></div><p>They add the direction matrix with the decomposed updates and multiply with magnitude to get the weight updates, shown in <a data-type=xref href=#ch05_figure_2_1776349012777127>Figure 5-2</a> (based on an example in <a href=https://oreil.ly/3iJnM>Shih-Yang Liu et al., “DoRA: Weight-Decomposed Low-Rank Adaptation”</a>).<figure><div class=figure id=ch05_figure_2_1776349012777127><img alt="Diagram illustrating the DoRA method, showing the decomposition of pretrained weights into magnitude and direction for adaptation, and merging them into updated weights." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0502.png><h6><span class=label>Figure 5-2. </span>DoRA visualized.</h6></div></figure><p>One caveat of these models is that since they don’t update all parameters, they learn less compared to a full fine-tuning. They also “forget” less: the fine-tuned model stays closer to the original model compared to how it would be if it were fully fine-tuned. This is found in the paper <a href=https://oreil.ly/8FnGm>“LoRA Learns Less and Forgets Less”</a> by Biderman et al.<div data-type=note><h6>Note</h6><p>We suggest reading the <a href=https://oreil.ly/UkVMY>“LoRA Without Regret” blog</a> if you want to learn more about how to make LoRA match full fine-tuning.</div><p>Hugging Face provides an open source library called <a href=https://oreil.ly/YD1lJ>PEFT</a>, which implements abstractions over not only LoRA but also other adaptation-based fine-tuning methods like prompt tuning. In this book, we will only apply LoRA and DoRA, but you can take a look at the PEFT library for all the available methods.<p>We can inject a trainable adapter to a model as follows. Let’s first initialize a model—for example, <code>Qwen3-VL</code>:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>AutoModelForImageTextToText</code><code class=p>,</code> <code class=n>AutoProcessor</code>
+<p><code class=n>model</code> <code class=o>=</code> <code class=n>AutoModelForImageTextToText</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code>
+<code class=s2>"Qwen/Qwen3-VL-2B-Instruct"</code><code class=p>,</code>
+<code class=n>device_map</code><code class=o>=</code><code class=s2>"auto"</code><code class=p>,</code>
+<code class=p>)</code>
+<code class=n>processor</code> <code class=o>=</code> <code class=n>AutoProcessor</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code>
+<code class=s2>"Qwen/Qwen3-VL-2B-Instruct"</code><code class=p>,</code> <code class=n>use_fast</code><code class=o>=</code><code class=kc>True</code>
+<code class=p>)</code></pre><p>We only need to initialize <code>LoraConfig</code>, which we can define specifics of the adapter. <code>r</code> here is the rank of the adapter matrix. Higher <code>r</code> will result in a higher number of trainer parameters. You can experiment with different ranks, but common values are 2, 4, and 8 depending on the complexity of the problem and the hardware constraints. Moreover, you can easily switch to DoRA by passing in <code>use_dora=True</code>. Lastly, just like the original paper, we pass the attention parameters to <code>target_​mod⁠ules</code> to update only those:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>peft</code> <code class=kn>import</code> <code class=n>LoraConfig</code><code class=p>,</code> <code class=n>get_peft_model</code>
+<p><code class=n>peft_config</code> <code class=o>=</code> <code class=n>LoraConfig</code><code class=p>(</code>
+<code class=n>r</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_alpha</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_dropout</code><code class=o>=</code><code class=mf>0.1</code><code class=p>,</code>
+<code class=n>target_modules</code><code class=o>=</code><code class=p>[</code>
+<code class=s2>"down_proj"</code><code class=p>,</code> <code class=s2>"o_proj"</code><code class=p>,</code> <code class=s2>"k_proj"</code><code class=p>,</code> <code class=s2>"q_proj"</code><code class=p>,</code>
+<code class=s2>"gate_proj"</code><code class=p>,</code> <code class=s2>"up_proj"</code><code class=p>,</code> <code class=s2>"v_proj"</code><code class=p>,</code>
+<code class=p>],</code>
+<code class=n>use_dora</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>init_lora_weights</code><code class=o>=</code><code class=s2>"gaussian"</code><code class=p>,</code>
+<code class=p>)</code></pre><p>Calling <code>get_peft_model</code> simply injects adapter weights to the original model and returns the model for the training:<pre data-code-language=python data-type=programlisting><code class=n>peft_model</code> <code class=o>=</code> <code class=n>get_peft_model</code><code class=p>(</code><code class=n>model</code><code class=p>,</code> <code class=n>peft_config</code><code class=p>)</code></pre><p>We can check out the number of total parameters, trainable parameters, and the percentage of trainable-to-total parameters by calling <code>print_trainable_parameters()</code>:<pre data-code-language=python data-type=programlisting><code class=n>peft_model</code><code class=o>.</code><code class=n>print_trainable_parameters</code><code class=p>()</code>
+<code class=c1># trainable params: 9,289,728 || all params: 2,136,821,760 || trainable%: 0.4347</code></pre><p>Now that we know how to drastically reduce the number of trainable parameters with adapters like LoRA and DoRA, there is another axis of efficiency we can push: reducing the precision of the model weights<a data-startref=Lora05 data-type=indexterm id=id707></a> themselves. This is where quantization comes in.<section data-pdf-bookmark="Training with Quantization" data-type=sect2><div class=sect2 id=ch05_training_with_quantization_1776349012793278><h2>Training with Quantization</h2><p>We will go through<a data-secondary="post-training models with" data-primary=quantization data-type=indexterm id=Qpost05></a> quantization in detail in <a data-type=xref href=ch07.xhtml#ch07_deploying_models_for_inference_at_scale_1776349016689449>Chapter 7</a>. For now, we will touch on it just enough to get an idea and apply to fit the training into T4 GPUs, which you can use with the free tier of Colab.<p>We can describe quantization as a family of techniques to reduce precision of a model. Precision is the number of significant digits or bits used to represent a number. It’s a measure of how <em>precisely</em> a number can be represented. In our case, these numbers are weights themselves. We represent weights in different data types. Common data types include floating point 32 (FP32), floating point 16 (FP16), brain floating point (bf16, introduced by Google Brain), 8-bit integer (int8), and custom 8-bit floating point (FP8). <a data-type=xref href=#ch05_table_1_1776349012782458>Table 5-1</a> shows the number range they can represent and how many decimal digits they take.<table id=ch05_table_1_1776349012782458><caption><span class=label>Table 5-1. </span>Common data types to represent weights</caption><thead><tr><th>Data type<th>Range<th>Approximate significant decimal digits<tbody><tr><td><p>FP32 (single precision)</p><td><p>Approximately ±1.4013 × 10<sup>–45</sup> to ±3.4028 × 10<sup>38</sup></p><td><p>7 decimal digits</p><tr><td><p>FP16 (half precision)</p><td><p>Approximately ±5.96 × 10<sup>–8</sup> to ±6.55 × 10<sup>4</sup></p><td><p>3–4 decimal digits</p><tr><td><p>Int8 (8-bit integer)</p><td><p>–128 to 127 (signed) or 0 to 255</p><td><p>No decimals</table><p>There’s a trade-off between the precision versus the memory the model will occupy. This not only affects the memory the model occupies, but also the computation will take longer, so the inference and training will become slower.<p>In this chapter, we will only talk about 8-bit quantization with <a href=https://oreil.ly/WT06n>the bitsandbytes library</a>. 8-bit quantization enables multibillion parameter scale models to fit in smaller hardware with less degradation in performance (the trade-off always exists; there’s no free lunch).<p class=pagebreak-before>The algorithm works as follows:<ol><li><p>Take the outliers columnwise from the input hidden states.</p><li><p>Perform the matrix multiplication of the outliers in FP16 and the nonoutliers in int8.</p><li><p>Scale up the nonoutlier results to pull the values back to FP16, and add them to outlier results in FP16.</ol><p>Long story short, matrix multiplication is done in less precision (quantization), and then we bring back precision to the original data type of the model (dequantization). The only caveat is that the process of quantization and dequantization back and forth takes time, and some precision is lost during this process. A <a href=https://oreil.ly/UiniO>study</a> about benchmarking the robustness of quantized LLMs in code generation has found out overall 8-bit quantization only results in 0.36% performance.<p><a href=https://oreil.ly/pwO9_>QLoRA</a> is a technique<a data-primary="QLoRA technique" data-type=indexterm id=id708></a> that merges the two ideas: LoRA and quantization. The original paper introduces a data type called<a data-primary="4-bit Normal Float (NF4)" data-primary-sortas=four-bit data-type=indexterm id=id709></a><a data-primary="4-bit Normal Float (NF4)" data-type=indexterm id=id710></a><a data-primary="NF4 (4-bit Normal Float)" data-type=indexterm id=id711></a> 4-bit normal float (NF4) and double quantization (see <a data-type=xref href=#ch05_figure_3_1776349012777150>Figure 5-3</a>, which uses an <a href=https://oreil.ly/eAtkl>example from Hugging Face</a>).<figure><div class=figure id=ch05_figure_3_1776349012777150><img alt="Diagram illustrating the process of 8-bit quantization, showing how an FP16 vector is converted to an int8 vector and back to a de-quantized FP16 vector, using quantization factors." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0503.png><h6><span class=label>Figure 5-3. </span>8-bit quantization.</h6></div></figure><p class=pagebreak-before>NF4 is a quantization technique built on quantile quantization, mapping values into bins so that each bin has an equal number of values. This works for weights that follow normal distribution (hence the name). We will go into details of this technique in <a data-type=xref href=ch07.xhtml#ch07_deploying_models_for_inference_at_scale_1776349016689449>Chapter 7</a>, so let’s only talk about QLoRA.<p>QLoRA quantizes the model to 4-bits (NF4) and inserts adapter weights on top of the quantized model and trains it. Here we only train the adapter, so quantizing and freezing the model reduces the memory usage. During the training, NF4 weights are dequantized into the original precision for forward and backward passes only. Another idea used here is double quantization. The idea is straightforward: first you quantize weights into 4 bits (NF4) with block‐wise scaling constants (the number that maps the weights to their bins), then you quantize those scaling constants into a smaller precision—hence the name <em>double</em> quantization.<p>Doing all of these sounds hefty, but it’s made easy thanks to bitsandbytes and transformers. You can load a model in 4-bit NF4 with double quantization, as shown in the following code snippet. The original weights are stored in bfloat16, which is a data type that offers trade-off between precision and memory:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>BitsAndBytesConfig</code><code class=p>,</code> <code class=n>AutoModelForImageTextToText</code>
+<p><code class=n>quantization_config</code> <code class=o>=</code> <code class=n>BitsAndBytesConfig</code><code class=p>(</code>
+<code class=n>load_in_4bit</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_use_double_quant</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_quant_type</code><code class=o>=</code><code class=s2>"nf4"</code><code class=p>,</code>
+<code class=n>bnb_4bit_compute_dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>model</code> <code class=o>=</code> <code class=n>AutoModelForImageTextToText</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code>
+<code class=n>model_id</code><code class=p>,</code>
+<code class=n>device_map</code><code class=o>=</code><code class=s2>"auto"</code><code class=p>,</code>
+<code class=n>torch_dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code><code class=p>,</code>
+<code class=n>quantization_config</code><code class=o>=</code><code class=n>quantization_config</code><code class=p>,</code>
+<code class=p>)</code></pre><p>With quantization and parameter efficient adapters in our toolkit, we now have all the building blocks to efficiently fine-tune large VLMs on consumer hardware. What we need next is a library that ties all of these pieces—data loading, adapter injection, quantized training—into one<a data-primary data-startref=Qpost05 data-type=indexterm id=id712></a> smooth workflow.</div></section><section data-pdf-bookmark="Introduction to Transformers Reinforcement Learning" class=pagebreak-before data-type=sect2><div class=sect2 id=ch05_introduction_to_trl_1776349012793347><h2 class=less_space>Introduction to Transformers Reinforcement Learning</h2><p><a href=https://oreil.ly/D-Ya0>Transformers reinforcement learning (TRL)</a> is a library that wraps transformers with<a data-primary="TRL library" data-type=indexterm id=id713></a><a data-secondary="TRL library" data-primary=libraries data-type=indexterm id=id714></a><a data-secondary="SFT example" data-primary=post-training data-type=indexterm id=PTexam05></a><a data-primary="supervised fine-tuning (SFT)" data-type=indexterm id=SFT05></a> many alignment techniques, including SFT. It has custom trainer classes, loss functions, and even few-line CLI commands to train models easily. Not only that: it is also integrated with PEFT and bitsandbytes to enable parameter efficient techniques with low memory.<p>Let’s see how all of it comes together in one end-to-end SFT example.<section data-pdf-bookmark="Supervised fine-tuning example" data-type=sect3><div class=sect3 id=ch05_supervised_fine_tuning_example_1776349012793414><h3>Supervised fine-tuning example</h3><p>We will apply SFT to the <code>HuggingFaceTB/SmolVLM-Instruct</code> model to teach it how to answer questions about documents. This, with all the NF4 QLoRA and flash attention, requires 21 GB of VRAM, which is not available in Colab free tier (you can get L4 GPU, which is still a consumer GPU). If you have Colab free tier only, you can swap the model ID in this script with <code>HuggingFaceTB/SmolVLM2-500M-Instruct</code>, which is a way less memory-hungry model.<p>Let’s begin by installing the libraries:<pre data-code-language=bash data-type=programlisting>pip<code class=w> </code>install<code class=w> </code>-U<code class=w> </code>-q<code class=w> </code>trl<code class=w> </code>bitsandbytes<code class=w> </code>peft<code class=w> </code>trackio<code class=w> </code>num2words<code class=w></code></pre><p>We will download the <a href=https://oreil.ly/UZNSR>DocVQA dataset</a> (document visual question answering):<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>datasets</code> <code class=kn>import</code> <code class=n>load_dataset</code>
+<p><code class=n>dataset_id</code> <code class=o>=</code> <code class=s2>"lmms-lab/DocVQA"</code>
+<code class=n>train_dataset</code><code class=p>,</code> <code class=n>test_dataset</code> <code class=o>=</code> <code class=n>load_dataset</code><code class=p>(</code>
+<code class=n>dataset_id</code><code class=p>,</code> <code class=s2>"InfographicVQA"</code><code class=p>,</code> <code class=n>split</code><code class=o>=</code><code class=p>[</code><code class=s2>"validation"</code><code class=p>,</code> <code class=s2>"test"</code><code class=p>]</code>
+<code class=p>)</code>
+<code class=n>train_ds</code> <code class=o>=</code> <code class=n>train_dataset</code><code class=o>.</code><code class=n>train_test_split</code><code class=p>(</code><code class=n>test_size</code><code class=o>=</code><code class=mf>0.1</code><code class=p>)</code>
+<code class=n>train_ds</code><code class=p>,</code> <code class=n>eval_ds</code> <code class=o>=</code> <code class=n>train_ds</code><code class=p>[</code><code class=s2>"train"</code><code class=p>],</code> <code class=n>train_ds</code><code class=p>[</code><code class=s2>"test"</code><code class=p>]</code></pre><p>Let’s take a look at the dataset. In this dataset, we only need the columns <code>question</code>, <code>image</code>, and <code>answers</code>. Let’s take a look at one example:<pre data-code-language=python data-type=programlisting><code class=n>train_ds</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"question"</code><code class=p>]</code>
+<code class=c1># what is the date mentioned in this letter?</code>
+<code class=n>train_ds</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"answers"</code><code class=p>]</code>
+<code class=c1># ["1/8/93"]</code></pre><p class=pagebreak-before><code>answers</code> part is a list of multiple answers, as some examples have multiple answers. The image from the first example looks like <a data-type=xref href=#ch05_figure_4_1776349012777172>Figure 5-4</a>.<figure><div class=figure id=ch05_figure_4_1776349012777172><img alt='A confidential document titled "RJRT PR Approval" with handwritten notes and initials, indicating a proposed release date and routing information for multiple individuals.' class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0504.png><h6><span class=label>Figure 5-4. </span>Document example from the dataset.</h6></div></figure><p>We will fill our chat template appropriately for the model training and format the dataset. We format the turns to convert them in a conversation between a user and an assistant like this:<pre data-code-language=python data-type=programlisting><code class=k>def</code> <code class=nf>fill_template</code><code class=p>(</code><code class=n>sample</code><code class=p>):</code>
+   <code class=k>return</code> <code class=p>{</code>
+     <code class=s2>"images"</code><code class=p>:</code> <code class=p>[</code><code class=n>sample</code><code class=p>[</code><code class=s2>"image"</code><code class=p>]],</code>
+     <code class=s2>"messages"</code><code class=p>:</code> <code class=p>[</code>
+       <code class=p>{</code>
+           <code class=s2>"role"</code><code class=p>:</code> <code class=s2>"user"</code><code class=p>,</code>
+           <code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+               <code class=p>{</code>
+                   <code class=s2>"type"</code><code class=p>:</code> <code class=s2>"image"</code><code class=p>,</code>
+                   <code class=s2>"image"</code><code class=p>:</code> <code class=n>sample</code><code class=p>[</code><code class=s2>"image"</code><code class=p>],</code>
+               <code class=p>},</code>
+               <code class=p>{</code>
+                   <code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code>
+                   <code class=s2>"text"</code><code class=p>:</code> <code class=n>sample</code><code class=p>[</code><code class=s1>'question'</code><code class=p>],</code>
+               <code class=p>}</code>
+           <code class=p>],</code>
+       <code class=p>},</code>
+       <code class=p>{</code>
+           <code class=s2>"role"</code><code class=p>:</code> <code class=s2>"assistant"</code><code class=p>,</code>
+           <code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+               <code class=p>{</code>
+                   <code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code>
+                   <code class=s2>"text"</code><code class=p>:</code> <code class=n>sample</code><code class=p>[</code><code class=s2>"answers"</code><code class=p>][</code><code class=mi>0</code><code class=p>]</code>
+               <code class=p>}</code>
+           <code class=p>],</code>
+       <code class=p>},</code>
+       <code class=p>]</code>
+   <code class=p>}</code>
+<p><code class=n>train_ds</code> <code class=o>=</code> <code class=p>[</code><code class=n>fill_template</code><code class=p>(</code><code class=n>sample</code><code class=p>)</code> <code class=k>for</code> <code class=n>sample</code> <code class=ow>in</code> <code class=n>train_ds</code><code class=p>]</code>
+<code class=n>eval_ds</code> <code class=o>=</code> <code class=p>[</code><code class=n>fill_template</code><code class=p>(</code><code class=n>sample</code><code class=p>)</code> <code class=k>for</code> <code class=n>sample</code> <code class=ow>in</code> <code class=n>eval_ds</code><code class=p>]</code></pre><p>We can now get to training. We initialize quantization <code>config</code> with <code>BitsAndBytes​Con⁠fig</code>, and then pass it to model initialization. We initialize the processor too:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>BitsAndBytesConfig</code><code class=p>,</code> <code class=n>AutoModelForImageTextToText</code>
+<p><code class=n>bnb_config</code> <code class=o>=</code> <code class=n>BitsAndBytesConfig</code><code class=p>(</code>
+<code class=n>load_in_4bit</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_use_double_quant</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_quant_type</code><code class=o>=</code><code class=s2>"nf4"</code><code class=p>,</code>
+<code class=n>bnb_4bit_compute_dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code>
+<code class=p>)</code>
+<p><code class=n>model</code> <code class=o>=</code> <code class=n>AutoModelForImageTextToText</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code>
+<code class=n>model_id</code><code class=p>,</code>
+<code class=n>device_map</code><code class=o>=</code><code class=s2>"auto"</code><code class=p>,</code>
+<code class=n>dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code><code class=p>,</code>
+<code class=n>quantization_config</code><code class=o>=</code><code class=n>bnb_config</code><code class=p>,</code>
+<code class=n>attn_implementation</code><code class=o>=</code><code class=s2>"flash_attention_2"</code><code class=p>,</code>
+<code class=p>)</code></pre><p class=pagebreak-after>We need to inject adapter layers to the model. Luckily, PEFT allows us to do this with a few lines of code! Initialize <code>LoraConfig</code> with following hyperparameters. These are picked commonly, and we have previously mentioned how each work. To inject layers to our model, we call <code>get_peft_model()</code> with model and <code>config</code>. We can then print number of trainable versus frozen parameters:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>peft</code> <code class=kn>import</code> <code class=n>LoraConfig</code><code class=p>,</code> <code class=n>get_peft_model</code>
+<p><code class=n>peft_config</code> <code class=o>=</code> <code class=n>LoraConfig</code><code class=p>(</code>
+<code class=n>r</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_alpha</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_dropout</code><code class=o>=</code><code class=mf>0.1</code><code class=p>,</code>
+<code class=n>target_modules</code><code class=o>=</code><code class=p>[</code>
+<code class=s2>"down_proj"</code><code class=p>,</code> <code class=s2>"o_proj"</code><code class=p>,</code> <code class=s2>"k_proj"</code><code class=p>,</code> <code class=s2>"q_proj"</code><code class=p>,</code>
+<code class=s2>"gate_proj"</code><code class=p>,</code> <code class=s2>"up_proj"</code><code class=p>,</code> <code class=s2>"v_proj"</code><code class=p>,</code>
+<code class=p>],</code>
+<code class=n>use_dora</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>init_lora_weights</code><code class=o>=</code><code class=s2>"gaussian"</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>peft_model</code> <code class=o>=</code> <code class=n>get_peft_model</code><code class=p>(</code><code class=n>model</code><code class=p>,</code> <code class=n>peft_config</code><code class=p>)</code>
+<code class=n>peft_model</code><code class=o>.</code><code class=n>print_trainable_parameters</code><code class=p>()</code></pre><p>To train the model, we initialize <code>SFTConfig</code>, which contains training arguments (typical ones used in common deep learning pipelines—nothing special):<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>trl</code> <code class=kn>import</code> <code class=n>SFTConfig</code>
+<code class=kn>import</code> <code class=nn>trackio</code>
+<code class=n>training_args</code> <code class=o>=</code> <code class=n>SFTConfig</code><code class=p>(</code>
+   <code class=n>output_dir</code><code class=o>=</code><code class=s2>"SmolVLM-InfoVQA-SFT"</code><code class=p>,</code>
+   <code class=n>num_train_epochs</code><code class=o>=</code><code class=mi>1</code><code class=p>,</code>
+   <code class=n>per_device_train_batch_size</code><code class=o>=</code><code class=mi>4</code><code class=p>,</code>
+   <code class=n>per_device_eval_batch_size</code><code class=o>=</code><code class=mi>2</code><code class=p>,</code>
+   <code class=n>gradient_accumulation_steps</code><code class=o>=</code><code class=mi>4</code><code class=p>,</code>
+   <code class=n>warmup_steps</code><code class=o>=</code><code class=mi>50</code><code class=p>,</code>
+   <code class=n>learning_rate</code><code class=o>=</code><code class=mf>1e-4</code><code class=p>,</code>
+   <code class=n>weight_decay</code><code class=o>=</code><code class=mf>0.01</code><code class=p>,</code>
+   <code class=n>logging_steps</code><code class=o>=</code><code class=mi>25</code><code class=p>,</code>
+   <code class=n>save_total_limit</code><code class=o>=</code><code class=mi>1</code><code class=p>,</code>
+   <code class=n>optim</code><code class=o>=</code><code class=s2>"adamw_torch_fused"</code><code class=p>,</code>
+   <code class=n>bf16</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+   <code class=n>push_to_hub</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+   <code class=n>report_to</code><code class=o>=</code><code class=s2>"trackio"</code><code class=p>,</code>
+   <code class=n>project</code><code class=o>=</code><code class=s2>"SmolVLM-InfoVQA-SFT"</code><code class=p>,</code>
+   <code class=n>run_name</code><code class=o>=</code><code class=s2>"SmolVLM-InfoVQA-SFT"</code><code class=p>,</code>
+   <code class=n>max_length</code><code class=o>=</code><code class=kc>None</code>
+<code class=p>)</code></pre><p>Lastly, we create our trainer. To initialize <code>SFTTrainer</code>, we pass in our training arguments, the model, datasets for training and evaluation and PEFT config, and call <code>train()</code>:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>trl</code> <code class=kn>import</code> <code class=n>SFTTrainer</code>
+<p><code class=n>trainer</code> <code class=o>=</code> <code class=n>SFTTrainer</code><code class=p>(</code>
+<code class=n>model</code><code class=o>=</code><code class=n>model</code><code class=p>,</code>
+<code class=n>args</code><code class=o>=</code><code class=n>training_args</code><code class=p>,</code>
+<code class=n>train_dataset</code><code class=o>=</code><code class=n>train_ds</code><code class=p>,</code>
+<code class=n>eval_dataset</code><code class=o>=</code><code class=n>eval_ds</code><code class=p>,</code>
+<code class=n>peft_config</code><code class=o>=</code><code class=n>peft_config</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>trainer</code><code class=o>.</code><code class=n>train</code><code class=p>()</code></pre><p>With SFT covered both in theory and in practice, we have seen how to teach a model <em>what</em> to say. But there is a second, equally important question: how do we get the model to say it in a way that humans actually prefer? That is the job of alignment, the next major ingredient of post-training.</div></section><section data-pdf-bookmark="Multimodal alignment" data-type=sect3><div class=sect3 id=ch05_multimodal_alignment_1776349012793515><h3>Multimodal alignment</h3><p class=fix_tracking>Until the boom of ChatGPT, LLMs weren’t as helpful for humans<a data-primary="multimodal alignment" data-type=indexterm id=id715></a><a data-primary=alignment data-type=indexterm id=id716></a> as they are today. Of course, all the technological advancements that led to that boom count, but what made LLMs go from stochastic parrots to everyday assistants was a paradigm called <em>alignment</em>. Alignment often consists of multiple steps, starting from SFT followed by fine-tuning based on human preference. We will explain the story behind this with LLMs, as they later led to VLAs, and go through the TRL library to learn how to apply alignment. Here’s a quick recap on the steps we went through to build a model and make it helpful:<ol><li><p>Pretrain VLAs: Take a vision encoder and text decoder, put a projection layer between them, and train on massive amounts of data so we align the modalities.</p><li><p>Apply SFT: Fine-tune the base model on a mix of tasks to follow instructions.</ol><p>Many successful model recipes follow these two and add another step on top: align the model to human preference based on human feedback. In this chapter we will go through the philosophy and see the most common three techniques with their variants: RLHF, proximal policy optimization (PPO), direct preference optimization (DPO), and group relative policy optimization (GRPO). RLHF is an umbrella term used for alignment techniques that use reinforcement learning (RL), but we refer to the application of this with the InstructGPT <a href=https://oreil.ly/PLeZV>paper by Long Ouyang et al.</a>, which was behind the ChatGPT boom and the new era of helpful/harmless assistants. Lastly, one of the biggest leaps forward was<a data-primary="reinforcement learning with verifiable rewards (RLVR)" data-type=indexterm id=id717></a> reinforcement learning with verifiable rewards (RLVR). It’s a recent approach that replaces human preference signals with automatically verifiable reward functions, such as checking mathematical correctness or code execution results, enabling scalable RL without the need for human annotators<a data-primary data-startref=PTparam05 data-type=indexterm id=id718></a><a data-primary data-startref=parameff05 data-type=indexterm id=id719></a><a data-primary data-startref=SFT05 data-type=indexterm id=id720></a><a data-primary data-startref=PTexam05 data-type=indexterm id=id721></a> or a learned reward <span class=keep-together>model (RM)</span>.</div></section></div></section></div></section><section data-pdf-bookmark="Reinforcement Learning from Human Feedback" data-type=sect1><div class=sect1 id=ch05_reinforcement_learning_from_human_feedback_1776349012793603><h1>Reinforcement Learning from Human Feedback</h1><p>Not so long ago, pretrained LLMs used to<a data-secondary="RL from human feedback" data-primary=post-training data-type=indexterm id=PTRLhuman05></a><a data-primary="human feedback" data-type=indexterm id=hfeed05></a><a data-primary="reinforcement learning from human feedback (RLHF)" data-type=indexterm id=RL05></a><a data-primary="RLHF (reinforcement learning from human feedback)" data-type=indexterm id=rlhflearning05></a> be evaluated by how much the completion was overlapping with the ground truth answers. We have previously introduced some metrics in <a data-type=xref href=ch02.xhtml#ch02_vision_language_model_applications_1776349006567057>Chapter 2</a>, like BLEU score or ROUGE score, which are both calculated to evaluate models based on ground truth-generation subword overlaps. While practical, these techniques are too simple to capture the “helpfulness” of a given response. So OpenAI created a metric to evaluate a model response according to how preferable it would be to use human preference data and RL.<p>Let’s explain the steps shortly:<ol><li><p>Pretrain and apply SFT to the model.</p><li><p>Use RM training.</p><li><p>Align by optimizing the LLM using the RM.</ol><p>Since we already covered the first step in the last section, let’s move to the second one. To make models more helpful, researchers train a separate model called the reward model (RM). To understand why it’s called that, it helps to take a quick detour <span class=keep-together>into RL</span>.<p>RL is a machine learning paradigm where an agent learns to choose actions that maximize a reward function in a given environment. A common family of RL methods is policy-based methods, which aim to learn a “policy” that generates actions that maximize the expected reward given a state. In the language model setting, the “actions” are tokens the model can output, and the “states” are the input (conversation turns that happened).<p>In RLHF, we train an RM that outputs a scalar score that reflects human preferences when given a prompt and a model-generated response. The language model is then optimized to produce outputs that the RM scores. The scores of the RM are higher for human preferred responses and lower for rejected responses. You can see this process in <a data-type=xref href=#ch05_figure_5_1776349012777192>Figure 5-5</a> (based on the <a href=https://oreil.ly/ogRkn>paper by Long Ouyang et al.</a>).<p>To materialize the RM, we need to go through how human preferences are built.<p>Here are the steps:<ol><li><p>Take prompts from datasets.</p><li><p>Pass them to LLMs to generate multiple responses.</p><li><p>Ask humans to evaluate these responses.</ol><p>The humans are asked to state a “preference” between two responses rather than just assigning a scalar score since humans have different perceptions on “rank this from 1 to 10” type of evaluations. Later, these are put into pairwise preferences (e.g., completion A is preferred to completion B), which are used to train RMs, which learn to score completions over favorability.<figure><div class=figure id=ch05_figure_5_1776349012777192><img alt="Diagram illustrating the three steps of Reinforcement Learning with Human Feedback: 1) Collecting demonstration data to train a supervised policy, 2) Gathering comparison data for training a reward model, and 3) Optimizing a policy with reinforcement learning against the reward model using PPO." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0505.png><h6><span class=label>Figure 5-5. </span>Steps of RLHF.</h6></div></figure><p>The reward function in context of LLMs is to optimize for human preference. In application, though, has two components: first, <em>r</em><em>θ,</em> the scalar rating output from the RM we just talked about, and also <em>r</em>KL. Before explaining this, a quick definition: the model version right after the SFT step is called <em>reference model</em>, and the SFT model being aligned is called <em>policy model</em>. Please keep these two terms in mind as we will repeat these throughout this chapter. <em>r</em>KL is KL-divergence (a metric to calculate differences between two distributions) between the generated tokens and their output probabilities from the reference model and the policy model. The KL-divergence regularization term is added, so the policy model doesn’t learn to hack for the reward and remembers linguistic and semantic attributes. This term is multiplied with a penalty coefficient, and then we subtract the difference in distributions from the reward scalar to get the reward function, <em>r </em>= <em>r</em><em>θ </em>− <em>λr</em>KL.<p>To update the policy model, researchers historically used proximal policy optimization (PPO). PPO iteratively updates the weights of the policy model so that the model generates responses that align better with human preferences. PPO turns the reward score into a training signal by comparing it to what the policy model <em>expected</em> to get (this is also called a value estimate). If the response was better than expected, the model increases the probability of outputting future tokens in similar fashion; if it was worse, it decreases that probability. This creates a signal called the “advantage”: how much better the output was than it would have been. That advantage is then used as a loss term: we compute gradients and update the model weights so it leans toward responses humans prefer and away from ones they don’t.<p>To sum everything up, the RM learns what humans prefer, and PPO updates the language model toward producing better responses. There are several techniques to align VLAs that follow PPO. Each has their own strengths, so let’s go through them.<section data-pdf-bookmark="Direct Preference Optimization and Mixed Preference Optimization" data-type=sect2><div class=sect2 id=ch05_direct_preference_optimization_and_mixed_preferenc_1776349012793690><h2>Direct Preference Optimization and Mixed Preference Optimization</h2><p>RLHF with PPO is the first<a data-secondary="direct and mixed preference optimization" data-primary=optimization data-type=indexterm id=id722></a> successful implementation of<a data-primary=alignment data-type=indexterm id=id723></a><a data-primary="direct preference optimization (DPO)" data-type=indexterm id=DPO05></a><a data-primary="DPO (direct preference optimization)" data-type=indexterm id=DDOpref05></a> alignment, but it has a few caveats. The biggest one is that you need to train a separate RM. A newer technique is called direct preference optimization (DPO), which removes the need for this. This technique requires only “chosen” and “rejected” responses, and you directly fine-tune the model with pairwise preferences, so the policy assigns higher probability to preferred responses than to rejected ones, relative to a reference model (see <a data-type=xref href=#ch05_figure_6_1776349012777215>Figure 5-6</a>, which is based on the <a href=https://oreil.ly/pdbdS>dataset viewer featured on Hugging Face</a>).<figure><div class=figure id=ch05_figure_6_1776349012777215><img alt="A table displaying a DPO dataset with columns for questions, chosen responses, and rejected responses, highlighting the process of direct preference optimization." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0506.png><h6><span class=label>Figure 5-6. </span>A piece of a DPO dataset.</h6></div></figure><p>DPO is easier to get started, requires less compute, and is less complex to work with, as you can see in <a data-type=xref href=#ch05_figure_7_1776349012777236>Figure 5-7</a> (based on a <a href=https://oreil.ly/1mlbn>paper by Rafael Rafailov et al.</a>).<figure><div class=figure id=ch05_figure_7_1776349012777236><img alt="Diagram comparing Reinforcement Learning from Human Feedback (RLHF) and Direct Preference Optimization (DPO) processes, highlighting the simpler structure of DPO using preference data and maximum likelihood to achieve a final language model." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0507.png><h6><span class=label>Figure 5-7. </span>DPO compared to RLHF.</h6></div></figure><p>Mathematically, DPO is<a data-primary="loss functions" data-type=indexterm id=id724></a> expressed by <a data-type=xref href=#ch05_equation_01>Equation 5-1</a>.<div data-type=equation id=ch05_equation_01><h5><span class=label>Equation 5-1. </span>Loss function for DPO</h5><math display=inline><mrow><mstyle displaystyle=true scriptlevel=0><mrow><msub><mi>ℒ</mi><mrow><mrow><mi mathvariant=normal>D</mi><mi mathvariant=normal>P</mi><mi mathvariant=normal>O</mi></mrow></mrow></msub><mo stretchy=false>(</mo><mi>θ</mi><mo stretchy=false>)</mo><mo>=</mo><mo>−</mo><msub><mi>𝔼</mi><mrow><mo stretchy=false>(</mo><mi>x</mi><mo>,</mo><msup><mi>y</mi><mrow><mo>+</mo></mrow></msup><mo>,</mo><msup><mi>y</mi><mrow><mo>−</mo></mrow></msup><mo stretchy=false>)</mo></mrow></msub><mrow><mo fence=true form=prefix stretchy=true>[</mo><mi>log</mi><mi>σ</mi><mrow><mo fence=true form=prefix stretchy=true>(</mo><mi>β</mi><mspace width=0.167em/><mi>log</mi><mspace width=0.167em/><mfrac><mrow><msub><mi>π</mi><mrow><mi>θ</mi></mrow></msub><mo stretchy=false>(</mo><msup><mi>y</mi><mrow><mo>+</mo></mrow></msup><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow><mrow><msub><mi>π</mi><mrow><mrow><mi mathvariant=normal>r</mi><mi mathvariant=normal>e</mi><mi mathvariant=normal>f</mi></mrow></mrow></msub><mo stretchy=false>(</mo><msup><mi>y</mi><mrow><mo>+</mo></mrow></msup><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow></mfrac><mo>−</mo><mi>log</mi><mspace width=0.167em/><mfrac><mrow><msub><mi>π</mi><mrow><mi>θ</mi></mrow></msub><mo stretchy=false>(</mo><msup><mi>y</mi><mrow><mo>−</mo></mrow></msup><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow><mrow><msub><mi>π</mi><mrow><mrow><mi mathvariant=normal>r</mi><mi mathvariant=normal>e</mi><mi mathvariant=normal>f</mi></mrow></mrow></msub><mo stretchy=false>(</mo><msup><mi>y</mi><mrow><mo>−</mo></mrow></msup><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow></mfrac><mo fence=true form=postfix stretchy=true>)</mo></mrow><mo fence=true form=postfix stretchy=true>]</mo></mrow></mrow></mstyle></mrow></math></div><p>It looks intimidating, but don’t fret. Let’s unpack. It is important to learn, so we can adjust the hyperparameters of DPO training properly:<ul><li><p>x is the input, y is response. y<sub>w</sub> is the chosen response, while y<sub>l</sub> is the rejected response.</p><li><p>β is a constant to control how much we want the policy to move away from the reference model.</p><li><p>Π<sub>θ</sub>​ is the fine-tuned model (policy), and π<sub>ref</sub> is the reference model (just like PPO).</ul><p>The first part inside the parentheses represents “how likely the fine-tuned model chooses the chosen response compared to the reference,” and the second part represents “how likely the fine-tuned model chooses the rejected response compared to the reference.” The difference between these two goes into sigmoid, as sigmoid maps this into a probability. We want the difference to be large, so loss (−log σ(...)) needs to be small. When picking β, high β is more conservative (you don’t diverge much from reference), and low β is more aggressive fine-tuning toward preferences. The complete online DPO process is illustrated in <a data-type=xref href=#ch05_figure_8_1776349012777257>Figure 5-8</a> (image taken from the paper by <a href=https://oreil.ly/zXtpP>Shangmin Guo et al., “Direct Language Model Alignment from Online AI Feedback”</a>).<figure><div class=figure id=ch05_figure_8_1776349012777257><img alt="Diagram illustrating the online DPO process, showing a prompt about recommended places to visit in Paris and how language model alignment is performed through preference-based feedback and parameter updates." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0508.png><h6><span class=label>Figure 5-8. </span>Online DPO process.</h6></div></figure><p>Recently, an improvement on top of DPO for VLAs was released. It’s called mixed preference optimization (MPO). The difference is that on top of DPO’s sigmoid loss, we add a binary classifier optimization (BCO) and a generation loss (SFT). We add DPO loss, BCO loss, and generation loss together for our training objective. The BCO loss helps the model understand the absolute quality of individual responses. It is the sum of two expressions in <a data-type=xref href=#ch05_equation_02>Equation 5-2</a>, which is similar to the DPO loss.<div data-type=equation id=ch05_equation_02><h5><span class=label>Equation 5-2. </span>BCO loss components</h5><math display=inline><mrow><mstyle displaystyle=true scriptlevel=0><mrow><msubsup><mi>ℒ</mi><mi>q</mi><mrow><mo>−</mo></mrow></msubsup><mo>=</mo><mo>−</mo><mi>log</mi><mspace width=0.167em/><mi>σ</mi><mrow><mo fence=true form=prefix stretchy=true>(</mo><mo>−</mo><mspace width=0.167em/><mi>m</mi><mo stretchy=false>(</mo><mi>x</mi><mo>,</mo><msup><mi>y</mi><mrow><mo>−</mo></mrow></msup><mo stretchy=false>)</mo><mo fence=true form=postfix stretchy=true>)</mo></mrow><mspace width=2em/><mtext>and</mtext><mspace width=2em/><msubsup><mi>ℒ</mi><mi>q</mi><mrow><mo>+</mo></mrow></msubsup><mo>=</mo><mo>−</mo><mi>log</mi><mspace width=0.167em/><mi>σ</mi><mrow><mo fence=true form=prefix stretchy=true>(</mo><mi>m</mi><mo stretchy=false>(</mo><mi>x</mi><mo>,</mo><msup><mi>y</mi><mrow><mo>+</mo></mrow></msup><mo stretchy=false>)</mo><mo fence=true form=postfix stretchy=true>)</mo></mrow></mrow></mstyle></mrow></math></div><p>where<div data-type=equation><math display=inline><mrow><mstyle displaystyle=true scriptlevel=0><mrow><mi>m</mi><mo stretchy=false>(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy=false>)</mo><mo>=</mo><mi>β</mi><mspace width=0.167em/><mi>log</mi><mspace width=0.167em/><mfrac><mrow><msub><mi>π</mi><mi>θ</mi></msub><mo stretchy=false>(</mo><mi>y</mi><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow><mrow><msub><mi>π</mi><mrow><mrow><mi mathvariant=normal>r</mi><mi mathvariant=normal>e</mi><mi mathvariant=normal>f</mi></mrow></mrow></msub><mo stretchy=false>(</mo><mi>y</mi><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow></mfrac><mo>−</mo><mi>δ</mi></mrow></mstyle></mrow></math></div><p>We calculate the loss for the chosen (y+) and the rejected responses (y–), which helps the model understand the quality of both separately. δ is called the “reward shift,” which is the moving average of previous rewards for training stabilization. Lastly, generation loss helps the model learn the generation process of the preferred responses. It is basically the loss from SFT, where we only fine-tune for the desired response, as shown in <a data-type=xref href=#ch05_equation_03>Equation 5-3</a>.<div data-type=equation id=ch05_equation_03><h5><span class=label>Equation 5-3. </span>Generation loss</h5><math display=inline><mrow><mstyle displaystyle=true scriptlevel=0><mrow><msub><mi>ℒ</mi><mi>g</mi></msub><mo>=</mo><mo>−</mo><mfrac><mrow><mi>log</mi><mspace width=0.167em/><msub><mi>π</mi><mi>θ</mi></msub><mo stretchy=false>(</mo><msub><mi>y</mi><mi>c</mi></msub><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo></mrow><mrow><mo>|</mo><msub><mi>y</mi><mi>c</mi></msub><mo>|</mo></mrow></mfrac></mrow></mstyle></mrow></math></div><p>MPO has shown<a data-primary="mixed preference optimization (MPO)" data-type=indexterm id=MPO05></a> prominent results compared to DPO for multimodal models.<p>Another improvement on DPO is called “online DPO,” as shown in <a data-type=xref href=#ch05_figure_8_1776349012777257>Figure 5-8</a>. The online/offline phrase comes from whether the preferences are labeled during training or not. With DPO, we have the preferences labeled by humans right before training (offline). During DPO training, the model cannot get feedback on its own generations, which causes a distribution shift between the model that generated the labeled data and the model that’s being fine-tuned. Compared to PPO, where there’s an RM, this reduces performance. Online DPO addresses this issue: during online DPO training, the inputs from the dataset are given to the model being fine-tuned, then we get two responses, and those responses are annotated as chosen and rejected by another LLM. In the original paper, authors use a larger version of the same model (PaLM2-L; see the <a href=https://oreil.ly/TLw5U>paper by Rohan Anil et al.</a>) and a smaller version (PaLM2-XS) as the model to fine-tune, and observe improvement in multipliers.<p>Let’s see how to apply DPO and MPO to an instruction-tuned model. The code for both is almost the same; only the loss function changes. Moreover, we can use the same dataset for both, as they only require human preferences, chosen and rejected. We use a formatted version of <a href=https://oreil.ly/BmV-5>RLAIF-V dataset</a>, and the format here is what the TRL library expects.<p>Let’s install the necessary libraries first. We will run this in Colab free tier. To do that, we will apply QLoRA technique, which loads the model in lower precision with an adapter head on it. We do this for educational purposes, so note that the model will learn less, and we will use a smaller part of the dataset so the training will take a shorter amount of time to finish. To apply QLoRA, we need the bitsandbytes and PEFT libraries on top of TRL and datasets:<pre data-code-language=bash data-type=programlisting>pip<code class=w> </code>install<code class=w> </code>-Uq<code class=w> </code>trl<code class=w> </code>bitsandbytes<code class=w> </code>datasets<code class=w> </code>peft<code class=w> </code>trackio<code class=w></code></pre><p>Let’s load the dataset and take a look at a sample. We load a smaller part of the dataset, so feel free to load the full dataset if your compute resources allow:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>datasets</code> <code class=kn>import</code> <code class=n>load_dataset</code>
+<p><code class=n>train_ds</code><code class=p>,</code> <code class=n>test_ds</code> <code class=o>=</code> <code class=n>load_dataset</code><code class=p>(</code>
+<code class=s2>"HuggingFaceH4/rlaif-v_formatted"</code><code class=p>,</code> <code class=n>split</code><code class=o>=</code><code class=p>[</code><code class=s2>"train[:15%]"</code><code class=p>,</code> <code class=s2>"test[:5%]"</code><code class=p>]</code>
+<code class=p>)</code>
+<code class=n>train_dataset</code><code class=p>[</code><code class=mi>0</code><code class=p>]</code></pre><p>Note how it has four parts: chosen, rejected, images, and prompt. Prompt and images are inputs to the model during inference, and we want the model to output closer to chosen and farther to reject.<p>TRL expects different formats for different alignment techniques, so when you want to fine-tune, make sure your dataset follows the following format:<pre data-code-language=bash data-type=programlisting><code class=o>{</code><code class=w></code>
+<code class=w>    </code><code class=s2>"chosen"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>        </code><code class=o>{</code><code class=w></code>
+<code class=w>            </code><code class=s2>"content"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>                </code><code class=o>{</code><code class=w></code>
+<code class=w>                    </code><code class=s2>"text"</code>:<code class=w> </code><code class=s2>"The image showcases a white mobile device with "</code><code class=w></code>
+<code class=w>                    </code>+<code class=w> </code><code class=s2>"various buttons and a screen, positioned on a stand "</code><code class=w></code>
+<code class=w>                    </code>+<code class=w> </code><code class=s2>"accompanied by two speakers."</code>,<code class=w></code>
+<code class=w>                    </code><code class=s2>"type"</code>:<code class=w> </code><code class=s2>"text"</code>,<code class=w></code>
+<code class=w>                </code><code class=o>}</code><code class=w></code>
+<code class=w>            </code><code class=o>]</code>,<code class=w></code>
+<code class=w>            </code><code class=s2>"role"</code>:<code class=w> </code><code class=s2>"assistant"</code>,<code class=w></code>
+<code class=w>        </code><code class=o>}</code><code class=w></code>
+<code class=w>    </code><code class=o>]</code>,<code class=w></code>
+<code class=w>    </code><code class=s2>"rejected"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>        </code><code class=o>{</code><code class=w></code>
+<code class=w>            </code><code class=s2>"content"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>                </code><code class=o>{</code><code class=w></code>
+<code class=w>                    </code><code class=s2>"text"</code>:<code class=w> </code><code class=s2>"The image features a white Qool speaker dock with "</code><code class=w></code>
+<code class=w>                    </code>+<code class=w> </code><code class=s2>"a silver phone, orange and black buttons, a clear glass "</code><code class=w></code>
+<code class=w>                    </code>+<code class=w> </code><code class=s2>"case, and a round table in the background."</code>,<code class=w></code>
+<code class=w>                    </code><code class=s2>"type"</code>:<code class=w> </code><code class=s2>"text"</code>,<code class=w></code>
+<code class=w>                </code><code class=o>}</code><code class=w></code>
+<code class=w>            </code><code class=o>]</code>,<code class=w></code>
+<code class=w>            </code><code class=s2>"role"</code>:<code class=w> </code><code class=s2>"assistant"</code>,<code class=w></code>
+<code class=w>        </code><code class=o>}</code><code class=w></code>
+<code class=w>    </code><code class=o>]</code>,<code class=w></code>
+<code class=w>    </code><code class=s2>"images"</code>:<code class=w> </code><code class=o>[</code>&lt;PIL.JpegImagePlugin.JpegImageFile<code class=w> </code>image<code class=w> </code><code class=nv>mode</code><code class=o>=</code>RGB<code class=w> </code><code class=nv>size</code><code class=o>=</code>500x375><code class=o>]</code>,<code class=w></code>
+<code class=w>    </code><code class=s2>"prompt"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>        </code><code class=o>{</code><code class=w></code>
+<code class=w>            </code><code class=s2>"content"</code>:<code class=w> </code><code class=o>[</code><code class=w></code>
+<code class=w>                </code><code class=o>{</code><code class=s2>"text"</code>:<code class=w> </code>None,<code class=w> </code><code class=s2>"type"</code>:<code class=w> </code><code class=s2>"image"</code><code class=o>}</code>,<code class=w></code>
+<code class=w>                </code><code class=o>{</code><code class=w></code>
+<code class=w>                    </code><code class=s2>"text"</code>:<code class=w> </code><code class=s2>"Itemize the elements you identify in the image "</code><code class=w></code>
+<code class=w>                    </code>+<code class=w> </code><code class=s2>"and describe them thoroughly."</code>,<code class=w></code>
+<code class=w>                    </code><code class=s2>"type"</code>:<code class=w> </code><code class=s2>"text"</code>,<code class=w></code>
+<code class=w>                </code><code class=o>}</code>,<code class=w></code>
+<code class=w>            </code><code class=o>]</code>,<code class=w></code>
+<code class=w>            </code><code class=s2>"role"</code>:<code class=w> </code><code class=s2>"user"</code>,<code class=w></code>
+<code class=w>        </code><code class=o>}</code><code class=w></code>
+<code class=w>    </code><code class=o>]</code>,<code class=w></code>
+<code class=o>}</code><code class=w></code></pre><p class=pagebreak-before>The dataset can have images in grayscale, so we format the images to make sure it’s <span class=keep-together>in <code>RGB</code></span>:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>PIL</code> <code class=kn>import</code> <code class=n>Image</code>
+<p><code class=k>def</code> <code class=nf>convert_images_to_rgb</code><code class=p>(</code><code class=n>example</code><code class=p>):</code>
+<code class=n>image</code> <code class=o>=</code> <code class=n>example</code><code class=p>[</code><code class=s2>"images"</code><code class=p>][</code><code class=mi>0</code><code class=p>]</code> <code class=c1># this dataset only has one image per sample</code>
+<code class=k>if</code> <code class=nb>isinstance</code><code class=p>(</code><code class=n>image</code><code class=p>,</code> <code class=n>Image</code><code class=o>.</code><code class=n>Image</code><code class=p>):</code>
+<code class=k>if</code> <code class=n>image</code><code class=o>.</code><code class=n>mode</code> <code class=o>!=</code> <code class=s2>"RGB"</code><code class=p>:</code>
+<code class=n>image</code> <code class=o>=</code> <code class=n>image</code><code class=o>.</code><code class=n>convert</code><code class=p>(</code><code class=s2>"RGB"</code><code class=p>)</code>
+<code class=n>example</code><code class=p>[</code><code class=s2>"images"</code><code class=p>]</code> <code class=o>=</code> <code class=p>[</code><code class=n>image</code><code class=p>]</code>
+<code class=k>return</code> <code class=n>example</code>
+<code class=n>train_ds</code> <code class=o>=</code> <code class=n>train_ds</code><code class=o>.</code><code class=n>map</code><code class=p>(</code><code class=n>convert_images_to_rgb</code><code class=p>,</code> <code class=n>num_proc</code><code class=o>=</code><code class=mi>8</code><code class=p>)</code>
+<code class=n>test_ds</code> <code class=o>=</code> <code class=n>test_ds</code><code class=o>.</code><code class=n>map</code><code class=p>(</code><code class=n>convert_images_to_rgb</code><code class=p>,</code> <code class=n>num_proc</code><code class=o>=</code><code class=mi>8</code><code class=p>)</code></pre><p>We will use <a href=https://oreil.ly/58Iy2><code>Qwen3-VL-2B-Instruct</code></a> using <code>AutoModelForImageTextToText</code>, the auto class for VLAs in transformers. We can now load the model, quantize it, and put an adapter head on top. We will also load the processor using the <code>AutoProcessor</code>:<pre data-code-language=python data-type=programlisting><code class=kn>import</code> <code class=nn>torch</code>
+<code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>AutoModelForImageTextToText</code><code class=p>,</code> <code class=n>BitsAndBytesConfig</code>
+<code class=kn>from</code> <code class=nn>peft</code> <code class=kn>import</code> <code class=n>LoraConfig</code><code class=p>,</code> <code class=n>get_peft_model</code>
+<p><code class=n>bnb_config</code> <code class=o>=</code> <code class=n>BitsAndBytesConfig</code><code class=p>(</code>
+<code class=n>load_in_4bit</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_use_double_quant</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>bnb_4bit_quant_type</code><code class=o>=</code><code class=s2>"nf4"</code><code class=p>,</code>
+<code class=n>bnb_4bit_compute_dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>model</code> <code class=o>=</code> <code class=n>AutoModelForImageTextToText</code><code class=o>.</code><code class=n>from_pretrained</code><code class=p>(</code>
+<code class=s2>"Qwen/Qwen3-VL-2B-Instruct"</code><code class=p>,</code>
+<code class=n>device_map</code><code class=o>=</code><code class=s2>"auto"</code><code class=p>,</code>
+<code class=n>torch_dtype</code><code class=o>=</code><code class=n>torch</code><code class=o>.</code><code class=n>bfloat16</code><code class=p>,</code>
+<code class=n>quantization_config</code><code class=o>=</code><code class=n>bnb_config</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>peft_config</code> <code class=o>=</code> <code class=n>LoraConfig</code><code class=p>(</code>
+<code class=n>r</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_alpha</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>lora_dropout</code><code class=o>=</code><code class=mf>0.1</code><code class=p>,</code>
+<code class=n>target_modules</code><code class=o>=</code><code class=p>[</code>
+<code class=s2>"down_proj"</code><code class=p>,</code> <code class=s2>"o_proj"</code><code class=p>,</code> <code class=s2>"k_proj"</code><code class=p>,</code> <code class=s2>"q_proj"</code><code class=p>,</code>
+<code class=s2>"gate_proj"</code><code class=p>,</code> <code class=s2>"up_proj"</code><code class=p>,</code> <code class=s2>"v_proj"</code><code class=p>,</code>
+<code class=p>],</code>
+<code class=n>use_dora</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>init_lora_weights</code><code class=o>=</code><code class=s2>"gaussian"</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>peft_model</code> <code class=o>=</code> <code class=n>get_peft_model</code><code class=p>(</code><code class=n>model</code><code class=p>,</code> <code class=n>peft_config</code><code class=p>)</code></pre><p class=pagebreak-before>We can check out the percentage of trainable parameters:<pre data-code-language=python data-type=programlisting><code class=n>peft_model</code><code class=o>.</code><code class=n>print_trainable_parameters</code><code class=p>()</code>
+<code class=c1># trainable params: 9,289,728 || all params: 2,136,821,760 || trainable%: 0.4347</code></pre><p>We can now set up the TRL <code>DPOTrainer</code>. To switch between DPO and MPO, we just add two parameters:<dl><dt><code>loss_type</code><dd><p>We pass <code>["sigmoid", "bco_pair", "sft"]</code> to loss. If we want to apply DPO, we don’t have to pass this parameter since it will default to <code>"sigmoid"</code>. However, <code>DPOTrainer</code> supports more losses, and you can check out the full list <a href=https://oreil.ly/x2H1N>on the Hugging Face website</a>.</p><dt><code>loss_weights</code><dd><p>Since we have a loss with multiple components, each comes with a multiplier. In the <a href=https://oreil.ly/iNDj2>original MPO paper</a>, it comes with the following coefficients: 0.8 for sigmoid, 0.2 for BCO loss, and 1.0 for SFT loss.</dl><p>This code snippet shows exactly how to configure DPO and start training a model:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>trl</code> <code class=kn>import</code> <code class=n>DPOConfig</code><code class=p>,</code> <code class=n>DPOTrainer</code>
+<p><code class=n>training_args</code> <code class=o>=</code> <code class=n>DPOConfig</code><code class=p>(</code>
+<code class=n>output_dir</code><code class=o>=</code><code class=s2>"Qwen3-VL-2B-MPO"</code><code class=p>,</code>
+<code class=n>loss_type</code><code class=o>=</code><code class=p>[</code><code class=s2>"sigmoid"</code><code class=p>,</code> <code class=s2>"bco_pair"</code><code class=p>,</code> <code class=s2>"sft"</code><code class=p>],</code>
+<code class=n>loss_weights</code><code class=o>=</code><code class=p>[</code><code class=mf>0.8</code><code class=p>,</code> <code class=mf>0.2</code><code class=p>,</code> <code class=mf>1.0</code><code class=p>],</code>
+<code class=n>per_device_train_batch_size</code><code class=o>=</code><code class=mi>4</code><code class=p>,</code>
+<code class=n>per_device_eval_batch_size</code><code class=o>=</code><code class=mi>4</code><code class=p>,</code>
+<code class=n>gradient_accumulation_steps</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code>
+<code class=n>num_train_epochs</code><code class=o>=</code><code class=mi>1</code><code class=p>,</code>
+<code class=n>dataset_num_proc</code><code class=o>=</code><code class=mi>1</code><code class=p>,</code><br>
+<code class=n>dataloader_num_workers</code><code class=o>=</code><code class=mi>8</code><code class=p>,</code><br>
+<code class=n>logging_steps</code><code class=o>=</code><code class=mi>10</code><code class=p>,</code>
+<code class=n>report_to</code><code class=o>=</code><code class=s2>"trackio"</code><code class=p>,</code>
+<code class=n>push_to_hub</code><code class=o>=</code><code class=kc>True</code><code class=p>,</code>
+<code class=n>save_strategy</code><code class=o>=</code><code class=s2>"steps"</code><code class=p>,</code>
+<code class=n>save_steps</code><code class=o>=</code><code class=mi>10</code><code class=p>,</code>
+<code class=n>save_total_limit</code><code class=o>=</code><code class=mi>1</code><code class=p>,</code>
+<code class=n>eval_steps</code><code class=o>=</code><code class=mi>10</code><code class=p>,</code>
+<code class=n>eval_strategy</code><code class=o>=</code><code class=s2>"steps"</code><code class=p>,</code>
+<code class=p>)</code>
+<p><code class=n>trainer</code> <code class=o>=</code> <code class=n>DPOTrainer</code><code class=p>(</code>
+<code class=n>model</code><code class=o>=</code><code class=n>peft_model</code><code class=p>,</code>
+<code class=n>args</code><code class=o>=</code><code class=n>training_args</code><code class=p>,</code>
+<code class=n>train_dataset</code><code class=o>=</code><code class=n>train_dataset</code><code class=p>,</code>
+<code class=n>eval_dataset</code><code class=o>=</code><code class=n>test_dataset</code><code class=p>,</code>
+<code class=p>)</code>
+<code class=n>trainer</code><code class=o>.</code><code class=n>train</code><code class=p>()</code></pre><p>Let’s infer with the trained model. First, see the first example from the test set in <a data-type=xref href=#ch05_figure_9_1776349012777279>Figure 5-9</a>:<pre data-code-language=python data-type=programlisting><code class=n>test_dataset</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"images"</code><code class=p>][</code><code class=mi>0</code><code class=p>]</code>
+<code class=n>test_dataset</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"prompt"</code><code class=p>][</code><code class=mi>0</code><code class=p>][</code><code class=s2>"content"</code><code class=p>][</code><code class=mi>1</code><code class=p>][</code><code class=s2>"text"</code><code class=p>]</code>
+<code class=c1># Describe the key features of the image in great detail.</code></pre><figure><div class=figure id=ch05_figure_9_1776349012777279><img alt="A modern high-speed train at a station platform, used as an example from the test set to demonstrate model inference." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0509.png><h6><span class=label>Figure 5-9. </span>Example from the test set.</h6></div></figure><p>We can load the trained model. If you haven’t trained one yourself, you can load the model from the following namespace. We load the model, add the image and the prompt to the chat template, and infer as follows:<pre data-code-language=python data-type=programlisting><code class=kn>from</code> <code class=nn>transformers</code> <code class=kn>import</code> <code class=n>pipeline</code>
+<p><code class=n>pipe</code> <code class=o>=</code> <code class=n>pipeline</code><code class=p>(</code><code class=s2>"image-text-to-text"</code><code class=p>,</code> <code class=s2>"merve/Qwen3-VL-2B-MPO"</code><code class=p>)</code>
+<p><code class=n>messages</code> <code class=o>=</code> <code class=p>[</code>
+<code class=p>{</code>
+<code class=s2>"role"</code><code class=p>:</code> <code class=s2>"user"</code><code class=p>,</code>
+<code class=s2>"content"</code><code class=p>:</code> <code class=p>[</code>
+<code class=p>{</code>
+<code class=s2>"type"</code><code class=p>:</code> <code class=s2>"image"</code><code class=p>,</code>
+<code class=s2>"image"</code><code class=p>:</code> <code class=n>test_dataset</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"images"</code><code class=p>][</code><code class=mi>0</code><code class=p>],</code>
+<code class=p>},</code>
+<code class=p>{</code>
+<code class=s2>"type"</code><code class=p>:</code> <code class=s2>"text"</code><code class=p>,</code>
+<code class=s2>"text"</code><code class=p>:</code> <code class=n>test_dataset</code><code class=p>[</code><code class=mi>0</code><code class=p>][</code><code class=s2>"prompt"</code><code class=p>][</code><code class=mi>0</code><code class=p>][</code><code class=s2>"content"</code><code class=p>][</code><code class=mi>1</code><code class=p>][</code><code class=s2>"text"</code><code class=p>],</code>
+<code class=p>},</code>
+<code class=p>],</code>
+<code class=p>}</code>
+<code class=p>]</code>
+<code class=n>output_text</code> <code class=o>=</code> <code class=n>pipe</code><code class=p>(</code><code class=n>messages</code><code class=p>)</code></pre><p class=pagebreak-before>We have run the inference with the base model as well. Here’s the output:<pre data-type=programlisting>print(output_text)
+<h1 id=this-is-a-detailed-high-resolution-photograph-of-a-modern>["This is a detailed, high-resolution photograph of a modern,</h1>
+<h1 id=high-speed-train-at-a-station-platform-the-image-is-taken-from>high-speed train at a station platform. The image is taken from</h1>
+<h1 id=a-low-angled-perspective-emphasizing-the-train-s-sleek-design>a low, angled perspective, emphasizing the train's sleek design</h1>
+<h1 id=and-aerodynamic-shape-n-nthe-train-is-a-high-speed-electric>and aerodynamic shape.\n\nThe train is a high-speed electric</h1>
+<h1 id=multiple-unit-emu-with-a-striking-multi-colored-livery>multiple unit (EMU) with a striking, multi-colored livery.</h1>
+<h1 id=the-front-of-the-train-known-as-the-nose-is-predominantly>The front of the train, known as the nose, is predominantly</h1>
+<h1 id=white-with-a-large-bright-yellow-section-at-the-front-and>white, with a large, bright yellow section at the front and</h1>
+<h1 id=a-large-red-angular-shape-that-extends-from-the-nose-to-the-side>a large, red angular shape that extends from the nose to the side.</h1>
+<h1 id=the-side-of-the-train-features-a-blue-panel-with-a-red-stripe>The side of the train features a blue panel with a red stripe</h1>
+<h1 id=running-along-the-top-and-the-lower-section-of-the>running along the top, and the lower section of the"]</h1>
+<p>Arguably, MPO made the model generate more natural-sounding outputs.
+<p>DPO and MPO show how we can align models directly from pairwise human preferences, without ever training a separate RM. But what if we could go even further, replacing human preferences altogether with automatically verifiable rewards, like checking whether a<a data-startref=DPO05 data-type=indexterm id=id725></a><a data-startref=MPO05 data-type=indexterm id=id726></a><a data-primary data-startref=DDOpref05 data-type=indexterm id=id727></a> math answer is correct? That is exactly the idea behind our next technique.
+<p>​
+
+<section data-pdf-bookmark="Group Relative Policy Optimization" data-type=sect2><div class=sect2 id=ch05_group_relative_policy_optimization_1776349012793763>
+<h2>Group Relative Policy Optimization</h2>
+<p>The <a href=https://oreil.ly/hLPse>DeepSeekR1</a> paper<a data-secondary="group relative policy optimization" data-primary=optimization data-type=indexterm id=id728></a> (and its predecessor, <a href=https://oreil.ly/lIWf4>DeepSeekMath</a>, which introduced GRPO) broke the internet for showing promising results by<a data-primary="group relative policy optimization (GRPO)" data-type=indexterm id=id729></a> introducing two advantages: 1) the pipeline to create a mathematics dataset, and 2) a new alignment technique called GRPO applied to mathematics problems (see <a data-type=xref href=#ch05_figure_10_1776349012777300>Figure 5-10</a>, which uses an image from the <a href=https://oreil.ly/l41OZ>paper by Zhihong Shao et al., “DeepSeekMath: Pushing the Limits of Mathematical Reasoning in Open Language Models”</a>). The researchers have shown results better than or closer to models larger in multipliers in various benchmarks with only a model in 7B parameters, showing large efficiency gains.
+<p>GRPO is quite simple compared to PPO, so here are the steps:
+<ol>
+<li>
+<p>Sample questions from the dataset.
+
+<li>
+<p>For each question, generate multiple (a group of) answers and score them with an RM.
+
+<li>
+<p>Convert scores into advantages by normalizing within the group (z-scoring): each answer gets an advantage equal to how many standard deviations it is above/below the group mean.
+
+<li>
+<p>Update the policy model accordingly.
+
+</ol>
+<figure><div class=figure id=ch05_figure_10_1776349012777300><img alt="Diagram comparing the PPO and GRPO alignment techniques, highlighting differences in model structure and processing pathways as described in the DeepSeekR1 paper." class="max-w-full h-auto rounded-lg my-4 shadow-xs" loading=lazy src=/books/vision-language-models/images/vlmo_0510.png>
+<h6><span class=label>Figure 5-10. </span>Comparison between PPO and GRPO.</h6>
+</div></figure>
+<p class=fix_tracking>Here, in <a data-type=xref href=#ch05_equation_04>Equation 5-4</a>, is a common simplified GRPO objective (often used for clarity).
+<div data-type=equation id=ch05_equation_04>
+<h5><span class=label>Equation 5-4. </span>GRPO</h5>
+<math display=inline><mrow><msub><mi>ℒ</mi><mrow><mrow><mi mathvariant=normal>G</mi><mi mathvariant=normal>R</mi><mi mathvariant=normal>P</mi><mi mathvariant=normal>O</mi></mrow></mrow></msub><mo stretchy=false>(</mo><mi>θ</mi><mo stretchy=false>)</mo><mo>=</mo><mo>−</mo><mi>𝔼</mi><mo>*</mo><mrow><mi>x</mi></mrow><mo>!</mo><mrow><mo fence=true form=prefix stretchy=true>[</mo><mfrac><mrow><mn>1</mn></mrow><mrow><mi>G</mi></mrow></mfrac><mo>∑</mo><mo>*</mo><msup><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mrow><mi>G</mi></mrow></msup><mi>log</mi><msub><mi>π</mi><mi>θ</mi></msub><mo stretchy=false>(</mo><msub><mi>y</mi><mi>i</mi></msub><mo>∣</mo><mi>x</mi><mo stretchy=false>)</mo><mo>,</mo><msub><mi>A</mi><mi>i</mi></msub><mo fence=true form=postfix stretchy=true>]</mo></mrow><mo>,</mo><mspace width=2em/><msub><mi>A</mi><mi>i</mi></msub><mo>=</mo><mfrac><mrow><msub><mi>r</mi><mi>i</mi></msub><mo>−</mo><mi>μ</mi></mrow><mrow><mi>σ</mi><mo>+</mo><mi>ϵ</mi></mrow></mfrac></mrow></math>
+</div>
+<p class=fix_tracking>On top of this, similar to the techniques we have already introduced, the researchers also regularize with KL-divergence between the policy model and the reference model.
+<p>Just like previous alignment techniques, TRL offers easy-to-use abstractions for GRPO. Moreover, TRL is integrated with the vLLM model-serving framework to run online methods where you need to generate samples during the training. You can choose one of the following options:
+<ul>
+<li>
+<p>Colocate a GPU for both online sample generation and the training.
+
+<li>
+<p>Serve the model inference with vLLM separately on another GPU, and send requests to the endpoint during training for the generation part.
+
+</ul>
+<p>With SFT, PEFT, and a full spectrum of alignment techniques (DPO, MPO, and GRPO) now under our belt, we have covered the complete post-training toolkit for VLAs. Let’s take a step back and summarize what<a data-primary data-startref=PTRLhuman05 data-type=indexterm id=id730></a><a data-primary data-startref=hfeed05 data-type=indexterm id=id731></a><a data-primary data-startref=RL05 data-type=indexterm id=id732></a><a data-primary data-startref=rlhflearning05 data-type=indexterm id=id733></a> we have learned.
+</div></section>
+
+<section class=pagebreak-before data-pdf-bookmark=Summary data-type=sect1><div class=sect1 id=ch05_summary_1776349012793825>
+<h1 class=less_space>Summary</h1>
+<p>In this chapter, we zoomed out from pretraining to the way people actually work with modern VLMs. Rather than starting from scratch, you can often take a strong base model and adapt it in the following ways:
+<ul>
+<li>
+<p>With SFT, so the model can follow instructions on the tasks you care about
+
+<li>
+<p>With parameter efficient methods like LoRA and DoRA, so you only train a small adapter and keep most of the huge model frozen
+
+<li>
+<p>With alignment techniques like RLHF, DPO, MPO, and GRPO, so the model’s responses are not just plausible but also match human preferences and safety constraints
+
+</ul>
+<p>You saw how libraries like PEFT and TRL wrap a lot of this complexity into a few configuration objects and trainer classes while still leaving you in control of key choices like rank, loss components, and KL regularization between policy and reference models.
+<p>If there is one theme running through the whole chapter, it is this: training VLMs is less science and more careful engineering. You manage data, tokens, padding, memory, and losses. You choose where to spend your compute: on full fine-tunes or tiny adapters, on brute force pretraining or clever alignment. You watch lines go down, but you also watch samples, images, and generations, because the interesting bugs hide in individual examples, not just in metrics.
+<p>From here, you are equipped to do three very practical things:
+<ul>
+<li>
+<p>Read VLM training recipes and understand what is actually happening at each stage.
+
+<li>
+<p>Build and debug your own small training setups instead of treating models as black boxes.
+
+<li>
+<p>Take existing models and adapt them efficiently to your data, your images, and your preferences.
+
+</ul>
+<p>In the rest of the book, we will build on this foundation. Whether we are optimizing models, deploying them, or using them in applications, everything rests on the training choices you saw here. Once you understand how a model learns, you are in a much better position to understand what it can do, where it will fail, and how to push it a little further.
+</div></section>
+
+
+
+
+                
+              
+            
+          
+        
+      
+    
+
+    
+    
+    
+    <section aria-label="Content tools" class=_iconMenu_pr71g_3 data-color-mode=white data-testid=contentSidebarMenu id=reader-icon-menu>
+      
+      
+      <div class=_topIcons_pr71g_10>
+        
+        <section class=_sidebarSection_1mnip_8>
+          <button aria-label="Ask questions and explore with AI" title="Ask questions and explore with AI" class=_widgetBtn_15j69_12 data-ai-reader=true data-testid=enhanced-answers-button id=btn-toggle-ai-drawer type=button>
+            <svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium" viewbox="-2 -3 84 78" aria-hidden="true" focusable="false" style="color:#7b1fa2;width:1.4rem;height:1.4rem"><circle cx="21" cy="35" fill="currentColor" r="3"/><circle cx="36" cy="35" fill="currentColor" r="3"/><circle cx="51" cy="35" fill="currentColor" r="3"/><path d="M42.19 11.5H10.84A7.74 7.74.0 003.1 19.24V50.66a7.74 7.74.0 007.74 7.74H16L19 70l8-11.6H61.01a7.74 7.74.0 007.74-7.74V42" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/><path d="M64.7 1.5C66.19 9.3 69.9 13.01 77.7 14.5c-7.8 1.49-11.51 5.2-13 13-1.49-7.8-5.2-11.51-13-13 7.8-1.49 11.51-5.2 13-13z" data-ai-sparkle="" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="5"/></svg>
+          </button>
+        </section>
+
+        
+        <section>
+          <button aria-label="Table of contents" title="Table of contents" class=_widgetBtn_15j69_12 data-testid=table-of-contents-button id=btn-toggle-toc-drawer type=button>
+            <span class=orm-Icon-root data-testid=icon style=height:1.4rem>
+              <span class="orm-Icon-icon orm-icon-bullet-list" aria-hidden=true style=width:1.4rem;height:1.4rem;font-size:1.4rem></span>
+              <span class=orm-Icon-title>table of contents</span>
+            </span>
+          </button>
+        </section>
+
+        
+        <section class="relative group/search-btn">
+          <button aria-label="Search inside this book" title="Search inside this book" class=_widgetBtn_15j69_12 id=btn-toggle-search-drawer type=button>
+            <span class=orm-Icon-root data-testid=icon style=height:1.4rem>
+              <span class="orm-Icon-icon orm-icon-search" aria-hidden=true style=width:1.4rem;height:1.4rem;font-size:1.4rem></span>
+              <span class=orm-Icon-title>search</span>
+            </span>
+          </button>
+          
+          <div class="search-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 -translate-y-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl hidden" id=search-tooltip-pill>
+            <span>Search inside this book</span>
+            <span class=tooltip-arrow></span>
+          </div>
+        </section>
+      </div>
+
+      
+      <div class=_bottomIcons_pr71g_118>
+        
+        <button aria-label="Back to Top" class="back-to-top-btn hidden" title="Back to Top" id=btn-reader-back-to-top type=button>
+          <svg class="w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="currentColor"><path d="m4 12 1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8z"/></svg>
+        </button>
+
+        
+        <section class=_widget_1955i_1>
+          <button aria-label="Viewer settings" title="Reader Preferences" class=_widgetBtn_15j69_12 data-testid=reader-settings id=btn-reader-preferences type=button>
+            <span aria-hidden=true class=orm-Icon-root data-testid=icon style=height:1.4rem>
+              <span class="orm-Icon-icon orm-icon-settings" aria-hidden=true style=width:1.4rem;height:1.4rem;font-size:1.4rem></span>
+              <span class=orm-Icon-title>settings</span>
+            </span>
+          </button>
+        </section>
+
+        
+        <button aria-label="Toggle focus mode" title="Toggle focus mode (Shift + F)" class=_widgetBtn_15j69_12 id=btn-toggle-focus-mode type=button>
+          <svg class="focus-icon-expand w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/></svg>
+          <svg class="focus-icon-cross w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </section>
+
+    
+    
+    
+    <aside aria-label="Table of contents" class=reader-drawer id=toc-drawer>
+      
+      
+      <div class="flex justify-end px-4 pt-3 pb-0">
+        <button aria-label="Close table of contents" class="p-1 rounded text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" title="Close sidebar" id=btn-close-toc-drawer type=button>
+          <span class="orm-Icon-icon orm-icon-close-x" style=font-size:1.1rem></span>
+        </button>
+      </div>
+
+      
+      <div class="px-5 pt-1 pb-2 transition-all duration-300 shrink-0" id=toc-book-header>
+        
+        <div class="flex items-start gap-3 transition-all duration-200" id=toc-book-info>
+          
+          <img alt="Vision Language Models" class="rounded shadow-xs shrink-0 bg-gray-100 dark:bg-gray-800" src=/books/vision-language-models/cover.png style=object-fit:cover;width:52px;min-width:52px;max-width:52px;height:74px;max-height:74px>
+          
+          
+          <div class="flex-1 min-w-0 space-y-0.5">
+            <h2 class="font-bold text-xs sm:text-sm leading-snug line-clamp-2 text-theme-text">
+              <a class=hover:text-[#D3002D] href=/books/vision-language-models/>Vision Language Models</a>
+            </h2>
+            <p class="text-[11px] text-[#D3002D] font-medium truncate">
+              Merve Noyan, Andrés Marafioti, Miquel Farré, Orr Zohar
+            
+            <p class="text-[10px] text-theme-muted truncate">
+              Published by <span class=underline>O'Reilly Media, Inc.</span>
+            
+          </div>
+
+          
+          <div class="flex flex-col items-center gap-1.5 shrink-0 pt-0.5">
+            <button class="p-1 rounded text-theme-text hover:bg-theme-secondary transition-colors cursor-pointer" title="Book Chapters" id=drawer-toc-overview-btn type=button>
+              <span class="orm-Icon-icon orm-icon-bullet-list" style=font-size:1.1rem></span>
+            </button>
+            <button class="p-1 rounded text-theme-text hover:bg-theme-secondary transition-colors cursor-pointer" title="Book Details & Progress" data-open-details=vision-language-models id=drawer-toc-details-btn type=button>
+              <span class="orm-Icon-icon orm-icon-playlist-add" style=font-size:1.1rem></span>
+            </button>
+          </div>
+        </div>
+
+        
+        <div class="mt-2 space-y-1">
+          <div class="w-full h-1 bg-gray-200 dark:bg-gray-700 overflow-hidden rounded-full">
+            <div class="h-full bg-[#17D2CC] transition-all duration-300" id=toc-drawer-progress-bar style=width:0%></div>
+          </div>
+          <div class="flex items-center justify-between text-[11px] text-theme-muted">
+            <span class="font-semibold text-theme-text" id=toc-drawer-progress-pct>0% complete</span>
+            <span id=toc-drawer-time-left>Approx. 10 hours left</span>
+          </div>
+        </div>
+      </div>
+
+      
+      <button class="px-5 py-1 text-xs font-semibold text-theme-text hover:text-[#D3002D] flex items-center gap-1.5 border-b border-theme-border/50 cursor-pointer select-none" id=toc-accordion-toggle type=button>
+        <span id=toc-accordion-icon>▲</span>
+        <span id=toc-accordion-label>Collapse</span>
+      </button>
+
+      
+      <div class="flex border-b border-theme-border px-5 text-sm font-semibold shrink-0">
+        <button class="toc-tab-btn py-2.5 px-2 border-b-2 border-blue-600 text-blue-600 dark:text-blue-400 cursor-pointer" id=toc-tab-contents-btn type=button>
+          Contents
+        </button>
+        <button class="toc-tab-btn py-2.5 px-2 border-b-2 border-transparent text-theme-muted hover:text-theme-text cursor-pointer" id=toc-tab-highlights-btn type=button>
+          Highlights
+        </button>
+      </div>
+
+      
+      <div class="flex-1 overflow-y-auto p-4 space-y-1" id=toc-tab-contents-panel>
+        <ol class=space-y-1 data-testid=tocItems id=toc-items-list>
+          
+        </ol>
+      </div>
+
+      
+      <div class="flex-1 overflow-y-auto p-4 space-y-3 hidden" id=toc-tab-highlights-panel>
+        <div class="flex items-center justify-between pb-2 border-b border-[#d0d7de]/50 dark:border-[#30363d]/50">
+          <span class="text-xs font-bold text-[#1f2328] dark:text-[#f0f6fc]">Your Highlights</span>
+          <span class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=highlights-count-label>0 highlights</span>
+        </div>
+        <div class=space-y-2 id=highlights-list>
+          
+          <div class="p-6 text-center text-xs text-[#656d76] dark:text-[#8b949e]">
+            Select any text in the book to save notes and highlights!
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
+    
+    
+    
+    <aside aria-label=Search class=reader-drawer id=search-drawer>
+      
+      <div class="p-4 flex items-center justify-between border-b border-[#d0d7de] dark:border-[#30363d] shrink-0">
+        <h2 class="text-2xl font-bold tracking-tight text-[#1f2328] dark:text-[#f0f6fc]">Search</h2>
+        <button aria-label="Close search" class="p-1 rounded text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" title="Close search" id=btn-close-search-drawer type=button>
+          <span class="orm-Icon-icon orm-icon-close-x" style=font-size:1.1rem></span>
+        </button>
+      </div>
+
+      
+      <div class="p-4 border-b border-[#d0d7de]/60 dark:border-[#30363d]/60 shrink-0">
+        <div class="relative flex items-center border-2 border-[#007b82] rounded-md px-3 py-2 bg-white dark:bg-[#0d1117] focus-within:ring-2 focus-within:ring-[#007b82]/40">
+          <span class="orm-Icon-icon orm-icon-search text-gray-500 mr-2.5" style=font-size:1.1rem></span>
+          <input class="w-full bg-transparent text-sm text-[#1f2328] dark:text-[#f0f6fc] placeholder-gray-400 focus:outline-none font-sans" placeholder="Search in this book" id=book-search-input>
+        </div>
+      </div>
+
+      
+      <div class="flex-1 overflow-y-auto p-4 space-y-3" id=book-search-results>
+        <div class="p-8 text-center text-xs text-[#656d76] dark:text-[#8b949e]">
+          Start typing to search chapters, concepts, and code in this book...
+        </div>
+      </div>
+    </aside>
+
+    
+    
+    
+    <aside aria-label="AI Study Assistant" class=reader-drawer id=ai-drawer>
+      
+      <div class="p-4 flex items-center justify-between border-b border-[#d0d7de] dark:border-[#30363d] shrink-0">
+        <div class="flex items-center gap-2">
+          <span class="text-base text-purple-600 dark:text-purple-400">✨</span>
+          <h2 class="text-lg font-bold tracking-tight text-[#1f2328] dark:text-[#f0f6fc]">AI Study Assistant</h2>
+        </div>
+        <button aria-label="Close AI Assistant" class="p-1 rounded text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" title="Close AI Assistant" id=btn-close-ai-drawer type=button>
+          <span class="orm-Icon-icon orm-icon-close-x" style=font-size:1.1rem></span>
+        </button>
+      </div>
+
+      
+      <div class="px-4 py-2.5 bg-purple-50 dark:bg-purple-950/30 border-b border-purple-200 dark:border-purple-900/40 text-xs shrink-0">
+        <div class="text-[10px] font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">Current Chapter Context</div>
+        <div class="font-semibold text-purple-900 dark:text-purple-100 truncate mt-0.5">5. Post-Training Vision Language Models</div>
+      </div>
+
+      
+      <div class="px-4 py-2.5 bg-yellow-50 dark:bg-yellow-950/30 border-b border-yellow-200 dark:border-yellow-900/40 text-xs shrink-0 hidden" id=ai-selection-context-box>
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] font-bold uppercase tracking-wider text-yellow-800 dark:text-yellow-300">Selected Reader Excerpt</span>
+          <button class="text-[10px] text-gray-500 hover:text-red-600 cursor-pointer" id=btn-clear-selection-context type=button>Clear</button>
+        </div>
+        <div class="italic text-yellow-900 dark:text-yellow-100 text-[11px] mt-1 max-h-16 overflow-y-auto leading-relaxed" id=ai-selection-text-display></div>
+      </div>
+
+      
+      <div class="p-3.5 border-b border-[#d0d7de]/60 dark:border-[#30363d]/60 bg-[#f6f8fa]/60 dark:bg-[#161b22]/60 shrink-0 space-y-3">
+        
+        
+        <div>
+          <div class="text-[10px] font-bold text-[#656d76] dark:text-[#8b949e] uppercase tracking-wider mb-1.5 flex items-center justify-between">
+            <span>Study Mode:</span>
+            <span class="text-emerald-600 dark:text-emerald-400 font-semibold normal-case" id=ai-mode-active-label>Summarize this chapter</span>
+          </div>
+          
+          <div class="relative bg-gray-200/80 dark:bg-[#0d1117] p-0.5 rounded-full flex items-center border border-[#d0d7de] dark:border-[#30363d] select-none h-8">
+            
+            <div class="absolute top-0.5 bottom-0.5 w-[calc(33.333%-1px)] rounded-full bg-white dark:bg-[#21262d] shadow-xs transition-all duration-300 pointer-events-none" id=ai-mode-slider style=left:2px></div>
+
+            <button class="ai-mode-btn relative z-10 flex-1 py-1 text-center text-[11px] font-bold rounded-full text-emerald-600 dark:text-emerald-400 transition-colors cursor-pointer" data-ai-mode=summarize type=button>
+              Summarize
+            </button>
+            <button class="ai-mode-btn relative z-10 flex-1 py-1 text-center text-[11px] font-medium rounded-full text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] transition-colors cursor-pointer" data-ai-mode=quiz type=button>
+              Quiz
+            </button>
+            <button class="ai-mode-btn relative z-10 flex-1 py-1 text-center text-[11px] font-medium rounded-full text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] transition-colors cursor-pointer" data-ai-mode=apply type=button>
+              Apply
+            </button>
+          </div>
+        </div>
+
+        
+        <div>
+          <div class="text-[10px] font-bold text-[#656d76] dark:text-[#8b949e] uppercase tracking-wider mb-1.5">
+            Ask External AI:
+          </div>
+          <div class=ask-ai-slide-capsule>
+            <div class=ask-ai-slide-tray id=fc-ask-ai-slide-tray>
+              
+              <button aria-label="Ask Anthropic Claude" title="Ask Anthropic Claude (Deep reasoning & analysis)" class=ask-ai-tray-btn data-ask-ai-provider=claude data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997.0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114z"/></svg>
+              </button>
+              
+              <button aria-label="Ask OpenAI ChatGPT" title="Ask OpenAI ChatGPT (Problem-solving & interactive chat)" class=ask-ai-tray-btn data-ask-ai-provider=chatgpt data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.217 19.384A3.501 3.501.0 0018 18.167V13l-6-3.35"/><path d="M5.214 15.014A3.501 3.501.0 009.66 20.28L14 17.746V10.8"/><path d="M6 7.63c-1.391-.236-2.787.395-3.534 1.689a3.474 3.474.0 001.271 4.745L8 16.578l6-3.348"/><path d="M12.783 4.616A3.501 3.501.0 006 5.833V10.9l6 3.45"/><path d="M18.786 8.986A3.501 3.501.0 0014.34 3.72L10 6.254V13.2"/><path d="M18 16.302c1.391.236 2.787-.395 3.534-1.689a3.474 3.474.0 00-1.271-4.745l-4.308-2.514L10 10.774"/></svg>
+              </button>
+              
+              <button aria-label="Ask Google Gemini" title="Ask Google Gemini (AI Knowledge Graph Search)" class=ask-ai-tray-btn data-ask-ai-provider=gemini data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 2C12 7.5 7.5 12 2 12c5.5.0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5.0-10-4.5-10-10z"/></svg>
+              </button>
+              
+              <button aria-label="Ask Microsoft Copilot" title="Ask Microsoft Copilot (Bing Copilot web research)" class=ask-ai-tray-btn data-ask-ai-provider=copilot data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11.16 9.6c.25-.85 1.03-1.44 1.92-1.44h5.78c-.88.0-1.67-.58-1.92-1.43l-.56-1.93c-.25-.85-1.03-1.44-1.92-1.43m-1.34 10.07-.28.97c-.25.85-1.03 1.44-1.92 1.44H5.35c.89.0 1.68.58 1.92 1.44l.55 1.91c.25.85 1.03 1.44 1.92 1.44"/><path d="M14.38 3.37H7.45c-1.98.0-3.17 2.61-3.95 5.23-.95 3.1-2.17 7.24 1.38 7.24h2.99c.89.0 1.68-.59 1.92-1.45.52-1.82 1.43-4.99 2.15-7.41.36-1.23.66-2.28 1.13-2.94.3-.43.78-.68 1.31-.67zM9.63 20.64h6.92c1.98.0 3.17-2.61 3.96-5.23.94-3.1 2.16-7.24-1.38-7.24h-3c-.89.0-1.67.59-1.92 1.45-.7 2.47-1.42 4.94-2.15 7.41-.36 1.23-.67 2.28-1.13 2.94-.3.43-.79.68-1.3.67z"/></svg>
+              </button>
+              
+              <button aria-label="Ask xAI Grok" title="Ask xAI Grok (Fast real-time responses)" class=ask-ai-tray-btn data-ask-ai-provider=grok data-context-type=flashcard type=button>
+                <svg viewbox="0 0 34 33" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"><path d="M13.2371 21.0407l11.0815-8.1901C24.8619 12.4491 25.6384 12.6057 25.8973 13.2294 27.2597 16.5185 26.651 20.4712 23.9403 23.1851c-2.7106 2.7138-6.4822 3.309-9.9295 1.9535l-3.7659 1.7457c5.4014 3.6963 11.9604 2.7822 16.0591-1.3242 3.2511-3.255 4.258-7.6918 3.3165-11.6928L29.629 13.8758C28.2637 7.99809 29.9647 5.64871 33.449.844576 33.5314.730667 33.6139.616757 33.6964.5L29.1113 5.09055V5.07631L13.2343 21.0436"/><path d="M10.9503 23.0313C7.07343 19.3235 7.74185 13.5853 11.0498 10.2763c2.4461-2.44908 6.4538-3.44863 9.9523-1.9792l3.7574-1.73712c-.6769-.48981-1.5445-1.01664-2.54-1.38685-4.4997-1.85387-9.8869-.93121-13.54471 2.72813C5.15635 11.4239 4.0499 16.8403 5.94992 21.4622 7.36924 24.9165 5.04257 27.3598 2.69884 29.826 1.86829 30.7002 1.0349 31.5745.36364 32.5L10.9474 23.0341"/></svg>
+              </button>
+              
+              <button aria-label="Ask Mistral Le Chat" title="Ask Mistral Le Chat (European frontier model)" class=ask-ai-tray-btn data-ask-ai-provider=mistral data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"><path d="M17.143 3.429v3.428h-3.429v3.429h-3.428V6.857H6.857V3.43H3.43v13.714H0v3.428h10.286v-3.428H6.857v-3.429h3.429v3.429h3.429v-3.429h3.428v3.429h-3.428v3.428H24v-3.428h-3.43V3.429z"/></svg>
+              </button>
+              
+              <button aria-label="Ask Brave Search" title="Ask Brave Search (Independent private index)" class=ask-ai-tray-btn data-ask-ai-provider=brave data-context-type=flashcard type=button>
+                <svg viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width=".5"><path d="M15.68.0l2.096 2.38s1.84-.512 2.709.358c.868.87 1.584 1.638 1.584 1.638l-.562 1.381.715 2.047s-2.104 7.98-2.35 8.955c-.486 1.919-.818 2.66-2.198 3.633-1.38.972-3.884 2.66-4.293 2.916-.409.256-.92.692-1.38.692-.46.0-.97-.436-1.38-.692a185.796 185.796.0 01-4.293-2.916c-1.38-.973-1.712-1.714-2.197-3.633-.247-.975-2.351-8.955-2.351-8.955l.715-2.047-.562-1.381s.716-.768 1.585-1.638c.868-.87 2.708-.358 2.708-.358L8.321.0h7.36zm-3.679 14.936c-.14.0-1.038.317-1.758.69s-1.242.637-1.409.742c-.167.104-.065.301.087.409.152.107 2.194 1.69 2.393 1.866.198.175.489.464.687.464.198.0.49-.29.688-.464.198-.175 2.24-1.759 2.392-1.866.152-.108.254-.305.087-.41-.167-.104-.689-.368-1.41-.741-.72-.373-1.617-.69-1.757-.69zm0-11.278s-.409.001-1.022.206-1.278.46-1.584.46c-.307.0-2.581-.434-2.581-.434S4.119 7.152 4.119 7.849s.339.881.68 1.243l2.02 2.149c.192.203.59.511.356 1.066-.235.555-.58 1.26-.196 1.977.384.716 1.042 1.194 1.464 1.115.421-.08 1.412-.598 1.776-.834.364-.237 1.518-1.19 1.518-1.554.0-.365-1.193-1.02-1.413-1.168-.22-.15-1.226-.725-1.247-.95-.02-.227-.012-.293.284-.851.297-.559.831-1.304.742-1.8-.089-.495-.95-.753-1.565-.986-.615-.232-1.799-.671-1.947-.74-.148-.068-.11-.133.339-.175.448-.043 1.719-.212 2.292-.052.573.16 1.552.403 1.632.532.079.13.149.134.067.579-.081.445-.5 2.581-.541 2.96-.04.38-.12.63.288.724.409.094 1.097.256 1.333.256s.924-.162 1.333-.256c.408-.093.329-.344.288-.723-.04-.38-.46-2.516-.541-2.961-.082-.445-.012-.45.067-.579.08-.129 1.059-.372 1.632-.532s1.845.009 2.292.052c.449.042.487.107.339.175-.148.069-1.332.508-1.947.74-.615.233-1.476.49-1.565.986-.09.496.445 1.241.742 1.8.297.558.304.624.284.85-.02.226-1.026.802-1.247.95-.22.15-1.413.804-1.413 1.169.0.364 1.154 1.317 1.518 1.554.364.236 1.355.755 1.776.834.422.079 1.08-.4 1.464-1.115.384-.716.039-1.422-.195-1.977-.235-.555.163-.863.355-1.066l2.02-2.149c.341-.362.68-.546.68-1.243.0-.697-2.695-3.96-2.695-3.96s-2.274.436-2.58.436c-.307.0-.972-.256-1.585-.461-.613-.205-1.022-.206-1.022-.206z"/></svg>
+              </button>
+              <span class=ask-ai-tray-divider></span>
+            </div>
+            
+            <button aria-label="Ask AI Assistant" class=ask-ai-slide-trigger id=fc-ask-ai-slide-trigger type=button>
+              <span>✨</span>
+              <span class=ask-ai-trigger-label>Ask AI</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      
+      <div class="p-4 space-y-3 flex-1 overflow-y-auto">
+        <div class="text-[11px] font-bold text-[#656d76] dark:text-[#8b949e] uppercase tracking-wider mb-1">
+          Instant Study Queries:
+        </div>
+
+        <div class=space-y-3 id=study-queries-accordion>
+          
+          
+          <div class="study-card rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] overflow-hidden transition-all duration-200 shadow-2xs">
+            <button class="study-card-header w-full p-3 text-left flex items-center justify-between cursor-pointer hover:bg-purple-50/50 dark:hover:bg-purple-950/20 transition-colors" data-card-id=summary type=button>
+              <div>
+                <div class="font-bold text-xs text-purple-600 dark:text-purple-400 flex items-center gap-1.5">
+                  <span>💡</span>
+                  <span>Summarize Key Concepts</span>
+                </div>
+                <div class="text-[11px] text-[#656d76] dark:text-[#8b949e] mt-0.5">High-level executive takeaways and core mechanics</div>
+              </div>
+              <span class="study-card-arrow text-xs text-purple-500 font-bold transition-transform duration-200">▶</span>
+            </button>
+            
+            <div class="study-card-body p-3.5 border-t border-[#d0d7de]/50 dark:border-[#30363d]/50 bg-purple-50/20 dark:bg-purple-950/10 text-xs leading-relaxed hidden space-y-2">
+              <div class="font-bold text-purple-700 dark:text-purple-300">Executive Takeaways:</div>
+              <ul class="list-disc pl-4 space-y-1.5 text-[#1f2328] dark:text-[#f0f6fc]">
+                <li><strong class="text-purple-600 dark:text-purple-400">Core Architecture:</strong> Explores OpenVINO Model Optimizer and Inference Engine (IE) integration with OpenCV.
+                <li><strong class="text-purple-600 dark:text-purple-400">Hardware Acceleration:</strong> Maximizes throughput on Intel CPUs, integrated GPUs, VPUs, and VPUs through heterogeneous plugin dispatching.
+                <li><strong class="text-purple-600 dark:text-purple-400">Model Zoo Pipelines:</strong> Streamlines pre-trained weights ingestion for face detection, image classification, and multi-modal computer vision inference.
+              </ul>
+            </div>
+          </div>
+
+          
+          <div class="study-card rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] overflow-hidden transition-all duration-200 shadow-2xs">
+            <button class="study-card-header w-full p-3 text-left flex items-center justify-between cursor-pointer hover:bg-emerald-50/50 dark:hover:bg-emerald-950/20 transition-colors" data-card-id=interview type=button>
+              <div>
+                <div class="font-bold text-xs text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                  <span>🎯</span>
+                  <span>Technical Interview Questions</span>
+                </div>
+                <div class="text-[11px] text-[#656d76] dark:text-[#8b949e] mt-0.5">Real questions with toggled answers & deep rationale</div>
+              </div>
+              <span class="study-card-arrow text-xs text-emerald-500 font-bold transition-transform duration-200">▶</span>
+            </button>
+            
+            <div class="study-card-body p-3.5 border-t border-[#d0d7de]/50 dark:border-[#30363d]/50 bg-emerald-50/20 dark:bg-emerald-950/10 text-xs leading-relaxed hidden space-y-3">
+              
+              <div class="p-2.5 rounded-md border border-emerald-200/80 dark:border-emerald-900/60 bg-white/80 dark:bg-[#161b22]/80 space-y-2">
+                <div class="font-bold text-emerald-800 dark:text-emerald-200">Q1: What is the primary role of OpenVINO Model Optimizer?</div>
+                <button class="btn-toggle-answer text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer flex items-center gap-1" type=button>
+                  <span>Show Answer & Rationale</span> ▾
+                </button>
+                <div class="answer-content hidden text-[11px] text-[#1f2328] dark:text-[#f0f6fc] pt-1.5 border-t border-emerald-100 dark:border-emerald-900/40">
+                  <p><strong>Answer:</strong> It converts trained models from frameworks (TensorFlow, PyTorch, ONNX) into Intermediate Representation (.xml network topology and .bin weights), performing layer fusion, precision quantization (FP32 to FP16/INT8), and dead-node elimination.
+                </div>
+              </div>
+
+              
+              <div class="p-2.5 rounded-md border border-emerald-200/80 dark:border-emerald-900/60 bg-white/80 dark:bg-[#161b22]/80 space-y-2">
+                <div class="font-bold text-emerald-800 dark:text-emerald-200">Q2: How does OpenCV DNN module leverage OpenVINO Inference Engine?</div>
+                <button class="btn-toggle-answer text-[11px] font-semibold text-emerald-600 dark:text-emerald-400 hover:underline cursor-pointer flex items-center gap-1" type=button>
+                  <span>Show Answer & Rationale</span> ▾
+                </button>
+                <div class="answer-content hidden text-[11px] text-[#1f2328] dark:text-[#f0f6fc] pt-1.5 border-t border-emerald-100 dark:border-emerald-900/40">
+                  <p><strong>Answer:</strong> By configuring <code>net.setPreferableBackend(cv2.dnn.DNN_BACKEND_INFERENCE_ENGINE)</code> and <code>net.setPreferableTarget(cv2.dnn.DNN_TARGET_CPU)</code>, OpenCV routes layer computations directly through OpenVINO's optimized C++ kernels.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          
+          <div class="study-card rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] overflow-hidden transition-all duration-200 shadow-2xs">
+            <button class="study-card-header w-full p-3 text-left flex items-center justify-between cursor-pointer hover:bg-blue-50/50 dark:hover:bg-blue-950/20 transition-colors" data-card-id=code type=button>
+              <div>
+                <div class="font-bold text-xs text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                  <span>💻</span>
+                  <span>Code & Architecture Breakdown</span>
+                </div>
+                <div class="text-[11px] text-[#656d76] dark:text-[#8b949e] mt-0.5">Step-by-step review of APIs and algorithms</div>
+              </div>
+              <span class="study-card-arrow text-xs text-blue-500 font-bold transition-transform duration-200">▶</span>
+            </button>
+            
+            <div class="study-card-body p-3.5 border-t border-[#d0d7de]/50 dark:border-[#30363d]/50 bg-blue-50/20 dark:bg-blue-950/10 text-xs leading-relaxed hidden space-y-2">
+              <div class="font-bold text-blue-700 dark:text-blue-300">API Pipeline Workflow:</div>
+              <ol class="list-decimal pl-4 space-y-1.5 text-[#1f2328] dark:text-[#f0f6fc]">
+                <li><code>cv2.dnn.readNet(xml_path, bin_path)</code>: Ingests model topology and parameters into memory.
+                <li><code>cv2.dnn.blobFromImage()</code>: Resizes input frames, scales pixel values, and converts from HWC to NCHW channel layout.
+                <li><code>net.setInput(blob)</code> & <code>net.forward()</code>: Dispatches asynchronous inference to target hardware.
+              </ol>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </aside>
+
+  
+
+  
+  
+  
+  <footer class="fixed bottom-0 left-0 right-0 z-20 border-t backdrop-blur-md transition-all duration-300" id=reader-bottom-bar>
+    
+    <div class="orm-ProgressBar-bar _bar_8feuc_82" aria-valuemax=100 aria-valuemin=0 aria-valuenow=0 role=progressbar style=width:100%;height:3px;position:relative>
+      <div style="background:#17d2cc;width:0%;height:100%;transition:width .3s" class=orm-ProgressBar-progress id=bottom-book-progress-fill></div>
+    </div>
+
+    <section class="_status_8feuc_57 flex items-center justify-between px-4 sm:px-8 py-2.5">
+      
+      <div class="_prevContainer_8feuc_10 flex items-center min-w-0" data-testid=statusBarPrevious>
+        
+        <a aria-label="Previous Chapter" class="orm-Link-root flex items-center gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm" href=/books/vision-language-models/ch-06-4-training-data-and-preprocessing-for-vl/ id=reader-prev-link>
+          <span class="_caret_8feuc_1 _prev_8feuc_10 shrink-0"></span>
+          <span class="_title_8feuc_164 truncate max-w-[120px] sm:max-w-[220px]">Previous</span>
+        </a>
+        
+      </div>
+
+      
+      <div class="_currentTitleSection_8feuc_186 text-center px-2 flex-1 min-w-0" data-datadog-id=ucv-nav-title lang=en>
+        <div class="_currentTitleContainer_8feuc_206 flex items-center justify-center gap-2 max-w-full">
+          <div class="_currentTitle_8feuc_186 font-bold text-xs sm:text-sm truncate" title="5. Post-Training Vision Language Models">5. Post-Training Vision Language Models</div>
+          <button class="cursor-pointer shrink-0" title="Table of contents" id=bottom-toc-btn type=button>
+            <span class="orm-Icon-icon orm-icon-bullet-list" style=font-size:1.1rem></span>
+          </button>
+          <button class="cursor-pointer shrink-0" title="Schedule learning & book details" data-open-details=vision-language-models id=bottom-details-btn type=button>
+            <span class="orm-Icon-icon orm-icon-playlist-add" style=font-size:1.1rem></span>
+          </button>
+        </div>
+        <div class="_currentContent_8feuc_196 text-[11px] font-medium truncate">Vision Language Models</div>
+      </div>
+
+      
+      <div class="_nextContainer_8feuc_10 flex items-center justify-end min-w-0" data-testid=statusBarNext>
+        
+        <a aria-label="Next Chapter" class="orm-Link-root flex items-center justify-end gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm" href=/books/vision-language-models/ch-08-6-core-architectures-of-vision-language-/ id=reader-next-link>
+          <span class="_title_8feuc_164 truncate max-w-[120px] sm:max-w-[220px]">Next</span>
+          <span class="_caret_8feuc_1 _next_8feuc_10 shrink-0"></span>
+        </a>
+        
+      </div>
+    </section>
+  </footer>
+
+  
+  
+  
+  <div class="fixed z-50 bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl py-1.5 min-w-[210px] text-xs font-sans hidden select-none" id=reader-context-menu>
+    <div class="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#656d76] dark:text-[#8b949e] border-b border-[#d0d7de]/40 dark:border-[#30363d]/40 mb-1">
+      Selection Tools
+    </div>
+    <button class="w-full px-3 py-2 text-left hover:bg-yellow-50 dark:hover:bg-yellow-950/30 flex items-center gap-2.5 text-[#1f2328] dark:text-[#f0f6fc] cursor-pointer transition-colors" id=ctx-btn-highlight type=button>
+      <span class="w-5 h-5 rounded bg-yellow-400/20 text-yellow-600 dark:text-yellow-400 flex items-center justify-center text-xs">🖍️</span>
+      <span class=font-semibold>Highlight Selection</span>
+    </button>
+    <button class="w-full px-3 py-2 text-left hover:bg-purple-50 dark:hover:bg-purple-950/30 flex items-center gap-2.5 text-[#1f2328] dark:text-[#f0f6fc] cursor-pointer transition-colors" id=ctx-btn-ask-ai type=button>
+      <span class="w-5 h-5 rounded bg-purple-500/20 text-purple-600 dark:text-purple-400 flex items-center justify-center text-xs">✨</span>
+      <span class=font-semibold>Ask AI about Selection</span>
+    </button>
+    <div class="my-1 border-t border-[#d0d7de]/40 dark:border-[#30363d]/40"></div>
+    <button class="w-full px-3 py-1.5 text-left hover:bg-gray-100 dark:hover:bg-gray-800 flex items-center gap-2.5 text-[#656d76] dark:text-[#8b949e] cursor-pointer transition-colors" id=ctx-btn-copy type=button>
+      <span class="w-5 h-5 flex items-center justify-center text-xs">📋</span>
+      <span>Copy Text</span>
+    </button>
+  </div>
+
+
+
+
+  
+  
+  
+  <div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=backup-modal-title aria-modal=true id=backup-modal role=dialog>
+    <div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-md w-full p-6 text-left transform transition-all">
+      <div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4">
+        <h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=backup-modal-title>
+          <span>💾</span>
+          <span>Library Reading Progress Backup & Restore</span>
+        </h3>
+        <button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button>
+      </div>
+
+      <p class="text-xs text-[#656d76] dark:text-[#8b949e] mb-4 leading-relaxed">
+        Export your complete e-book reading completion history, active chapters, and highlights to a JSON file to transfer between devices or restore later.
+      
+
+      <div class=space-y-3>
+        
+        <button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer" id=btn-export-backup type=button>
+          <svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4-4 4m0 0-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+          <span>Export Progress (JSON)</span>
+        </button>
+
+        
+        <label class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-[#21262d] hover:bg-[#eaeef2] dark:hover:bg-[#30363d] text-xs font-semibold cursor-pointer transition-colors text-[#1f2328] dark:text-[#f0f6fc]">
+          <svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e]" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+          <span>Import Progress Backup</span>
+          <input accept=.json class=hidden id=import-file-input type=file>
+        </label>
+
+        
+        <button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-transparent hover:border-rose-200 dark:hover:border-rose-900/60 text-xs font-semibold transition-colors cursor-pointer mt-4" id=btn-reset-backup type=button>
+          <svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4A1 1 0 009 4v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+          <span>Reset All Progress</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  
+  <div class="modal-backdrop fixed inset-0 z-50 flex items-start justify-center pt-16 bg-black/60 backdrop-blur-xs hidden p-4" aria-modal=true id=search-modal role=dialog>
+    <div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-2xl w-full overflow-hidden">
+      <div class="flex items-center gap-3 px-4 py-3 border-b border-[#d0d7de] dark:border-[#30363d]">
+        <svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e] shrink-0" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 21l-6-6m2-5A7 7 0 113 10a7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+        <input class="flex-1 bg-transparent text-sm focus:outline-none text-[#1f2328] dark:text-[#f0f6fc]" placeholder="Search books, chapters, and topics across the library..." id=global-search-input>
+        <kbd class="px-1.5 py-0.5 rounded border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-[#0d1117] text-[10px] font-mono text-[#656d76] dark:text-[#8b949e]">ESC</kbd>
+      </div>
+      <div class="max-h-[60vh] overflow-y-auto p-2 divide-y divide-[#d0d7de]/40 dark:divide-[#30363d]/40" id=global-search-results>
+        <div class="p-8 text-center text-xs text-[#656d76] dark:text-[#8b949e]">
+          Type a keyword to search across all 6 e-books and chapters...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  
+  <div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=pref-modal-title aria-modal=true id=preferences-modal role=dialog>
+    <div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-md w-full p-6 text-left">
+      <div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4">
+        <h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=pref-modal-title>
+          <span>⚙️</span>
+          <span>Reader Display Preferences</span>
+        </h3>
+        <button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        
+        <div>
+          <label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Color Mode / Theme</label>
+          <div class="grid grid-cols-4 gap-2" id=pref-theme-options>
+            <button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-white text-gray-900 border-gray-300 hover:border-gray-500 cursor-pointer" data-theme-val=light type=button>
+              Light
+            </button>
+            <button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-[#fbf0d9] text-[#3e2723] border-[#e6d0a0] hover:border-[#bcaaa4] cursor-pointer" data-theme-val=sepia type=button>
+              Sepia
+            </button>
+            <button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-[#161b22] text-[#f0f6fc] border-[#30363d] hover:border-[#58a6ff] cursor-pointer" data-theme-val=dark type=button>
+              Dark
+            </button>
+            <button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-black text-white border-neutral-800 hover:border-neutral-500 cursor-pointer" data-theme-val=black type=button>
+              Black
+            </button>
+          </div>
+        </div>
+
+        
+        <div>
+          <label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Typography</label>
+          <div class="grid grid-cols-3 gap-2" id=pref-font-options>
+            <button class="pref-font-btn p-2 rounded-lg border font-serif text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=serif type=button>
+              Serif
+            </button>
+            <button class="pref-font-btn p-2 rounded-lg border font-sans text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=sans type=button>
+              Sans-Serif
+            </button>
+            <button class="pref-font-btn p-2 rounded-lg border font-mono text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=mono type=button>
+              Monospace
+            </button>
+          </div>
+        </div>
+
+        
+        <div>
+          <div class="flex items-center justify-between mb-2">
+            <label class="font-semibold text-[#1f2328] dark:text-[#f0f6fc]">Font Size</label>
+            <span class="font-mono text-[11px] text-[#656d76] dark:text-[#8b949e]" id=pref-size-indicator>18px</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="px-3 py-1.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] font-bold text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800" id=pref-size-dec type=button>A-</button>
+            <input class="flex-1 accent-[#D3002D] cursor-pointer" id=pref-size-slider max=24 min=14 step=1 type=range value=18>
+            <button class="px-3 py-1.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] font-bold text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800" id=pref-size-inc type=button>A+</button>
+          </div>
+        </div>
+
+        
+        <div>
+          <label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Reading Width</label>
+          <div class="grid grid-cols-3 gap-2" id=pref-width-options>
+            <button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=narrow type=button>Narrow (60ch)</button>
+            <button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=normal type=button>Standard (75ch)</button>
+            <button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=wide type=button>Wide (90ch)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  
+  
+  <div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=details-modal-title aria-modal=true id=details-modal role=dialog>
+    <div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-lg w-full p-6 text-left">
+      <div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4">
+        <h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=details-modal-title>
+          <span>📖</span>
+          <span>Book Overview & Details</span>
+        </h3>
+        <button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button>
+      </div>
+
+      <div class="flex gap-4 mb-4">
+        <img class="w-24 h-32 object-cover rounded-md shadow-md shrink-0 bg-gray-100" alt=Cover id=modal-book-cover>
+        <div class="space-y-1.5 min-w-0">
+          <h4 class="font-bold text-base text-[#1f2328] dark:text-[#f0f6fc] leading-snug" id=modal-book-title></h4>
+          <p class="text-xs text-[#D3002D] font-medium leading-relaxed" id=modal-book-authors>
+          <p class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=modal-book-publisher>
+          <p class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=modal-book-date>
+        </div>
+      </div>
+
+      
+      <div class="grid grid-cols-3 gap-2 p-3 rounded-lg bg-[#f6f8fa] dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] mb-4 text-center">
+        <div>
+          <div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Chapters</div>
+          <div class="text-sm font-bold text-[#1f2328] dark:text-[#f0f6fc]" id=modal-book-chapters>0</div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Est. Time</div>
+          <div class="text-sm font-bold text-[#1f2328] dark:text-[#f0f6fc]" id=modal-book-time>0h</div>
+        </div>
+        <div>
+          <div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Completed</div>
+          <div class="text-sm font-bold text-[#238636] dark:text-[#3fb950]" id=modal-book-progress>0%</div>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-end gap-2">
+        <button class="px-4 py-2 rounded-lg border border-[#d0d7de] dark:border-[#30363d] text-xs font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-close-modal type=button>Close</button>
+        <a class="px-4 py-2 rounded-lg bg-[#D3002D] hover:bg-[#b00026] text-white text-xs font-semibold transition-colors cursor-pointer inline-flex items-center gap-1.5" href=# id=modal-book-read-btn>
+          <span>Read Book</span>
+          <span>→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+
+
