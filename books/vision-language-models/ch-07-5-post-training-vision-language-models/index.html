@@ -539,7 +539,12 @@ You are a helpful assistant.&lt;|im_end|>
       <div class="flex-1 overflow-y-auto p-4 space-y-3 hidden" id=toc-tab-highlights-panel>
         <div class="flex items-center justify-between pb-2 border-b border-[#d0d7de]/50 dark:border-[#30363d]/50">
           <span class="text-xs font-bold text-[#1f2328] dark:text-[#f0f6fc]">Your Highlights</span>
-          <span class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=highlights-count-label>0 highlights</span>
+          <div class="flex items-center gap-2">
+            <span class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=highlights-count-label>0 highlights</span>
+            <button class="px-2 py-0.5 rounded text-[11px] font-semibold bg-[#f6f8fa] dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] hover:border-[#D3002D] hover:text-[#D3002D] text-theme-text transition-colors cursor-pointer" title="Export Highlights & Progress" id=btn-export-highlights type=button>
+              📥 Export
+            </button>
+          </div>
         </div>
         <div class=space-y-2 id=highlights-list>
           
@@ -790,11 +795,11 @@ You are a helpful assistant.&lt;|im_end|>
       <div style="background:#17d2cc;width:0%;height:100%;transition:width .3s" class=orm-ProgressBar-progress id=bottom-book-progress-fill></div>
     </div>
 
-    <section class="_status_8feuc_57 flex items-center justify-between px-4 sm:px-8 py-2.5">
+    <section class="_status_8feuc_57 flex items-center justify-between px-4 sm:px-8 py-2 min-h-[3.25rem]">
       
       <div class="_prevContainer_8feuc_10 flex items-center min-w-0" data-testid=statusBarPrevious>
         
-        <a aria-label="Previous Chapter" class="orm-Link-root flex items-center gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm" href=https://nemokaul.github.io/ag/books/vision-language-models/ch-06-4-training-data-and-preprocessing-for-vl id=reader-prev-link>
+        <a aria-label="Previous Chapter" class="orm-Link-root flex items-center gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm py-1" href=https://nemokaul.github.io/ag/books/vision-language-models/ch-06-4-training-data-and-preprocessing-for-vl id=reader-prev-link>
           <span class="_caret_8feuc_1 _prev_8feuc_10 shrink-0"></span>
           <span class="_title_8feuc_164 truncate max-w-[120px] sm:max-w-[220px]">Previous</span>
         </a>
@@ -805,20 +810,24 @@ You are a helpful assistant.&lt;|im_end|>
       <div class="_currentTitleSection_8feuc_186 text-center px-2 flex-1 min-w-0" data-datadog-id=ucv-nav-title lang=en>
         <div class="_currentTitleContainer_8feuc_206 flex items-center justify-center gap-2 max-w-full">
           <div class="_currentTitle_8feuc_186 font-bold text-xs sm:text-sm truncate" title="5. Post-Training Vision Language Models">5. Post-Training Vision Language Models</div>
-          <button class="cursor-pointer shrink-0" title="Table of contents" id=bottom-toc-btn type=button>
+          <button class="cursor-pointer shrink-0 p-1 rounded hover:bg-theme-secondary transition-colors" title="Table of contents" id=bottom-toc-btn type=button>
             <span class="orm-Icon-icon orm-icon-bullet-list" style=font-size:1.1rem></span>
           </button>
-          <button class="cursor-pointer shrink-0" title="Schedule learning & book details" data-open-details=vision-language-models id=bottom-details-btn type=button>
+          <button class="cursor-pointer shrink-0 p-1 rounded hover:bg-theme-secondary transition-colors" title="Book details & progress" data-open-details=vision-language-models id=bottom-details-btn type=button>
             <span class="orm-Icon-icon orm-icon-playlist-add" style=font-size:1.1rem></span>
           </button>
         </div>
-        <div class="_currentContent_8feuc_196 text-[11px] font-medium truncate">Vision Language Models</div>
+        <div class="_currentContent_8feuc_196 text-[11px] font-medium truncate opacity-70">Vision Language Models</div>
       </div>
 
       
-      <div class="_nextContainer_8feuc_10 flex items-center justify-end min-w-0" data-testid=statusBarNext>
+      <div class="_nextContainer_8feuc_10 flex items-center justify-end gap-3 min-w-0" data-testid=statusBarNext>
+        <button class="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border transition-all cursor-pointer" title="Toggle chapter completion status" id=bottom-mark-complete-btn type=button>
+          <span class="mark-complete-icon text-[11px]">○</span>
+          <span class=mark-complete-text>Mark Complete</span>
+        </button>
         
-        <a aria-label="Next Chapter" class="orm-Link-root flex items-center justify-end gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm" href=https://nemokaul.github.io/ag/books/vision-language-models/ch-08-6-core-architectures-of-vision-language- id=reader-next-link>
+        <a aria-label="Next Chapter" class="orm-Link-root flex items-center justify-end gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm py-1" href=https://nemokaul.github.io/ag/books/vision-language-models/ch-08-6-core-architectures-of-vision-language- id=reader-next-link>
           <span class="_title_8feuc_164 truncate max-w-[120px] sm:max-w-[220px]">Next</span>
           <span class="_caret_8feuc_1 _next_8feuc_10 shrink-0"></span>
         </a>
@@ -873,7 +882,13 @@ You are a helpful assistant.&lt;|im_end|>
         
         <button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer" id=btn-export-backup type=button>
           <svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4-4 4m0 0-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
-          <span>Export Progress (JSON)</span>
+          <span>Export Progress & Highlights (JSON)</span>
+        </button>
+
+        
+        <button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] hover:bg-gray-50 dark:hover:bg-[#21262d] text-xs font-semibold cursor-pointer transition-colors text-[#1f2328] dark:text-[#f0f6fc]" id=btn-export-highlights-md type=button>
+          <svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e]" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg>
+          <span>Export Highlights as Markdown (.md)</span>
         </button>
 
         
