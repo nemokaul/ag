@@ -1,0 +1,1265 @@
+<!doctype html><html class=scroll-smooth data-theme=light lang=en><meta charset=UTF-8><meta content="width=device-width,initial-scale=1" name=viewport><title>Chapter 16: Optimizing Performance in React Applications
+— React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .) —
+AI E-Book Reader</title><meta content="16 Optimizing Performance in React Applications Performance optimization in React operates on two fronts: actual performance how fast things happen and perceived performance how fast things feel . A network request that..." name=description><link href=https://nemokaul.github.io/ag/favicon.svg rel=icon type=image/svg+xml><meta content=https://nemokaul.github.io/ag/ name=base-url><script>window.BASE_URL="https://nemokaul.github.io/ag",function(){try{var e=new URL(window.BASE_URL);window.PATH_PREFIX=e.pathname.replace(/\/+$/,"")}catch{window.PATH_PREFIX=""}}()</script><script>(function(){let e=null;try{const t=localStorage.getItem("ai_ebook_reader_state_v1");if(t){const n=JSON.parse(t);if(n&&n.preferences&&n.preferences.theme&&(e=n.preferences.theme),n&&n.preferences&&(n.preferences.fontFamily&&document.documentElement.setAttribute("data-reader-font",n.preferences.fontFamily),n.preferences.fontSize&&document.documentElement.style.setProperty("--reader-font-size",n.preferences.fontSize+"px"),n.preferences.width)){const e={narrow:"60ch",normal:"75ch",wide:"90ch"};document.documentElement.setAttribute("data-reader-width",n.preferences.width),document.documentElement.style.setProperty("--reader-max-width",e[n.preferences.width]||"75ch")}}}catch{}if(!e)try{e=localStorage.getItem("ebook_reader_theme")}catch{}(!e||!["light","sepia","dark","black"].includes(e))&&(e="light"),document.documentElement.setAttribute("data-theme",e),e==="dark"||e==="black"?document.documentElement.classList.add("dark"):document.documentElement.classList.remove("dark");try{localStorage.setItem("ebook_reader_theme",e)}catch{}})()</script><link href=https://nemokaul.github.io/ag/styles/main.css rel=stylesheet><link href="https://nemokaul.github.io/ag/css/reader.css?v=5" rel=stylesheet><script src=https://nemokaul.github.io/ag/js/books-data.js></script><script src="https://nemokaul.github.io/ag/js/reader.js?v=5" defer></script><body class="min-h-screen flex flex-col antialiased font-sans bg-theme-bg text-theme-text transition-colors duration-200"><div data-authors="Carlos Santana Roldán" data-book-title="React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .)" data-chapter-title="Chapter 16: Optimizing Performance in React Applications" class=hidden data-book-id=TNpb data-chapter-number=6 data-chapter-slug=djtWfQ data-cover-image=/books/TNpb/cover.webp data-next-url data-prev-url=/books/TNpb/VsKBrA/ data-pub-date=2026 data-publisher=Packt data-total-chapters=6 id=reader-metadata></div><div class="relative min-h-screen flex flex-col transition-all duration-200 bg-theme-bg text-theme-text" id=reader-layout-root><header class="sticky top-0 z-20 w-full border-b backdrop-blur-md transition-all duration-200" id=reader-top-header><div class="max-w-[1700px] mx-auto px-4 sm:px-6 h-12 flex items-center justify-between gap-4 text-xs"><div class="flex items-center gap-3 min-w-0"><a aria-label="Library Home" class="shrink-0 flex items-center gap-1.5 hover:opacity-80 transition-opacity" href=https://nemokaul.github.io/ag/><svg class="h-4 w-auto" viewbox="0 0 180 26" fill="none"><g fill="#D3002D"><path d="M0 25 9 1h5l9 24H18.5l-2-6H6.5l-2 6H0zM7.8 15h7.4L11.5 5 7.8 15z"/><path d="M26 1h4V25H26V1z"/><path d="M35 1h5L37.5 7h-3L35 1z"/><path d="M43 25V1H54c5 0 8 3 8 7.5.0 3.5-2 6-5 7L64 25H59l-6.5-9H47v9H43zm4-13h6.5c3 0 4.5-1.2 4.5-3.5C58 6.2 56.5 5 53.5 5H47v7z"/><path d="M67 1H84V5H71v6H82v4H71v6H84v4H67V1z"/><path d="M87 25 96 1h5l9 24h-4.5l-2-6h-10l-2 6H87zm7.8-10H102.2L98.5 5 94.8 15z"/><path d="M113 1h8c8 0 13 4.5 13 12s-5 12-13 12h-8V1zm4 4V21h4c5.5.0 9-2.8 9-8 0-5.2-3.5-8-9-8h-4z"/><path d="M138 1h17V5H142v6h11v4H142v6h13v4H138V1z"/><path d="M159 25V1h11c5 0 8 3 8 7.5.0 3.5-2 6-5 7l7 9.5h-5l-6.5-9H163v9h-4zm4-13h6.5c3 0 4.5-1.2 4.5-3.5.0-2.3-1.5-3.5-4.5-3.5H163v7z"/></g></svg> </a><span class=opacity-40>/</span><a class="font-semibold text-theme-text hover:text-[#D3002D] truncate max-w-[140px] sm:max-w-xs transition-colors" title="React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .)" href=https://nemokaul.github.io/ag/books/TNpb> React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .) </a><span class="opacity-40 hidden sm:inline">/</span><span class="text-theme-muted truncate hidden sm:inline" title="Chapter 16: Optimizing Performance in React Applications"> Chapter 16: Optimizing Performance in React Applications</span></div><div class="flex items-center gap-3 shrink-0"><div class="flex items-center gap-2"><span class="text-[11px] font-semibold font-mono text-[#238636] dark:text-[#3fb950]" id=top-book-progress-pct>0% complete</span><div class="w-16 h-1.5 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden"><div class="h-full bg-[#17D2CC] transition-all duration-300" id=top-book-progress-bar style=width:0%></div></div></div><div class="h-3.5 w-px bg-[#d0d7de] dark:bg-[#30363d]"></div><button class="p-1.5 rounded-md text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="Backup & Restore Progress" id=backup-modal-btn type=button><svg class="w-3.5 h-3.5" viewbox="0 0 672 672" stroke="currentColor"><path d="M532 56H392v84H56V308h70V259C126 247.4 135.4 238 147 238h84C242.6 238 252 247.4 252 259S242.6 280 231 280H168v84H56V532H168v84H308V532H616V364H532V308h84V140H532V56zM392 245V392h91C494.6 392 504 401.4 504 413S494.6 434 483 434H371C359.4 434 350 424.6 350 413V357H301C289.4 357 280 347.6 280 336S289.4 315 301 315h49V245C350 233.4 359.4 224 371 224S392 233.4 392 245z" fill="currentColor"/></svg></button><button class="p-1.5 rounded-md text-[#656d76] dark:text-[#8b949e] hover:text-[#1f2328] dark:hover:text-[#f0f6fc] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors cursor-pointer" title="Toggle Theme" id=theme-toggle-btn type=button><svg class="w-3.5 h-3.5 dark:hidden" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003.0 0012 21a9.003 9.003.0 008.354-5.646z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <svg class="w-3.5 h-3.5 hidden dark:block" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364-.707-.707M6.343 6.343l-.707-.707m12.728.0-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></button></div></div></header><div class="relative flex-1 flex w-full transition-all duration-300 min-h-0 overflow-hidden" id=reader-stage><div class="flex-1 h-full min-h-0 overflow-y-auto overscroll-contain transition-all duration-300" id=reader-content-scroll><section class="flex-1 px-4 sm:px-8 md:px-12 pt-8 pb-32 mx-auto w-full max-w-4xl transition-all duration-300" data-testid=contentViewer lang=en><div data-testid=enhancedAnnotatable><div class=outline-none id=book-content tabindex=-1><div class="w-full max-w-4xl mx-auto"><div id=sbo-rt-content><article class="select-text reader-prose" id=reader-content-inner><h1 id=16>16</h1><h1 id=Optimizing_Performance_in_React_Applications>Optimizing Performance in React Applications</h1><p><strong>Performance optimization</strong> in React operates on two fronts: actual performance (how fast things happen) and perceived performance (how fast things feel). A network request that takes 500ms is slow, but if users see immediate feedback, a loading state, an optimistic update, it feels responsive. React 19's architecture supports both through concurrent rendering, which allows React to interrupt and prioritize work, and transitions, which let you mark updates as non-urgent so the UI stays responsive during heavy computation.<p>This chapter builds on the rendering concepts from earlier chapters and connects them to measurable outcomes. We'll focus on <strong>Core Web Vitals</strong>, <strong>Largest Contentful Paint</strong> (<strong>LCP</strong>) for load performance, <strong>Interaction to Next Paint</strong> (<strong>INP</strong>) for responsiveness, and <strong>Cumulative Layout Shift</strong> (<strong>CLS</strong>) for visual stability, because these are the metrics that reflect real user experience and impact search rankings. Beyond metrics, we'll explore the mechanisms React provides: memoization to skip unnecessary work, code splitting to reduce initial bundle size, and Suspense to coordinate loading states. The goal isn't to optimize everything, but to identify what actually matters and measure whether your changes make a difference.<p>In this chapter, we will cover the following topics:<ul><li>Understanding React's rendering and reconciliation process<li>Performance optimization techniques for React apps<li>Tools and libraries for performance monitoring<li>Hydration performance<li>Advanced performance enhancements in React 19</ul><h1 id="Understanding_React's_rendering_and_reconciliation_process">Understanding React's rendering and reconciliation process</h1><p>Before we can optimize effectively, we need to understand what actually makes DOM operations expensive. A single DOM update is cheap. What's expensive is layout thrashing, repeatedly reading and writing to the DOM in a way that forces the browser to recalculate layout multiple times. When you read a layout property (like <code>offsetHeight</code>), the browser must flush any pending style changes to give you an accurate value. If you then write to the DOM and read again, you've forced two layout calculations instead of one. React's reconciliation process helps by batching updates: instead of updating the DOM after each state change, React collects changes, diffs them against the current state, and applies them in a single pass. This minimizes reflows and avoids interleaved reads and writes. But React can't fix everything, if your components trigger layout reads during render or effects, you can still cause layout thrashing within a single React commit.<h2 id="How_React's_Fiber_tree_works">How React's Fiber tree works</h2><p>When you write JSX, you're not creating DOM elements, you're creating React elements, lightweight JavaScript objects that describe what the UI should look like. A component that returns <code>&lt;div className="card">Hello&lt;/div></code> actually returns an object like <code>{ type: 'div', props: { className: 'card', children: 'Hello' } }</code>. React maintains these elements in a structure called the <strong>Fiber tree</strong>, which tracks each component's state, props, and position in the UI hierarchy.<p>When state changes, React builds a new tree of elements and compares it against the current Fiber tree, a process called reconciliation. React walks both trees, identifies what changed, and computes the minimum set of DOM operations needed. This comparison happens in JavaScript, which is fast; the actual DOM updates are batched and applied together at the end.<p>Batching is key to React's efficiency. Multiple state updates that happen in the same event handler or effect are processed in a single pass. If you call <code>setCount(1)</code>, <code>setName('Carlos')</code>, and <code>setActive(true)</code> in the same click handler, React doesn't re-render three times, it batches them into one render, one reconciliation, and one DOM commit. This reduces layout calculations and keeps the UI responsive:<pre><code>import { useState } from 'react';
+interface User {
+ name: string;
+ email: string;
+ preferences: { theme: string; notifications: boolean };
+}
+const UserProfile = () => {
+ const [user, setUser] = useState&lt;User>({
+   name: 'Carlos Santana',
+   email: 'carlos@example.com',
+   preferences: { theme: 'dark', notifications: true }
+ });
+ const updatePreferences = () => {
+   // These updates are batched automatically since React +18
+   setUser(prev => ({ ...prev, preferences: { ...prev.preferences, theme: 'light' } }));
+   setUser(prev => ({ ...prev, preferences: { ...prev.preferences, notifications: false } }));
+   // Only one re-render occurs despite two state updates
+ };
+ return (
+   &lt;div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg">
+     &lt;h2 className="text-2xl font-bold mb-4">{user.name}&lt;/h2>
+     &lt;p className="text-gray-600 mb-2">{user.email}&lt;/p>
+     &lt;div className="mt-4 p-4 bg-gray-50 rounded">
+       &lt;p className="text-sm">Theme: {user.preferences.theme}&lt;/p>
+       &lt;p className="text-sm">Notifications: {user.preferences.notifications ? 'On' : 'Off'}&lt;/p>
+     &lt;/div>
+     &lt;button
+       onClick={updatePreferences}
+       className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+     >
+       Update Preferences
+     &lt;/button>
+   &lt;/div>
+ );
+};
+</code></pre><p>In this example, the two state updates inside <code>updatePreferences</code> are automatically batched together, resulting in only one re-render. This is automatic batching, a feature that became default in React 18, and it applies to updates inside event handlers, promises, timeouts, and even native events.<h2 id=Understanding_reconciliation_and_the_Fiber_architecture>Understanding reconciliation and the Fiber architecture</h2><p>React's update process involves two distinct phases handled by separate systems. The <strong>Reconciler</strong> determines what changed by comparing the previous and next element trees. The <strong>Renderer</strong> (<strong>ReactDOM</strong> for browsers, <strong>React Native</strong> for mobile) applies those changes to the actual platform. This separation is why React can target multiple platforms, the reconciliation logic stays the same, only the renderer changes.<p>The reconciliation algorithm uses heuristics to achieve <code>O(n)</code> complexity instead of the <code>O(n³)</code> that a full tree diff would require. These are shortcuts, not sophisticated analysis:<ul><li>React only compares elements at the same level in the tree. If you move a component from one parent to another, React doesn't detect the move, it destroys the old instance and creates a new one. Any local state, form input values, scroll position, or focus is lost. This is a limitation you need to design around, not a feature.<li>If an element's type changes, say, from <code>&lt;div></code> to <code>&lt;section></code>, or from <code>&lt;Input></code> to <code>&lt;TextArea></code>, React destroys the entire subtree and rebuilds it. This is a destructive operation. Components inside that subtree unmount, their state disappears, and effects clean up. React assumes that different types produce different trees, which is usually true, but you pay the cost when it happens.<li>When rendering lists, React uses the <code>key</code> prop to track identity across renders. Without stable keys, React can't tell if an item moved, was added, or was removed, it falls back to index-based comparison, which causes unnecessary unmounts and remounts when the list order changes.</ul><p>Here's how stable keys look in practice, each task uses its unique <code>id</code> rather than the array index. This matters because when items are reordered, added, or removed, React uses keys to track which DOM elements correspond to which data. If you use array indices as keys, React sees position, not identity: removing the first item makes React think every subsequent item changed because their indices all shifted. With stable IDs, React correctly identifies that only one item was removed and leaves the others untouched, preserving their DOM state, input values, and focus:<pre><code>interface Task {
+ id: string
+ title: string
+ completed: boolean
+ priority: 'low' | 'medium' | 'high'
+}
+interface TaskListProps {
+ tasks: Task[]
+ onToggle: (id: string) => void
+}
+const TaskList = ({ tasks, onToggle }: TaskListProps) => {
+ const getPriorityColor = (priority: Task['priority']) => {
+   const colors = {
+     low: 'bg-green-100 text-green-800',
+     medium: 'bg-yellow-100 text-yellow-800',
+     high: 'bg-red-100 text-red-800'
+   }
+   return colors[priority]
+ }
+ return (
+   &lt;ul className="space-y-2">
+     {tasks.map((task) => (
+       &lt;li
+         key={task.id}
+         className="flex items-center justify-between p-3 bg-white rounded-lg shadow"
+       >
+         &lt;div className="flex items-center gap-3">
+           &lt;input
+             type="checkbox"
+             checked={task.completed}
+             onChange={() => onToggle(task.id)}
+             className="h-4 w-4 rounded border-gray-300"
+           />
+           &lt;span className={task.completed ? 'line-through text-gray-400' : ''}>
+             {task.title}
+           &lt;/span>
+         &lt;/div>
+         &lt;span className={`px-2 py-1 rounded text-sm ${getPriorityColor(task.priority)}`}>
+           {task.priority}
+         &lt;/span>
+       &lt;/li>
+     ))}
+   &lt;/ul>
+ )
+}
+</code></pre><p>The <code>key</code> prop in this task list isn't just a formality, <em>it's critical for performance</em>. When a task's completed status changes, React can identify exactly which DOM element corresponds to that task and update only that element, rather than recreating the entire list.<h2 id=When_and_why_React_re-renders_components>When and why React re-renders components</h2><p>Understanding when React re-renders is crucial for optimization. A component re-renders in four scenarios: when its state changes, when its parent re-renders, when a context it consumes changes, or when a custom hook it uses triggers an update. Notice that <em>props change</em> isn't on this list. By default, React doesn't compare props at all. When a parent re-renders, all children re-render unconditionally, regardless of whether their props changed.<p>This might seem wasteful, but it's a deliberate design choice. React prioritizes a simple mental model over complex dependency tracking. Instead of analyzing which props actually changed and which components truly need updates, React re-renders the entire subtree and trusts that the reconciliation process will minimize actual DOM mutations. For most applications, this works fine, JavaScript is fast, and the Fiber architecture can interrupt work if higher-priority updates arrive.<p>React provides <code>memo()</code> to opt into props comparison, but reach for it carefully. Wrapping everything in <code>memo</code> hurts code readability and adds overhead: React must now compare all props on every parent render. For components that receive complex objects or functions as props, that comparison runs on every render and the component re-renders anyway unless you also stabilize those props with <code>useMemo</code> and <code>useCallback</code>. Sometimes the cost of comparison exceeds the cost of just re-rendering. Profile first, then optimize the components where unnecessary re-renders actually cause measurable problems.<p>Here's an example where <code>memo()</code> makes sense, the dashboard's refresh counter updates frequently, but the metric cards don't need to re-render since their data hasn't changed:<pre><code>import { useState, memo } from 'react'
+interface MetricCardProps {
+ title: string;
+ value: number;
+ change: number;
+ icon: string;
+}
+const MetricCard = memo(({ title, value, change, icon }: MetricCardProps) => {
+ console.log(`Rendering: ${title}`)
+
+ return (
+   &lt;div className="p-6 bg-white rounded-lg shadow-md">
+     &lt;div className="flex items-center justify-between mb-2">
+       &lt;span className="text-gray-600 text-sm font-medium">{title}&lt;/span>
+       &lt;span className="text-2xl">{icon}&lt;/span>
+     &lt;/div>
+     &lt;div className="text-3xl font-bold text-gray-900">{value.toLocaleString()}&lt;/div>
+     &lt;div className={`text-sm mt-2 ${change >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+       {change >= 0 ? '↑' : '↓'} {Math.abs(change)}% from last month
+     &lt;/div>
+   &lt;/div>
+ )
+})
+const metrics = [
+ { title: 'Total Users', value: 12543, change: 12.5, icon: '' },
+ { title: 'Revenue', value: 54320, change: 8.3, icon: '' },
+ { title: 'Active Sessions', value: 1834, change: -3.2, icon: '' }
+]
+const Dashboard = () => {
+ const [refreshCount, setRefreshCount] = useState(0)
+ const [selectedMetric, setSelectedMetric] = useState&lt;string | null>(null)
+ return (
+   &lt;div className="max-w-6xl mx-auto p-6">
+     &lt;div className="flex justify-between items-center mb-6">
+       &lt;h1 className="text-3xl font-bold">Dashboard&lt;/h1>
+       &lt;button
+         onClick={() => setRefreshCount(c => c + 1)}
+         className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+       >
+         Refresh {refreshCount}
+       &lt;/button>
+     &lt;/div>
+     &lt;div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+       {metrics.map((metric) => (
+         &lt;MetricCard key={metric.title} {...metric} />
+       ))}
+     &lt;/div>
+   &lt;/div>
+ )
+}
+</code></pre><p>The <code>MetricCard</code> component is wrapped in <code>memo()</code>, which tells React to skip re-rendering if the props haven't changed. When you click the refresh button, the <code>Dashboard</code> component re-renders completely, it executes its function body and creates new React element objects for each <code>MetricCard</code>. However, <code>memo()</code> intercepts this: React compares the new props against the previous props, and if they're equal, it reuses the cached render result instead of executing the <code>MetricCard</code> function body.<p>A critical detail: <code>memo()</code> uses shallow comparison. It checks if <code>prevProps.title === nextProps.title</code>, <code>prevProps.value === nextProps.value</code>, and so on. This works here because all props are primitives (strings and numbers). If you passed an object or array as a prop, say, <code>data={{ value: 100 }}</code>, a new object is created on every parent render, and shallow comparison sees different references even when the content is identical. The memoization breaks, and the component re-renders anyway. To handle complex props, you'd need to stabilize references with <code>useMemo()</code> or provide a custom comparison function as <code>memo()</code>'s second argument.<h1 id=Performance_optimization_techniques_for_React_apps>Performance optimization techniques for React apps</h1><p>Now that we understand how React works under the hood, let's explore practical techniques for optimizing our applications. Performance optimization should be data-driven: measure first, identify bottlenecks, apply targeted fixes, then measure again to verify improvement. Without measurement, you're guessing, and often optimizing code that wasn't a problem while ignoring the actual bottlenecks.<p>Start with React DevTools Profiler, which shows you exactly which components rendered, how long each render took, and what triggered the update. Chrome DevTools' Performance tab captures a broader picture, JavaScript execution, layout calculations, paint operations, and helps identify whether your problem is React-specific or browser-level. For production monitoring, Lighthouse and Web Vitals give you the Core Web Vitals metrics (LCP, INP, CLS) that reflect real user experience.<h2 id=Avoiding_unnecessary_state_updates_and_re-renders>Avoiding unnecessary state updates and re-renders</h2><p>One of the most common performance pitfalls in React applications is creating new object references unnecessarily. JavaScript's equality comparison for objects and arrays is based on reference, not value. This means <code>{a: 1}</code> is never equal to <code>{a: 1}</code>, they're different objects, even though their contents are identical.<p>This becomes a problem when you pass objects or functions as props. If you create a new object or function on every render, React's memoization tools can't help you because the props appear different every time.<p>Historically, developers solved this with <code>useMemo()</code> and <code>useCallback()</code> to stabilize references manually. <code>React Compiler</code> (previously called React Forget) changes this, it analyzes your code at build time and automatically inserts memoization where beneficial. If your project uses React 19 with the compiler enabled, you don't need to think about most of these reference stability issues; the compiler handles them.<p>That said, understanding why reference equality matters is still valuable. The compiler isn't magic; it follows the same rules you would. Knowing when and why references break memoization helps you debug unexpected re-renders, understand the compiler's output, and work in codebases that haven't adopted it yet. The patterns that follow apply whether you're writing manual memoization or reviewing what the compiler generated:<pre><code>import { useState, useMemo, useCallback, memo } from 'react'
+interface Product {
+ id: string
+ name: string
+ price: number
+ category: string
+}
+interface ProductListProps {
+ products: Product[]
+ onProductClick: (product: Product) => void
+}
+// memo() prevents re-renders when products and onProductClick references are stable
+const ProductList = memo(({ products, onProductClick }: ProductListProps) => {
+ console.log('ProductList rendered')
+ return (
+   &lt;div className="grid grid-cols-2 gap-4">
+     {products.map(product => (
+       &lt;div
+         key={product.id}
+         onClick={() => onProductClick(product)}
+         className="p-4 bg-white rounded-lg shadow cursor-pointer"
+       >
+         &lt;h3 className="font-medium">{product.name}&lt;/h3>
+         &lt;p className="text-gray-500">{product.category}&lt;/p>
+         &lt;p className="text-blue-600 font-bold">${product.price}&lt;/p>
+       &lt;/div>
+     ))}
+   &lt;/div>
+ )
+})
+const allProducts: Product[] = [
+ { id: '1', name: 'Laptop Pro', price: 1299, category: 'Electronics' },
+ { id: '2', name: 'Wireless Mouse', price: 29, category: 'Electronics' },
+ { id: '3', name: 'Office Chair', price: 299, category: 'Furniture' }
+]
+const ProductStore = () => {
+ const [category, setCategory] = useState('all')
+ const [search, setSearch] = useState('')
+ // useMemo: only recompute filtered list when category or search changes
+ // Without this, filtering runs on every render even if inputs haven't changed
+ const filteredProducts = useMemo(() => {
+   return allProducts.filter(product => {
+     const matchesCategory = category === 'all' || product.category === category
+     const matchesSearch = product.name.toLowerCase().includes(search.toLowerCase())
+     return matchesCategory && matchesSearch
+   })
+ }, [category, search])
+ // useCallback: stable function reference across renders
+ // Without this, memo() on ProductList is useless—new function = new props
+ const handleProductClick = useCallback((product: Product) => {
+   console.log('Clicked:', product.name)
+ }, [])
+ return (
+   &lt;div className="p-6">
+     &lt;div className="flex gap-4 mb-6">
+       &lt;input
+         type="text"
+         placeholder="Search..."
+         value={search}
+         onChange={(e) => setSearch(e.target.value)}
+         className="flex-1 px-4 py-2 border rounded-lg"
+       />
+       &lt;select
+         value={category}
+         onChange={(e) => setCategory(e.target.value)}
+         className="px-4 py-2 border rounded-lg"
+       >
+         &lt;option value="all">All&lt;/option>
+         &lt;option value="Electronics">Electronics&lt;/option>
+         &lt;option value="Furniture">Furniture&lt;/option>
+       &lt;/select>
+     &lt;/div>
+     {/* Both props are now stable references, so memo() actually works */}
+     &lt;ProductList products={filteredProducts} onProductClick={handleProductClick} />
+   &lt;/div>
+ )
+}
+</code></pre><p>The <code>useMemo</code> hook caches the result of the filtering operation, recalculating only when <code>category</code> or <code>search</code> changes. This doesn't prevent <code>ProductList</code> from re-rendering when you type, if the search term changes, <code>useMemo</code> recalculates the filtered array, returns a new reference, and <code>ProductList</code> re-renders with the new results. That's correct behavior. What <code>useMemo</code> prevents is running the filtering logic when unrelated state changes. If this component had other state, say, a modal open/closed toggle, the filter would normally recalculate on every render even though its inputs haven't changed. With <code>useMemo</code>, React skips the calculation and returns the cached array.<p>The <code>useCallback</code> hook serves a different purpose: it keeps the function reference stable across renders. Without it, <code>memo()</code> on <code>ProductList</code> would be useless, a new function is created on every render, <code>memo()</code> sees different props, and the component re-renders regardless. Together, <code>useMemo</code> and <code>useCallback</code> ensure that <code>ProductList</code> only re-renders when the actual data changes, not when unrelated parts of the parent update.<h2 id=Managing_large_data_sets_efficiently_with_virtualization>Managing large data sets efficiently with virtualization</h2><p>When dealing with large lists (hundreds or thousands of items), rendering every item at once can grind your application to a halt. The solution is virtualization: only rendering the items that are currently visible in the viewport.<p>Virtualization dramatically reduces the number of DOM nodes in your application. Instead of rendering 10,000 list items, you might render only 20, the ones the user can actually see. As the user scrolls, the library calculates which items should be visible and renders only those, unmounting items that scroll out of view. Most virtualization libraries also support an <em>overscan</em> setting, rendering a few extra items above and below the visible area so content is ready before the user scrolls to it, reducing flicker on fast scrolling:<pre><code>
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react'
+// Generic type T allows this component to work with any data type
+// VirtualList&lt;Message> renders messages, VirtualList&lt;Product> renders products
+interface VirtualListProps&lt;T> {
+ items: T[]
+ itemHeight: number
+ containerHeight: number
+ overscan?: number
+ // renderItem receives the typed item, ensuring type safety in the callback
+ renderItem: (item: T, index: number) => React.ReactNode
+}
+// The &lt;T> after function name makes this a generic function component
+// TypeScript infers T from the items array you pass in
+function VirtualList&lt;T>({ 
+ items,
+ itemHeight,
+ containerHeight,
+ overscan = 3,
+ renderItem
+}: VirtualListProps&lt;T>) {
+ const [scrollTop, setScrollTop] = useState(0)
+ const rafId = useRef&lt;number | null>(null)
+ // Cancel any pending animation frame on unmount
+ // Prevents "setState on unmounted component" warnings
+ useEffect(() => {
+   return () => {
+     if (rafId.current) {
+       cancelAnimationFrame(rafId.current)
+     }
+   }
+ }, [])
+ // Throttle scroll updates to animation frames
+ // Without this, scroll fires 60-120 times/second, each triggering a state update
+ const handleScroll = useCallback((e: React.UIEvent&lt;HTMLDivElement>) => {
+   const target = e.currentTarget
+   if (rafId.current) cancelAnimationFrame(rafId.current)
+   rafId.current = requestAnimationFrame(() => setScrollTop(target.scrollTop))
+ }, [])
+ const { visibleItems, offsetY, totalHeight } = useMemo(() => {
+   const start = Math.max(0, Math.floor(scrollTop / itemHeight) - overscan)
+   const end = Math.min(items.length, Math.ceil((scrollTop + containerHeight) / itemHeight) + overscan)
+  
+   return {
+     visibleItems: items.slice(start, end).map((item, i) => ({ item, index: start + i })), 
+     offsetY: start * itemHeight,
+     totalHeight: items.length * itemHeight
+   }
+ }, [items, itemHeight, containerHeight, scrollTop, overscan])
+ return (
+   &lt;div onScroll={handleScroll} style={{ height: containerHeight, overflow: 'auto' }}>
+     &lt;div style={{ height: totalHeight, position: 'relative' }}>
+       &lt;div style={{ transform: `translateY(${offsetY}px)` }}>
+         {visibleItems.map(({ item, index }) => (
+           &lt;div key={index} style={{ height: itemHeight }}>
+             {renderItem(item, index)}
+           &lt;/div>
+         ))}
+       &lt;/div>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+interface Message {
+ id: string
+ sender: string
+ content: string
+}
+const MessageList: React.FC = () => {
+ const messages = useMemo&lt;Message[]>(() =>
+   Array.from({ length: 10000 }, (_, i) => ({
+     id: `msg-${i}`,
+     sender: `User ${i % 50}`,
+     content: `Message content ${i} - Sample text for virtualization demo.`
+   })), [])
+ const renderMessage = useCallback((message: Message) => (
+   &lt;div className="p-3 border-b border-gray-100">
+     &lt;span className="font-medium">{message.sender}&lt;/span>
+     &lt;p className="text-gray-600">{message.content}&lt;/p>
+   &lt;/div>
+ ), [])
+ return (
+   &lt;div className="max-w-2xl mx-auto p-4">
+     &lt;h2 className="text-xl font-bold mb-4">Messages (10,000 items)&lt;/h2>
+     &lt;VirtualList
+       items={messages}
+       itemHeight={72}
+       containerHeight={400}
+       overscan={5}
+       renderItem={renderMessage}
+     />
+   &lt;/div>
+ )
+}
+</code></pre><p>The <code>requestAnimationFrame</code> throttling ensures scroll updates align with the browser's repaint cycle, at most one state update per frame. The overscan prop renders extra items beyond the visible area to prevent blank flashes during fast scrolling. For production use, libraries like <code>@tanstack</code>/<code>react‑virtual</code> handle additional edge cases such as variable-height items and horizontal scrolling.<h2 id=Lazy_loading_components_and_code_splitting_with_React_Suspense>Lazy loading components and code splitting with React Suspense</h2><p>Your application doesn't need to load everything at once. Code splitting breaks your JavaScript bundle into smaller chunks that load on demand. Before implementing manual code splitting, know that modern frameworks like Next.js, Remix, and React Router v7 handle route-based splitting automatically, you get it for free.<p>Manual lazy loading makes sense for components that are genuinely heavy (<em>100KB+ after minification</em>), conditionally rendered, and not needed on initial page load. Common examples include rich text editors, charting libraries, or PDF viewers. For smaller components, the overhead of an extra network request can exceed the savings.<p>The basic pattern uses <code>lazy()</code> with <code>Suspense</code>, but this naive approach has problems:<pre><code>import { lazy, Suspense, useState } from 'react'
+// Components load only when rendered—but this creates a network waterfall
+const HeavyChart = lazy(() => import('./HeavyChart'))
+const HeavyDataTable = lazy(() => import('./HeavyDataTable'))
+const Analytics = () => {
+ const [activeTab, setActiveTab] = useState&lt;'overview' | 'chart' | 'data'>('overview')
+ return (
+   &lt;div className="p-6">
+     &lt;div className="flex gap-4 mb-6">
+       &lt;button onClick={() => setActiveTab('overview')}>Overview&lt;/button>
+       &lt;button onClick={() => setActiveTab('chart')}>Charts&lt;/button>
+       &lt;button onClick={() => setActiveTab('data')}>Data&lt;/button>
+     &lt;/div>
+     {/* Problem: switching tabs unmounts components, losing all state */}
+     {/* Problem: spinner shows even for fast loads, causing flash */}
+     &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+       {activeTab==='chart'&&&lt;HeavyChart />}
+       {activeTab==='data'&&&lt;HeavyDataTable />}
+     &lt;/Suspense>
+   &lt;/div>
+ )
+}
+A better approach prefetches on hover so content is ready when clicked:
+import { lazy, Suspense, useState, useTransition } from 'react'
+const HeavyChart = lazy(() => import('./HeavyChart'))
+const HeavyDataTable = lazy(() => import('./HeavyDataTable'))
+// Prefetch functions—call these on hover
+const prefetchChart = () => import('./HeavyChart')
+const prefetchDataTable = () => import('./HeavyDataTable')
+const Analytics = () => {
+ const [activeTab, setActiveTab] = useState&lt;'overview' | 'chart' | 'data'>('overview')
+ // useTransition prevents the UI from showing fallback for fast loads
+ const [isPending, startTransition] = useTransition()
+ const handleTabChange = (tab: typeof activeTab) => {
+   startTransition(() => setActiveTab(tab))
+ }
+ return (
+   &lt;div className="p-6">
+     &lt;div className="flex gap-4 mb-6">
+       &lt;button onClick={() => handleTabChange('overview')}>
+         Overview
+       &lt;/button>
+       &lt;button
+         onClick={() => handleTabChange('chart')}
+         onMouseEnter={prefetchChart}
+       >
+         Charts
+       &lt;/button>
+       &lt;button
+         onClick={() => handleTabChange('data')}
+         onMouseEnter={prefetchDataTable}
+       >
+         Data
+       &lt;/button>
+     &lt;/div>
+     &lt;div className={isPending ? 'opacity-50' : ''}>
+       &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+         {activeTab==='overview'&&&lt;div>Welcome to Analytics&lt;/div>}
+         {activeTab==='chart'&&&lt;HeavyChart />}
+         {activeTab==='data'&&&lt;HeavyDataTable />}
+       &lt;/Suspense>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+
+</code></pre><h2 id=The_new__component>The new <activity>component<p>The prefetch approach still has a limitation: switching tabs unmounts the previous component, losing any internal state like form inputs, scroll position, or chart zoom settings. React 19 introduces the <code>&lt;Activity></code> component which keeps components mounted but hidden, preserving their state:<pre><code>import { lazy, Suspense, useState, useTransition, Activity } from 'react'
+const HeavyChart = lazy(() => import('./HeavyChart'))
+const HeavyDataTable = lazy(() => import('./HeavyDataTable'))
+const prefetchChart = () => import('./HeavyChart')
+const prefetchDataTable = () => import('./HeavyDataTable')
+const Analytics = () => {
+ const [activeTab, setActiveTab] = useState&lt;'overview' | 'chart' | 'data'>('overview')
+ const [isPending, startTransition] = useTransition()
+ const handleTabChange = (tab: typeof activeTab) => {
+   startTransition(() => setActiveTab(tab))
+ }
+ return (
+   &lt;div className="p-6">
+     &lt;div className="flex gap-4 mb-6">
+       &lt;button onClick={() => handleTabChange('overview')}>Overview&lt;/button>
+       &lt;button onClick={() => handleTabChange('chart')} onMouseEnter={prefetchChart}>
+         Charts
+       &lt;/button>
+       &lt;button onClick={() => handleTabChange('data')} onMouseEnter={prefetchDataTable}>
+         Data
+       &lt;/button>
+     &lt;/div>
+     &lt;div className={isPending ? 'opacity-50' : ''}>
+       &lt;Suspense fallback={&lt;div>Loading...&lt;/div>}>
+         {/* Activity keeps components mounted but hidden when mode="hidden" */}
+         {/* All state is preserved: form inputs, scroll position, selections */}
+         &lt;Activity mode={activeTab === 'overview' ? 'visible' : 'hidden'}>
+           &lt;div>Welcome to Analytics&lt;/div>
+         &lt;/Activity>
+         &lt;Activity mode={activeTab === 'chart' ? 'visible' : 'hidden'}>
+           &lt;HeavyChart />
+         &lt;/Activity>
+         &lt;Activity mode={activeTab === 'data' ? 'visible' : 'hidden'}>
+           &lt;HeavyDataTable />
+         &lt;/Activity>
+       &lt;/Suspense>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+
+</code></pre><p>With <code>&lt;Activity></code>, when you switch from the chart tab to the data tab, the chart component stays mounted but enters a <em>hidden</em> state. This isn't just CSS <code>display: none</code>, React treats hidden components differently at the scheduler level. Effects are deferred until the component becomes visible again, so a hidden component won't make network requests or set up subscriptions while offscreen. Update priority is lowered, meaning React deprioritizes re-renders for hidden content in favor of visible UI. The component's state (zoom level, selected data points, form inputs) remains intact, but React avoids wasting resources on content the user can't see. When you switch back, the component reactivates instantly without remounting or refetching data. Its state, zoom level, selected data points, any ongoing animations, remains intact. When you switch back, it reappears instantly without reloading data or resetting state. The tradeoff is higher memory usage since all visited tabs remain in memory, but for complex interactive components, preserved state provides a significantly better user experience.<h2 id=Optimizing_event_handling_and_listeners>Optimizing event handling and listeners</h2><p><strong>Event handlers</strong> can be a hidden source of performance issues, especially when dealing with high-frequency events like scrolling, resizing, or mouse movements. Each time these events fire, your handler executes, and if that handler is expensive, you'll notice janky, unresponsive behavior.<p>Debouncing and throttling are two techniques for controlling how often a function executes. Debouncing waits until events stop firing before executing the handler, while throttling ensures the handler executes at most once per specified time period.<p>Let's look at debouncing and throttling separately. <strong>Debouncing</strong> delays execution until activity stops, ideal for search inputs where you want the final value, not intermediate keystrokes:<pre><code>import { useState, useEffect } from 'react'
+function useDebounce&lt;T>(value: T, delay: number): T {
+ const [debouncedValue, setDebouncedValue] = useState(value)
+ useEffect(() => {
+   const handler = setTimeout(() => {
+     setDebouncedValue(value)
+   }, delay)
+   // Cancel and restart if value changes before delay completes
+   return () => clearTimeout(handler)
+ }, [value, delay])
+ return debouncedValue
+}
+function SearchInput() {
+ const [searchTerm, setSearchTerm] = useState('')
+ const debouncedSearch = useDebounce(searchTerm, 500)
+ useEffect(() => {
+   if (debouncedSearch) {
+     console.log('Searching for:', debouncedSearch)
+     // API call goes here
+   }
+ }, [debouncedSearch])
+ return (
+   &lt;input
+     value={searchTerm}
+     onChange={(e) => setSearchTerm(e.target.value)}
+     placeholder="Type to search..."
+   />
+ )
+}
+
+</code></pre><p>For search specifically, React 18+ offers <code>useDeferredValue</code> as a built-in alternative. It achieves similar results without manual timers, React automatically defers updates during urgent interactions:<pre><code>import { useState, useDeferredValue, useMemo } from 'react'
+function SearchWithDeferred() {
+ const [searchTerm, setSearchTerm] = useState('')
+ // React defers this value during rapid typing
+ const deferredSearch = useDeferredValue(searchTerm)
+
+ // Expensive filtering only runs with deferred value
+ const results = useMemo(() => {
+   return items.filter(item =>
+     item.name.toLowerCase().includes(deferredSearch.toLowerCase())
+   )
+ }, [deferredSearch])
+ return (
+   &lt;div>
+     &lt;input
+       value={searchTerm}
+       onChange={(e) => setSearchTerm(e.target.value)}
+     />
+     {/* Show stale indicator while deferred value catches up */}
+     &lt;div style={{ opacity: searchTerm !== deferredSearch ? 0.5 : 1 }}>
+       {results.map(item => &lt;div key={item.id}>{item.name}&lt;/div>)}
+     &lt;/div>
+   &lt;/div>
+ )
+}
+
+</code></pre><p><strong>Throttling</strong> limits execution rate, ideal for continuous events like scrolling or mouse movement where you need updates but not 60 per second:<pre><code>import { useRef, useCallback, useEffect } from 'react'
+// This implementation includes "trailing edge" -
+// ensures the final value is captured even if events stop
+function useThrottle&lt;T extends (...args: any[]) => any>(
+ callback: T,
+ delay: number
+) {
+ const lastRun = useRef(Date.now())
+ const timeoutRef = useRef&lt;NodeJS.Timeout | null>(null)
+ const lastArgs = useRef&lt;Parameters&lt;T> | null>(null)
+ // Cleanup on unmount
+ useEffect(() => {
+   return () => {
+     if (timeoutRef.current) clearTimeout(timeoutRef.current)
+   }
+ }, [])
+ return useCallback((...args: Parameters&lt;T>) => {
+   const now = Date.now()
+   lastArgs.current = args
+   if (now - lastRun.current >= delay) {
+     // Enough time passed - run immediately
+     callback(...args)
+     lastRun.current = now
+   } else {
+     // Schedule trailing edge call to capture final value
+     if (timeoutRef.current) clearTimeout(timeoutRef.current)
+     timeoutRef.current = setTimeout(() => {
+       if (lastArgs.current) {
+         callback(...lastArgs.current)
+         lastRun.current = Date.now()
+       }
+     }, delay - (now - lastRun.current))
+   }
+ }, [callback, delay])
+}
+function MouseTracker() {
+ const [position, setPosition] = useState({ x: 0, y: 0 })
+ const handleMouseMove = useThrottle((e: React.MouseEvent) => {
+   setPosition({ x: e.clientX, y: e.clientY })
+ }, 100)
+ return (
+   &lt;div onMouseMove={handleMouseMove} className="h-64 bg-gray-100">
+     Position: ({position.x}, {position.y})
+   &lt;/div>
+ )
+}
+
+</code></pre><p>The throttle implementation includes a <strong>trailing edge</strong>. When events stop, it fires one final time with the last captured value. Without this, rapid mouse movement that stops suddenly would lose the final position. Debouncing is for <em>wait until done</em> scenarios; throttling is for <em>execute regularly but not too often</em>.<h1 id=Tools_and_libraries_for_performance_monitoring>Tools and libraries for performance monitoring</h1><p>Optimization without measurement is guesswork. React provides several tools for identifying performance bottlenecks, and understanding how to use them effectively is essential for building fast applications.<h2 id=Using_React_Profiler_to_identify_bottlenecks>Using React Profiler to identify bottlenecks</h2><p>The React Profiler API allows you to measure how long components take to render and why they're re-rendering. This information is invaluable when hunting down performance issues in complex applications:<pre><code>import { Profiler, ProfilerOnRenderCallback, useState } from 'react'
+interface ProfilerData {
+ id: string
+ phase: 'mount' | 'update'
+ actualDuration: number
+ baseDuration: number
+ startTime: number
+ commitTime: number
+}
+// Simulates an expensive computation to demonstrate profiling
+// In real apps, this might be complex data transformations or renders
+const ExpensiveComponent = ({ iterations }: { iterations: number }) => {
+ const result = Array.from({ length: iterations }, (_, i) => {
+   return Array.from({ length: 100 }, (_, j) => i * j).reduce((a, b) => a + b, 0)
+ })
+ return (
+   &lt;div className="p-4 bg-gray-100 rounded">
+     &lt;p>Performed {iterations} expensive calculations&lt;/p>
+     &lt;p>Result sum: {result.reduce((a, b) => a + b, 0)}&lt;/p>
+   &lt;/div>
+ )
+}
+const PerformanceMonitor = () => {
+ const [iterations, setIterations] = useState(100)
+ const [profileData, setProfileData] = useState&lt;ProfilerData[]>([])
+ // Profiler callback fires after every commit (render to DOM)
+ // Use this data to identify slow components
+ const onRenderCallback: ProfilerOnRenderCallback = (
+   id,              // The "id" prop of the Profiler tree
+   phase,           // "mount" (first render) or "update" (re-render)
+   actualDuration,  // Time spent rendering this update (ms)
+   baseDuration,    // Estimated time to render without memoization (ms)
+   startTime,       // When React began rendering this update
+   commitTime       // When React committed this update
+ ) => {
+   const data: ProfilerData = {
+     id, phase, actualDuration, baseDuration, startTime, commitTime
+   }
+   // Keep only the last 10 renders to avoid memory bloat
+   setProfileData(prev => [...prev.slice(-9), data])
+ }
+ return (
+   &lt;div className="p-6 max-w-2xl mx-auto">
+     &lt;h1 className="text-2xl font-bold mb-4">React Profiler Demo&lt;/h1>
+    
+     &lt;div className="mb-6">
+       &lt;label className="block mb-2">
+         Complexity: {iterations} iterations
+       &lt;/label>
+       &lt;input
+         type="range"
+         min="100"
+         max="5000"
+         value={iterations}
+         onChange={(e) => setIterations(Number(e.target.value))}
+         className="w-full"
+       />
+     &lt;/div>
+     {/* Profiler wraps components you want to measure */}
+     {/* It has no visual output—purely for measurement */}
+     &lt;Profiler id="expensive-component" onRender={onRenderCallback}>
+       &lt;ExpensiveComponent iterations={iterations} />
+     &lt;/Profiler>
+     &lt;div className="mt-6">
+       &lt;h2 className="font-semibold mb-2">Render Performance (last 10 renders)&lt;/h2>
+       &lt;div className="space-y-1">
+         {profileData.map((data, index) => (
+           &lt;div key={index} className="flex justify-between text-sm">
+             &lt;span>{data.phase}&lt;/span>
+             {/* Red if over 16ms (below 60 FPS threshold) */}
+             &lt;span className={`font-mono ${
+               data.actualDuration > 16 ? 'text-red-600' : 'text-green-600'
+             }`}>
+               {data.actualDuration.toFixed(2)}ms
+             &lt;/span>
+           &lt;/div>
+         ))}
+       &lt;/div>
+       {/* 60 FPS = 16.67ms per frame budget */}
+       {/* If render exceeds this, the UI may feel sluggish */}
+       &lt;p className="text-xs text-gray-500 mt-2">
+Target:&lt;16ms per render for 60 FPS
+       &lt;/p>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+</code></pre><p>The Profiler tracks each render's duration, helping you identify components that are taking too long:<p><img alt="A screenshot of a computerAI-generated content may be incorrect." src=https://nemokaul.github.io/ag/books/TNpb/djtWfQ/images/B34161_16_1.png><p>Figure 16.1 – React Profiler<p>While 16 milliseconds is the total frame budget at 60 FPS, React rendering is only part of what happens in a frame. After React commits changes, the browser still needs time for layout calculations, painting, and compositing. In practice, aim for React render times under 10ms to leave headroom for the browser's work. Renders consistently over 10ms warrant investigation, either the component is doing too much work, or it's re-rendering more often than necessary.<h2 id=Performance_monitoring_with_Lighthouse_and_Web_Vitals>Performance monitoring with Lighthouse and Web Vitals</h2><p>While React's Profiler focuses on component-level performance, <strong>Web Vitals</strong> measure the user experience of your entire application. The <strong>Core Web Vitals</strong> are three metrics that directly correlate with how users perceive your application's speed and responsiveness:<ul><li>LCP measures loading performance, how long until the largest visible content element renders. Target: under 2.5 seconds.<li>INP measures responsiveness, the latency of all user interactions throughout the page lifecycle, reported as the worst interaction (at the 98th percentile). Target: under 200ms. INP replaced <strong>First Input Delay</strong> (<strong>FID</strong>) in March 2024 because FID only measured the first interaction, missing slow responses later in the session.<li>CLS measures visual stability, how much the page layout shifts unexpectedly during loading. Target: under 0.1. High CLS often comes from images without dimensions, dynamically injected content, or web fonts causing text reflow.<br>The web-vitals library handles the complexity of measuring these metrics correctly:</ul><pre><code>// First install: npm install web-vitals
+import { useEffect } from 'react'
+import { onLCP, onINP, onCLS, type Metric } from 'web-vitals'
+// Report metrics to your analytics service
+function sendToAnalytics(metric: Metric) {
+ // Example: send to Google Analytics
+ // gtag('event', metric.name, {
+ //   value: Math.round(metric.value),
+ //   metric_id: metric.id,
+ //   metric_rating: metric.rating,
+ // })
+ // Example: send to custom endpoint
+ fetch('/api/analytics', {
+   method: 'POST',
+   body: JSON.stringify({
+     name: metric.name,
+     value: metric.value,
+     rating: metric.rating, // 'good' | 'needs-improvement' | 'poor'
+     navigationType: metric.navigationType,
+   }),
+   headers: { 'Content-Type': 'application/json' },
+ })
+}
+// Call this once at app initialization, not inside a component
+export function initWebVitals() {
+ // LCP: Largest Contentful Paint - measures loading performance
+ // Reports when the largest image or text block becomes visible
+ onLCP(sendToAnalytics)
+ // INP: Interaction to Next Paint - measures responsiveness
+ // Reports the worst interaction latency during the session
+ // Replaced FID in March 2024
+ onINP(sendToAnalytics)
+ // CLS: Cumulative Layout Shift - measures visual stability
+ // Reports how much the layout shifts unexpectedly
+ onCLS(sendToAnalytics)
+}
+// If you need to trigger measurement in a component (e.g., for SPAs)
+export function useWebVitals() {
+ useEffect(() => {
+   // For SPAs, you may want to report on route changes
+   // The library handles this automatically with reportAllChanges option
+   onLCP(sendToAnalytics, { reportAllChanges: true })
+   onINP(sendToAnalytics, { reportAllChanges: true })
+   onCLS(sendToAnalytics, { reportAllChanges: true })
+ }, [])
+}
+// In your app entry point (e.g., main.tsx or _app.tsx)
+import { initWebVitals } from './webVitals'
+// Initialize once, outside React's render cycle
+initWebVitals()
+// Or in Next.js, use the built-in reportWebVitals:
+// export function reportWebVitals(metric: Metric) {
+//   sendToAnalytics(metric)
+// }
+</code></pre><p>LCP and CLS can change throughout the page lifecycle, and INP tracks all interactions to report the worst one. The rating field tells you if the value is good, needs improvement, or poor based on Google's thresholds. For Next.js applications, the framework provides a built-in <code>reportWebVitals</code> export that simplifies this further.<h2 id=Analyzing_component_updates>Analyzing component updates</h2><p>Sometimes components re-render and you're not sure why. The <code>why‑did‑you‑render</code> library patches React to notify you about potentially unnecessary re-renders, helping you track down props that are changing unexpectedly:<pre><code>import { useState, useCallback, useMemo, memo } from 'react'
+interface User {
+ id: number
+ name: string
+ email: string
+}
+interface UserCardProps {
+ user: User
+ onSelect: (id: number) => void
+ settings: { showEmail: boolean; theme: string }
+}
+const UserCard = memo(({ user, onSelect, settings }: UserCardProps) => {
+ console.log(`UserCard rendered for ${user.name}`)
+ return (
+   &lt;div className="p-4 bg-white rounded-lg shadow">
+     &lt;h3 className="font-medium">{user.name}&lt;/h3>
+     {settings.showEmail && (
+       &lt;p className="text-gray-600 text-sm">{user.email}&lt;/p>
+     )}
+     &lt;button
+       onClick={() => onSelect(user.id)}
+       className="mt-3 px-4 py-2 bg-blue-600 text-white rounded text-sm"
+     >
+       Select
+     &lt;/button>
+   &lt;/div>
+ )
+})
+const users: User[] = [
+ { id: 1, name: 'Alice Johnson', email: 'alice@example.com' },
+ { id: 2, name: 'Bob Smith', email: 'bob@example.com' },
+ { id: 3, name: 'Carol Williams', email: 'carol@example.com' }
+]
+const UserList = () => {
+ const [selectedId, setSelectedId] = useState&lt;number | null>(null)
+ //  Problem: new function reference on every render breaks memo()
+ // const handleSelect = (id: number) => setSelectedId(id)
+ //  Fix: useCallback keeps the same reference across renders
+ const handleSelect = useCallback((id: number) => {
+   setSelectedId(id)
+ }, [])
+ //  Problem: new object reference on every render breaks memo()
+ // const settings = { showEmail: true, theme: 'light' }
+ //  Fix: useMemo keeps the same reference when values don't change
+ const settings = useMemo(() => ({
+   showEmail: true,
+   theme: 'light'
+ }), [])
+ return (
+   &lt;div className="p-6">
+     &lt;h1 className="text-2xl font-bold mb-4">User Directory&lt;/h1>
+     &lt;div className="grid gap-4">
+       {users.map(user => (
+         &lt;UserCard
+           key={user.id}
+           user={user}
+           onSelect={handleSelect}
+           settings={settings}
+         />
+       ))}
+     &lt;/div>
+     {selectedId && (
+       &lt;p className="mt-4 text-gray-600">Selected user ID: {selectedId}&lt;/p>
+     )}
+   &lt;/div>
+ )
+}
+</code></pre><p>To identify these issues yourself, use React DevTools Profiler. Open DevTools, go to the <strong>Profiler</strong> tab, click record, interact with your app, then stop recording. The flame graph shows which components rendered and why. Click any component to see <em>"Why did this render?"</em>, it tells you if props changed, state changed, or the parent re-rendered. For components wrapped in <code>memo()</code>, it specifically shows which props had new references even if values were identical. This is built into React DevTools, no additional libraries needed.<h2 id=Bundle_size_optimization>Bundle size optimization</h2><p>Every kilobyte you ship to users costs them time and bandwidth. Bundle size optimization isn't about obsessing over bytes, it's about respecting your users' resources and ensuring your application loads quickly, especially on slower connections or less powerful devices. The JavaScript you send must be parsed, compiled, and executed before users can interact with your application, making bundle size a direct factor in time-to-interactive.<h2 id=Analyzing_your_bundle>Analyzing your bundle</h2><p>Before you can optimize, you need to understand what's actually in your bundle. Tools like <code>webpack‑bundle‑analyzer</code> or Next.js's built-in analyzer reveal surprising truths about your dependencies. That <em>lightweight</em> library you installed might be pulling in megabytes of code you never use:<pre><code>// next.config.ts - Enable bundle analysis in Next.js
+import type { NextConfig } from 'next'
+import bundleAnalyzer from '@next/bundle-analyzer'
+const withBundleAnalyzer = bundleAnalyzer({
+ enabled: process.env.ANALYZE === 'true'
+})
+const config: NextConfig = {
+ // Your existing config
+}
+export default withBundleAnalyzer(config)
+// Run with: ANALYZE=true npm run build
+
+</code></pre><h2 id=Tree_shaking_and_named_imports>Tree shaking and named imports</h2><p>Modern bundlers can eliminate unused code through tree shaking, but only if you give them the opportunity. The difference between importing an entire library versus specific functions can be dramatic:<pre><code>// Bad: Imports entire lodash library (~70KB minified)
+import _ from 'lodash'
+const sorted = _.sortBy(users, 'name')
+// Good: Imports only what you need (~2KB)
+import sortBy from 'lodash/sortBy'
+const sorted = sortBy(users, 'name')
+// Better: Use native methods when possible (0KB added)
+const sorted = [...users].sort((a, b) => a.name.localeCompare(b.name))
+</code></pre><h1 id=Hydration_performance>Hydration performance</h1><p><strong>Hydration</strong> is the process where React takes over server-rendered HTML and makes it interactive. During hydration, React reconstructs its internal representation of the component tree, attaches event listeners, and sets up state management, all while ensuring the existing DOM matches what React would have rendered. Poor hydration performance can make your application feel unresponsive during the critical first seconds after load.<h2 id=Understanding_hydration_costs>Understanding hydration costs</h2><p>Hydration isn't free. React must walk through your entire component tree, execute every component function, and reconcile with the existing DOM. The more components you have, the longer this takes. Users see your content but can't interact with it, buttons don't respond, forms don't work, until hydration completes:<pre><code>// components/HydrationMonitor.tsx - Measure hydration time
+'use client'
+import { useEffect, useState } from 'react'
+interface HydrationMetrics {
+ hydrationTime: number;
+ componentCount: number;
+}
+export const HydrationMonitor = ({ children }: { children: React.ReactNode }) => {
+ const [metrics, setMetrics] = useState&lt;HydrationMetrics | null>(null)
+ useEffect(() => {
+   // This runs after hydration completes
+   const hydrationEnd = performance.now()
+  
+   // Get the navigation timing
+   const navEntry = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming
+   const hydrationStart = navEntry?.domContentLoadedEventStart ?? 0
+  
+   // Count hydrated components (approximate via DOM query)
+   const componentCount = document.querySelectorAll('[data-hydrated]').length
+   setMetrics({
+     hydrationTime: Math.round(hydrationEnd - hydrationStart),
+     componentCount,
+   })
+   // Report to analytics
+   if (process.env.NODE_ENV === 'production') {
+     // sendToAnalytics('hydration', { hydrationTime, componentCount })
+   }
+ }, [])
+ if (process.env.NODE_ENV === 'development' && metrics) {
+   console.log(`Hydration completed in ${metrics.hydrationTime}ms`)
+ }
+ return &lt;>{children}&lt;/>
+}
+</code></pre><h2 id=Selective_hydration_with_Suspense>Selective hydration with Suspense</h2><p>React's selective hydration allows different parts of your page to hydrate independently. Components wrapped in Suspense boundaries can hydrate in parallel, and React prioritizes hydrating components the user is trying to interact with:<pre><code>// app/page.tsx - Selective hydration with lazy loading
+import { Suspense, lazy } from 'react'
+// Static content - ships as Server Components, no hydration needed
+import { Header } from './Header'
+import { HeroSection } from './HeroSection'
+// Interactive components - lazy loaded for selective hydration
+// Without lazy(), these would bundle together and hydrate simultaneously
+const SearchBar = lazy(() => import('./SearchBar'))
+const ProductCarousel = lazy(() => import('./ProductCarousel'))
+const NewsletterForm = lazy(() => import('./NewsletterForm'))
+export default function HomePage() {
+ return (
+   &lt;>
+     &lt;Header />
+     &lt;HeroSection />
+     {/* Critical interaction - hydrates first when user interacts */}
+     &lt;Suspense fallback={&lt;SearchBarSkeleton />}>
+       &lt;SearchBar />
+     &lt;/Suspense>
+     {/* Below the fold - hydrates when scrolled into view or idle */}
+     &lt;Suspense fallback={&lt;CarouselSkeleton />}>
+       &lt;ProductCarousel />
+     &lt;/Suspense>
+     {/* Footer content - lowest priority */}
+     &lt;Suspense fallback={&lt;FormSkeleton />}>
+       &lt;NewsletterForm />
+     &lt;/Suspense>
+   &lt;/>
+ )
+}
+function SearchBarSkeleton() {
+ return &lt;div className="h-12 bg-gray-200 rounded animate-pulse" />
+}
+function CarouselSkeleton() {
+ return &lt;div className="h-64 bg-gray-200 rounded animate-pulse" />
+}
+function FormSkeleton() {
+ return &lt;div className="h-32 bg-gray-200 rounded animate-pulse" />
+}
+</code></pre><h2 id=Avoiding_hydration_mismatches>Avoiding hydration mismatches</h2><p>Hydration mismatches occur when the server-rendered HTML doesn't match what React expects on the client. These cause React to discard the server HTML and re-render from scratch, negating SSR benefits and sometimes causing visible flickers:<pre><code>// Bad: Causes hydration mismatch
+const BadTimestamp = () => {
+ // Different value on server vs client!
+ return &lt;span>{new Date().toLocaleTimeString()}&lt;/span>
+}
+// Bad: Random values differ between server and client
+const BadRandomGreeting = () => {
+ const greetings = ['Hello', 'Hi', 'Welcome']
+ const greeting = greetings[Math.floor(Math.random() * greetings.length)]
+ return &lt;h1>{greeting}&lt;/h1>
+}
+// Good: Consistent initial render, update on client
+const GoodTimestamp = () => {
+ const [time, setTime] = useState&lt;string | null>(null)
+
+ useEffect(() => {
+   setTime(new Date().toLocaleTimeString())
+   const interval = setInterval(() => {
+     setTime(new Date().toLocaleTimeString())
+   }, 1000)
+   return () => clearInterval(interval)
+ }, [])
+
+ // Render nothing or placeholder during SSR/hydration
+ if (!time) return &lt;span className="text-gray-400">--:--:--&lt;/span>
+ return &lt;span>{time}&lt;/span>
+}
+// Good: Use suppressHydrationWarning for intentional differences
+const GoodCurrentYear = () => {
+ return (
+   &lt;span suppressHydrationWarning>
+     © {new Date().getFullYear()} Company Name
+   &lt;/span>
+ )
+}
+</code></pre><h2 id=Optimizing_component_complexity_for_hydration>Optimizing component complexity for hydration</h2><p>Complex components with deep nesting and many children slow down hydration. Flattening your component structure and reducing unnecessary wrapper components improves hydration performance:<pre><code>// Bad: Deeply nested structure
+const BadProductCard = ({ product }: { product: Product }) => (
+ &lt;div>
+   &lt;div>
+     &lt;div>
+       &lt;div>
+         &lt;img src={product.image} alt={product.name} />
+       &lt;/div>
+     &lt;/div>
+     &lt;div>
+       &lt;div>
+         &lt;h3>{product.name}&lt;/h3>
+       &lt;/div>
+       &lt;div>
+         &lt;span>{product.price}&lt;/span>
+       &lt;/div>
+     &lt;/div>
+   &lt;/div>
+ &lt;/div>
+)
+// Good: Flat structure with semantic HTML
+const GoodProductCard = ({ product }: { product: Product }) => (
+ &lt;article className="flex gap-4 p-4 bg-white rounded-lg shadow">
+   &lt;img
+     src={product.image}
+     alt={product.name}
+     className="w-24 h-24 object-cover rounded"
+   />
+   &lt;div>
+     &lt;h3 className="font-semibold text-lg">{product.name}&lt;/h3>
+     &lt;span className="text-xl font-bold text-blue-600">${product.price}&lt;/span>
+   &lt;/div>
+ &lt;/article>
+)
+</code></pre><h2 id=Islands_architecture_for_minimal_hydration>Islands architecture for minimal hydration</h2><p>The <strong>islands architecture</strong> takes selective hydration to its extreme: only interactive components hydrate, while static content remains as plain HTML. This dramatically reduces JavaScript execution time on pages with mostly static content:<pre><code>// components/Island.tsx - Client-side island wrapper
+'use client'
+import { useState, useEffect, ReactNode } from 'react'
+interface IslandProps {
+ children: ReactNode;
+ load: 'eager' | 'lazy' | 'visible';
+}
+export const Island = ({ children, load }: IslandProps) => {
+ const [isActive, setIsActive] = useState(load === 'eager')
+ useEffect(() => {
+   if (load === 'lazy') {
+     const id = requestIdleCallback(() => setIsActive(true))
+     return () => cancelIdleCallback(id)
+   }
+ }, [load])
+ // For 'visible', use IntersectionObserver (omitted for brevity)
+ if (!isActive) {
+   // Return static placeholder that matches server HTML
+   return &lt;div data-island-placeholder="true">{children}&lt;/div>
+ }
+ return &lt;>{children}&lt;/>
+}
+// Page with islands
+export default function BlogPost() {
+ return (
+   &lt;article>
+     {/* Static content - no JavaScript needed */}
+     &lt;h1>Blog Post Title&lt;/h1>
+     &lt;div className="prose">{/* Article content */}&lt;/div>
+    
+     {/* Interactive island - hydrates eagerly */}
+     &lt;Island load="eager">
+       &lt;LikeButton postId="123" />
+     &lt;/Island>
+    
+     {/* Interactive island - hydrates when visible */}
+     &lt;Island load="visible">
+       &lt;CommentSection postId="123" />
+     &lt;/Island>
+   &lt;/article>
+ )
+}
+
+</code></pre><p>Hydration performance is often overlooked because the effects are subtle, a brief unresponsiveness, a slight delay before interactions work. But these moments define the user's first impression of your application. By understanding hydration costs and applying these optimization strategies, you ensure that the speed benefits of server-side rendering actually translate into a faster, more responsive experience for your users.<h2 id=Partial_pre-rendering_(PPR)>Partial pre-rendering (PPR)</h2><p>Next.js 15 introduces <strong>Partial Pre-rendering</strong> (<strong>PPR</strong>), which takes this further by combining static and dynamic rendering in a single request.<p>PPR is an experimental technology that is not recommended for production. You may run into some DX issues, especially on larger code bases.<p>With PPR, the static shell of your page (header, layout, static content) is pre-rendered at build time and served instantly from the CDN, while dynamic parts (user-specific content, real-time data) stream in afterward. This means users see a complete-looking page immediately, with interactive elements hydrating as their code arrives:<pre><code>// app/page.tsx - Partial Pre-rendering
+import { Suspense } from 'react'
+import { Header } from './Header'           // Static - pre-rendered
+import { ProductGrid } from './ProductGrid' // Static - pre-rendered
+// Dynamic components stream in after initial render
+import { UserGreeting } from './UserGreeting'
+import { RecommendedProducts } from './RecommendedProducts'
+export default function HomePage() {
+ return (
+   &lt;>
+     {/* Static shell - served instantly from CDN */}
+     &lt;Header />
+    
+     {/* Dynamic - streams in after authentication check */}
+     &lt;Suspense fallback={&lt;div className="h-8 bg-gray-200 animate-pulse" />}>
+       &lt;UserGreeting />
+     &lt;/Suspense>
+    
+     {/* Static product grid - pre-rendered */}
+     &lt;ProductGrid />
+    
+     {/* Dynamic recommendations - streams based on user history */}
+     &lt;Suspense fallback={&lt;RecommendationsSkeleton />}>
+       &lt;RecommendedProducts />
+     &lt;/Suspense>
+   &lt;/>
+ )
+}
+
+</code></pre><p>To enable PPR you need to update your <code>next.config.ts</code> file:<pre><code>
+// next.config.ts - Enable PPR
+import type { NextConfig } from 'next'
+const config: NextConfig = {
+ experimental: {
+   ppr: true
+ }
+}
+export default config
+
+</code></pre><p>PPR reduces hydration scope because the static parts don't need hydration at all, they're plain HTML. Only the dynamic, interactive components require JavaScript and hydration, and they load in priority order based on their position in the Suspense tree. This is different from traditional SSR where the entire page hydrates as a unit; with PPR, you get the best of static generation (instant load, CDN caching) and dynamic rendering (personalization, real-time data) in the same page.<h1 id=Advanced_performance_enhancements_in_React_19>Advanced performance enhancements in React 19</h1><p>React introduces several powerful features that push the boundaries of what's possible with web applications. These features aren't just incremental improvements, they represent fundamental shifts in how we think about React application architecture.<h2 id=Leveraging_concurrent_rendering_for_a_more_responsive_UI>Leveraging concurrent rendering for a more responsive UI</h2><p>Concurrent rendering allows React to work on multiple versions of the UI simultaneously. This might sound complex, but the result is straightforward: your application stays responsive even during expensive updates. React can pause, resume, or abandon work as needed, prioritizing urgent updates like user input over less critical updates like animations.<p>The beauty of concurrent rendering is that you don't need to do anything special to enable it, it's automatically available in React 18 and later. However, you can leverage specific APIs to take full advantage of it:<pre><code>import { useState, useTransition, useMemo } from 'react'
+interface Product {
+ id: number
+ name: string
+ category: string
+ price: number
+}
+// Generate products once, outside the component
+const products: Product[] = Array.from({ length: 5000 }, (_, i) => ({
+ id: i,
+ name: `Product ${i}`,
+ category: ['Electronics', 'Clothing', 'Home', 'Sports'][i % 4],
+ price: Math.floor(Math.random() * 1000) + 10
+}))
+const SearchableProductCatalog = () => {
+ // Two separate states: one for input, one for filtering
+ const [inputValue, setInputValue] = useState('')
+ const [filterQuery, setFilterQuery] = useState('')
+ const [isPending, startTransition] = useTransition()
+ // Only recalculate when filterQuery changes
+ const filteredProducts = useMemo(() => {
+   return products.filter(product =>
+     product.name.toLowerCase().includes(filterQuery.toLowerCase()) ||
+     product.category.toLowerCase().includes(filterQuery.toLowerCase())
+   )
+ }, [filterQuery])
+ const handleChange = (e: React.ChangeEvent&lt;HTMLInputElement>) => {
+   const value = e.target.value
+  
+   // Urgent: update input immediately so typing feels instant
+   setInputValue(value)
+  
+   // Non-urgent: update filter with low priority
+   // React can interrupt this if user keeps typing
+   startTransition(() => {
+     setFilterQuery(value)
+   })
+ }
+ return (
+   &lt;div className="p-6 max-w-4xl mx-auto">
+     &lt;div className="mb-6">
+       &lt;div className="relative">
+         &lt;input
+           type="text"
+           value={inputValue}
+           onChange={handleChange}
+           placeholder="Search 5,000 products..."
+           className="w-full px-4 py-3 border rounded-lg"
+         />
+         {/* isPending is true while the transition is processing */}
+         {isPending && (
+           &lt;div className="absolute right-3 top-1/2 -translate-y-1/2">
+             &lt;div className="w-5 h-5 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+           &lt;/div>
+         )}
+       &lt;/div>
+       &lt;p className="text-sm text-gray-500 mt-2">
+         Found {filteredProducts.length} products
+       &lt;/p>
+     &lt;/div>
+     {/* Dim the list while transition is pending */}
+     &lt;div className={`grid grid-cols-2 gap-4 ${isPending ? 'opacity-50' : ''}`}>
+       {filteredProducts.slice(0, 50).map(product => (
+         &lt;div key={product.id} className="p-4 bg-white rounded-lg shadow">
+           &lt;h3 className="font-medium">{product.name}&lt;/h3>
+           &lt;p className="text-gray-600 text-sm">{product.category}&lt;/p>
+           &lt;p className="text-blue-600 font-bold">${product.price}&lt;/p>
+         &lt;/div>
+       ))}
+     &lt;/div>
+   &lt;/div>
+ )
+}
+</code></pre><p>The <code>useTransition</code> hook marks the filter update as non-urgent, allowing React to keep the input responsive even while filtering through 5,000 products. The key is separating state: <code>inputValue</code> updates immediately on every keystroke so typing feels instant, while <code>filterQuery</code> updates inside <code>startTransition</code> so React can interrupt and restart the expensive filtering if the user keeps typing. The <code>isPending</code> boolean lets you show visual feedback, here a spinner and dimmed list, while the transition processes. This pattern works because React treats the two state updates differently: the urgent one commits immediately, the non-urgent one can be interrupted and deferred.<h2 id=Using_startTransition_for_non-urgent_UI_updates>Using startTransition for non-urgent UI updates</h2><p>The <code>startTransition</code> API is your way of telling React, <em>"This update is important, but it's not urgent."</em> React will complete this update when it has time, but it won't let it interfere with more urgent updates like user input or animations.<p>This is useful for updates that trigger expensive rendering but aren't directly tied to user interaction, like updating a large data visualization or recalculating complex layouts:<pre><code>import { useState, useTransition } from 'react'
+interface Tab {
+ id: string
+ title: string
+ content: string
+}
+// Simulates a heavy component that takes time to render
+// In real apps, this might be a complex chart, data grid, or form
+const HeavyTabContent = ({ content }: { content: string }) => {
+ const items = Array.from({ length: 1000 }, (_, i) => `${content} - Item ${i}`)
+ return (
+   &lt;div className="space-y-2">
+     {items.map((item, index) => (
+       &lt;div key={`content-${index}`} className="p-2 bg-gray-50 rounded">
+         {item}
+       &lt;/div>
+     ))}
+   &lt;/div>
+ )
+}
+// Tabs defined outside component to avoid recreation on each render
+const tabs: Tab[] = [
+ { id: 'tab1', title: 'Dashboard', content: 'Dashboard Data' },
+ { id: 'tab2', title: 'Analytics', content: 'Analytics Data' },
+ { id: 'tab3', title: 'Reports', content: 'Report Data' },
+ { id: 'tab4', title: 'Settings', content: 'Settings Data' }
+]
+const TabNavigator = () => {
+ const [activeTab, setActiveTab] = useState('tab1')
+ // isPending: true while transition is processing
+ // startTransition: wraps state updates to mark them as non-urgent
+ const [isPending, startTransition] = useTransition()
+ const handleTabChange = (tabId: string) => {
+   // Without startTransition, clicking a tab would freeze the UI
+   // until HeavyTabContent finishes rendering 1,000 items
+   // With startTransition, the tab click feels instant—React keeps
+   // the old content visible while preparing the new content
+   startTransition(() => {
+     setActiveTab(tabId)
+   })
+ }
+ const currentTab = tabs.find(tab => tab.id === activeTab)!
+ return (
+   &lt;div className="p-6">
+     &lt;div className="flex border-b">
+       {tabs.map(tab => (
+         &lt;button
+           key={tab.id}
+           onClick={() => handleTabChange(tab.id)}
+           // Tab button updates immediately even though content is pending
+           className={`px-6 py-3 font-medium transition-colors relative ${
+             activeTab === tab.id
+               ? 'border-b-2 border-blue-600 text-blue-600'
+               : 'text-gray-600 hover:text-gray-900'
+           }`}
+         >
+           {tab.title}
+           {/* Show loading indicator on the clicked tab while transitioning */}
+           {isPending && activeTab !== tab.id && (
+             &lt;span className="absolute top-1 right-1 w-2 h-2 bg-blue-600 rounded-full animate-pulse" />
+           )}
+         &lt;/button>
+       ))}
+     &lt;/div>
+     {/* Dim content while new tab is loading */}
+     &lt;div className={`mt-6 ${isPending ? 'opacity-50' : ''}`}>
+       &lt;h2 className="text-xl font-bold mb-4">{currentTab.title}&lt;/h2>
+       &lt;div className="max-h-96 overflow-y-auto">
+         &lt;HeavyTabContent content={currentTab.content} />
+       &lt;/div>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+</code></pre><p>Notice that the tab content dims during the transition (via <code>isPending</code>), keeping the old content visible while the new content prepares. However, the tab button itself doesn't highlight immediately, because <code>activeTab</code> is the only state and it's inside <code>startTransition</code>, the visual selection doesn't update until the heavy render completes.<h2 id=Streaming_and_Suspense_for_faster_page_loads>Streaming and Suspense for faster page loads</h2><p>Server-side rendering has always been about getting content to users faster, but traditional SSR had a significant limitation: the server had to finish rendering the entire page before sending anything to the client. Streaming SSR changes this by sending HTML in chunks as they become ready.<p>It's important to distinguish between two different uses of Suspense:<ul><li><strong>Client-side code splitting</strong> uses <code>lazy()</code> to split JavaScript bundles. The server sends fallback HTML, then the client downloads and executes JS files. This reduces initial bundle size but isn't streaming, the HTML is complete when it arrives.<li><strong>Streaming SSR</strong> requires RSC or framework support (Next.js App Router, Remix). The server sends the page shell immediately as HTML, then streams additional HTML chunks as async operations complete. No client-side JavaScript needed for the initial content.</ul><p>Here's actual streaming SSR with Next.js App Router:<pre><code>// app/product/[id]/page.tsx
+import { Suspense } from 'react'
+import { getProduct, getReviews, getRelatedProducts } from '@/lib/api'
+interface Review { id: string; author: string; content: string }
+interface Product { id: string; name: string; price: number; description: string; category: string }
+// Async Server Component - runs on server, streams HTML when data resolves
+async function Reviews({ productId }: { productId: string }) {
+ const reviews = await getReviews(productId)
+ return (
+   &lt;section className="mt-8">
+     &lt;h2 className="text-xl font-bold mb-4">Reviews&lt;/h2>
+     {reviews.map((review: Review) => (
+       &lt;div key={review.id} className="p-4 border-b">
+         &lt;p className="font-medium">{review.author}&lt;/p>
+         &lt;p className="text-gray-600">{review.content}&lt;/p>
+       &lt;/div>
+     ))}
+   &lt;/section>
+ )
+}
+async function RelatedProducts({ category }: { category: string }) {
+ const products = await getRelatedProducts(category)
+ return (
+   &lt;section className="mt-8">
+     &lt;h2 className="text-xl font-bold mb-4">Related Products&lt;/h2>
+     &lt;div className="grid grid-cols-3 gap-4">
+       {products.map((product: Product) => (
+         &lt;div key={product.id} className="p-4 bg-white rounded-lg shadow">
+           &lt;h3 className="font-medium">{product.name}&lt;/h3>
+           &lt;p className="text-blue-600">${product.price}&lt;/p>
+         &lt;/div>
+       ))}
+     &lt;/div>
+   &lt;/section>
+ )
+}
+function ReviewsSkeleton() {
+ return (
+   &lt;section className="mt-8">
+     &lt;div className="h-6 w-32 bg-gray-200 rounded animate-pulse mb-4" />
+     {[1, 2, 3].map(i => &lt;div key={i} className="h-20 bg-gray-100 rounded animate-pulse mb-2" />)}
+   &lt;/section>
+ )
+}
+function RelatedSkeleton() {
+ return (
+   &lt;section className="mt-8">
+     &lt;div className="h-6 w-40 bg-gray-200 rounded animate-pulse mb-4" />
+     &lt;div className="grid grid-cols-3 gap-4">
+       {[1, 2, 3].map(i => &lt;div key={i} className="h-32 bg-gray-100 rounded animate-pulse" />)}
+     &lt;/div>
+   &lt;/section>
+ )
+}
+// Next.js 15: params is now a Promise
+export default async function ProductPage({ params }: { params: Promise&lt;{ id: string }> }) {
+ const { id } = await params
+ const product = await getProduct(id)
+ return (
+   &lt;div className="max-w-4xl mx-auto p-6">
+     {/* Sent immediately - blocks initial HTML */}
+     &lt;div className="bg-white rounded-lg shadow p-6">
+       &lt;h1 className="text-3xl font-bold">{product.name}&lt;/h1>
+       &lt;p className="text-2xl text-blue-600 mt-2">${product.price}&lt;/p>
+       &lt;p className="text-gray-600 mt-4">{product.description}&lt;/p>
+       &lt;button className="mt-6 px-6 py-3 bg-blue-600 text-white rounded-lg">Add to Cart&lt;/button>
+     &lt;/div>
+     {/* Stream independently as data resolves - no client JS needed */}
+     &lt;Suspense fallback={&lt;ReviewsSkeleton />}>
+       &lt;Reviews productId={id} />
+     &lt;/Suspense>
+     &lt;Suspense fallback={&lt;RelatedSkeleton />}>
+       &lt;RelatedProducts category={product.category} />
+     &lt;/Suspense>
+   &lt;/div>
+ )
+}
+</code></pre><p>This is RSC with streaming, fundamentally different from client-side <code>lazy()</code>. The <code>Reviews</code> and <code>RelatedProducts</code> components are async functions that run entirely on the server. When a request comes in, Next.js sends the product details and skeleton HTML immediately. As each async component's data fetch completes, the server streams an HTML chunk that replaces the skeleton, no JavaScript downloads, no hydration for these components. The browser receives ready-to-display HTML over a single HTTP connection. Note that in Next.js 15, params is a Promise and must be awaited.<h2 id=Improving_data_fetching_performance_with_RSC>Improving data fetching performance with RSC</h2><p>RSC represent a paradigm shift in how we think about React applications. Server Components run exclusively on the server, allowing them to access databases, file systems, and other server-only resources directly. The component tree they generate is serialized and sent to the client, but the component code itself never ships to the browser.<p>This has profound implications for performance. You can fetch data directly in your components without client-side waterfall requests. You can use server-only libraries without increasing your bundle size. And you can compute expensive operations on the server where CPU and memory are plentiful:<pre><code>// UserProfile.tsx - This runs only on the server (notice does not have "use client")
+import { Suspense } from 'react'
+import db from './database'
+// Only the fields safe to expose to the client
+// The database entity might have password, role, tokens, etc.
+interface UserDTO {
+ id: string
+ name: string
+ email: string
+ posts: number
+ joined: string
+}
+// Data Access Layer: controls what data leaves the server
+// Never return raw database entities to components
+async function getUserProfile(userId: string): Promise&lt;UserDTO> {
+ const user = await db.users.findById(userId)
+
+ // Explicitly pick safe fields—everything else stays on the server
+ // Raw entity might include: passwordHash, resetToken, role, isAdmin, etc.
+ return {
+   id: user.id,
+   name: user.name,
+   email: user.email,
+   posts: user.posts,
+   joined: user.joined
+ }
+}
+async function UserProfile({ userId }: { userId: string }) {
+ // Fetch through the data access layer, not directly from db
+ const user = await getUserProfile(userId)
+ return (
+   &lt;div className="bg-white rounded-lg shadow p-6">
+     &lt;div className="flex items-center gap-4">
+       &lt;div className="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center text-white text-xl font-bold">
+         {user.name.charAt(0)}
+       &lt;/div>
+       &lt;div>
+         &lt;h1 className="text-2xl font-bold">{user.name}&lt;/h1>
+         &lt;p className="text-gray-600">{user.email}&lt;/p>
+       &lt;/div>
+     &lt;/div>
+     &lt;div className="grid grid-cols-2 gap-4 mt-6">
+       &lt;div className="p-4 bg-gray-50 rounded">
+         &lt;p className="text-sm text-gray-500">Posts&lt;/p>
+         &lt;p className="text-xl font-bold">{user.posts}&lt;/p>
+       &lt;/div>
+       &lt;div className="p-4 bg-gray-50 rounded">
+         &lt;p className="text-sm text-gray-500">Member Since&lt;/p>
+         &lt;p className="text-xl font-bold">{user.joined}&lt;/p>
+       &lt;/div>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+function ProfileSkeleton() {
+ return (
+   &lt;div className="bg-white rounded-lg shadow p-6 animate-pulse">
+     &lt;div className="flex items-center gap-4">
+       &lt;div className="w-16 h-16 bg-gray-200 rounded-full" />
+       &lt;div>
+         &lt;div className="h-6 w-32 bg-gray-200 rounded" />
+         &lt;div className="h-4 w-48 bg-gray-200 rounded mt-2" />
+       &lt;/div>
+     &lt;/div>
+   &lt;/div>
+ )
+}
+export default function ProfilePage({ userId }: { userId: string }) {
+ return (
+   &lt;div className="max-w-2xl mx-auto p-6">
+     &lt;Suspense fallback={&lt;ProfileSkeleton />}>
+       &lt;UserProfile userId={userId} />
+     &lt;/Suspense>
+   &lt;/div>
+ )
+}
+</code></pre><p>Server Components have direct database access, which makes it easy to accidentally expose sensitive data. Never return raw database entities, always use a <strong>Data Transfer Object</strong> (<strong>DTO</strong>) that explicitly lists the fields safe for the client. The <code>getUserProfile</code> function acts as a data access layer: <em>it fetches the full entity but returns only the public fields</em>. This pattern protects against leaking sensitive fields like password hashes, authentication tokens, or internal flags that might exist on the database model.<p>Performance optimization in React operates at two levels that require different approaches. Client-side optimizations, <em>memoization, virtualization, code splitting</em>, can often be applied incrementally. When you notice a slow interaction, you profile it, identify the bottleneck, and apply a targeted fix. The React DevTools Profiler shows you exactly which components rendered and why, making it straightforward to find unnecessary re-renders or expensive computations.<p>Server Components are different. They're an architectural decision, not an optimization you bolt on later. The boundaries between Server and Client Components affect your entire data fetching strategy, your component composition patterns, and how state flows through your application. If you design these boundaries poorly at the start, you may need significant rewrites to fix them, not incremental improvements. For new projects using Next.js App Router or similar frameworks, think through your server/client split early. <em>Note that standard React DevTools can't profile Server Component render times since that happens on the server</em>; you'll need server-side logging and monitoring tools instead.<p>The techniques in this chapter, concurrent rendering, Suspense boundaries, streaming SSR, give you tools for building responsive applications. But tools aren't solutions. The real skill is knowing when each technique applies and recognizing that simpler code is often faster code.<h1 id=Summary>Summary</h1><p>React 19 represents a fundamental shift in how we think about performance. The manual optimization patterns that dominated React development for years, wrapping components in <code>memo()</code>, stabilizing references with <code>useMemo</code> and <code>useCallback</code>, <code>are being automated by the React Compiler</code>. Instead of developers manually tracking which values need <code>memoization</code>, the compiler analyzes your code at build time and inserts optimizations automatically. This doesn't mean understanding these concepts is useless; it means you can write straightforward code and let tooling handle the tedious parts.<p>Perhaps most critically, we've examined hydration, the often-invisible process that bridges server-rendered HTML and client-side interactivity, and learned strategies to minimize its impact on user experience. These techniques work together synergistically: a smaller bundle hydrates faster, selective hydration with Suspense boundaries enables streaming SSR, and code splitting reduces both initial download size and hydration scope. We've also learned that effective optimization begins with measurement, using tools like React Profiler, Lighthouse, and Web Vitals to identify real bottlenecks before applying solutions.<p>As you continue building React applications, carry forward the mindset that performance is a feature, not an afterthought. Users perceive speed holistically, a fast initial load means nothing if interactions feel sluggish, and instant updates are undermined by janky animations. The advanced features we've explored, particularly concurrent rendering and Server Components, represent React's evolution toward applications that feel native in their responsiveness. Start with clean, maintainable code, measure your application's real-world performance through Core Web Vitals and user-centric metrics, and apply optimizations strategically where they matter most for your specific application and audience. Remember that the best optimization is often the code you don't write, simplifying your component architecture and data flow can yield greater performance gains than any memoization technique. With the knowledge from this chapter, you're now equipped to build React applications that don't just work well but feel exceptional.<p>In the next chapter, the final one, we'll look at deploying a Next.js application to production, on Vercel.<section aria-label="Content tools" class="fixed right-2 lg:right-3 top-18 bottom-22 z-25 flex flex-col justify-between items-center transition-all duration-300 pointer-events-auto" data-color-mode=white data-testid=contentSidebarMenu id=reader-icon-menu><div class="flex flex-col gap-3 items-center"><section class="relative reader-sidebar-item"><button aria-label="Ask questions and explore with AI" class="w-9 h-9 flex items-center justify-center rounded transition-all cursor-pointer" aria-describedby=ai-tooltip-pill data-ai-reader=true data-testid=enhanced-answers-button id=btn-toggle-ai-drawer type=button><svg class="w-5 h-5" viewbox="-2 -3 84 78" aria-hidden="true" focusable="false"><circle cx="21" cy="35" fill="currentColor" r="3"/><circle cx="36" cy="35" fill="currentColor" r="3"/><circle cx="51" cy="35" fill="currentColor" r="3"/><path d="M42.19 11.5H10.84A7.74 7.74.0 003.1 19.24V50.66a7.74 7.74.0 007.74 7.74H16L19 70l8-11.6H61.01a7.74 7.74.0 007.74-7.74V42" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="5"/><path d="M64.7 1.5C66.19 9.3 69.9 13.01 77.7 14.5c-7.8 1.49-11.51 5.2-13 13-1.49-7.8-5.2-11.51-13-13 7.8-1.49 11.51-5.2 13-13z" data-ai-sparkle="" fill="currentColor" stroke="currentColor" stroke-linejoin="round" stroke-width="5"/></svg></button><div class="sidebar-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=ai-tooltip-pill role=tooltip><span>Ask questions and explore with AI</span><span class=tooltip-arrow></span></div></section><section class="relative reader-sidebar-item"><button aria-label="Table of contents" class="w-9 h-9 flex items-center justify-center rounded text-theme-text hover:text-[#D3002D] hover:bg-black/5 dark:hover:bg-white/10 transition-all cursor-pointer" aria-describedby=toc-tooltip-pill data-testid=table-of-contents-button id=btn-toggle-toc-drawer type=button><svg class="w-5 h-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"/></svg> <span class=sr-only>table of contents</span></button><div class="sidebar-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=toc-tooltip-pill role=tooltip><span>Table of contents</span><span class=tooltip-arrow></span></div></section><section class="relative reader-sidebar-item"><button aria-label="Search inside this book" class="w-9 h-9 flex items-center justify-center rounded text-theme-text hover:text-[#D3002D] hover:bg-black/5 dark:hover:bg-white/10 transition-all cursor-pointer" aria-describedby=search-tooltip-pill id=btn-toggle-search-drawer type=button><svg class="w-5 h-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5A7 7 0 113 10a7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/></svg> <span class=sr-only>search</span></button><div class="sidebar-tooltip-bubble search-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=search-tooltip-pill role=tooltip><span>Search inside this book</span><span class=tooltip-arrow></span></div></section></div><div class="flex flex-col gap-3 items-center"><section class=relative id=container-reader-back-to-top><button aria-label="Back to top" class="w-9 h-9 flex items-center justify-center rounded-full text-theme-text bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] shadow-xs hover:border-[#D3002D] hover:text-[#D3002D] hover:shadow-md transform transition-all duration-300 hover:-translate-y-1 active:translate-y-0 cursor-pointer opacity-0 pointer-events-none scale-75" aria-describedby=back-to-top-tooltip-pill id=btn-reader-back-to-top tabindex=0 type=button><svg class="w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="currentColor"><path d="m4 12 1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8z"/></svg></button><div class="sidebar-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=back-to-top-tooltip-pill role=tooltip><span>Back to top</span><span class=tooltip-arrow></span></div></section><section class="relative reader-sidebar-item"><button aria-label="Viewer settings" class="w-9 h-9 flex items-center justify-center rounded text-theme-text hover:text-[#D3002D] hover:bg-black/5 dark:hover:bg-white/10 transition-all cursor-pointer" aria-describedby=settings-tooltip-pill data-testid=reader-settings id=btn-reader-preferences type=button><svg class="w-5 h-5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35.0a1.724 1.724.0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724.0 001.065 2.572c1.756.426 1.756 2.924.0 3.35a1.724 1.724.0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724.0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35.0a1.724 1.724.0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724.0 00-1.065-2.572c-1.756-.426-1.756-2.924.0-3.35a1.724 1.724.0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round"/></svg> <span class=sr-only>settings</span></button><div class="sidebar-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=settings-tooltip-pill role=tooltip><span>Viewer settings</span><span class=tooltip-arrow></span></div></section><section class="relative reader-sidebar-item"><button aria-label="Toggle focus mode" class="w-9 h-9 flex items-center justify-center rounded text-theme-text hover:text-[#D3002D] hover:bg-black/5 dark:hover:bg-white/10 transition-all cursor-pointer relative overflow-hidden" aria-describedby=focus-tooltip-pill id=btn-toggle-focus-mode type=button><svg class="focus-icon-expand w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="currentColor"><path d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/></svg> <svg class="focus-icon-cross w-4 h-4 mx-auto" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="sidebar-tooltip-bubble pointer-events-none absolute right-full mr-3 top-1/2 whitespace-nowrap px-3 py-1.5 rounded-md bg-[#1e1e1e] text-white text-xs font-semibold shadow-xl" id=focus-tooltip-pill role=tooltip><span id=focus-tooltip-text>Toggle focus mode (Shift + F)</span><span class=tooltip-arrow></span></div></section></div></section><aside aria-label="Table of contents" class=reader-drawer id=toc-drawer><div class="flex justify-end px-4 pt-3 pb-0"><button aria-label="Close table of contents" class="p-1 rounded text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" title="Close sidebar" id=btn-close-toc-drawer type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="px-5 pt-1 pb-[1.4rem] has-[.collapsed-details]:pb-0! transition-all duration-300 shrink-0" id=toc-book-header><div class="book-details-inner flex items-start gap-3 transition-all duration-200" id=toc-book-info><div class="toc-cover-container shrink-0"><img alt="React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .)" class="_coverImage_gmm8x_13 rounded shadow-xs shrink-0 bg-gray-100 dark:bg-gray-800" src=https://nemokaul.github.io/ag/books/TNpb/cover.webp style=object-fit:cover;width:52px;min-width:52px;max-width:52px;height:74px;max-height:74px></div><div class="flex-1 min-w-0 space-y-0.5"><h2 class="book-title font-bold text-xs sm:text-sm leading-snug line-clamp-2 text-theme-text" data-testid=detailsTitle><a class="orm-Link-root _link_gmm8x_89 hover:text-[#D3002D]" href=https://nemokaul.github.io/ag/books/TNpb>React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .)</a></h2><p class="book-author text-[11px] text-[#D3002D] font-medium">Carlos Santana Roldán<section class=book-info><p class="text-[10px] text-theme-muted truncate">Published by <span class=underline>Packt</span></section></div><div class="book-icons flex flex-col items-center gap-1.5 shrink-0 pt-0.5"><button class="p-1 rounded text-(--theme-muted) hover:text-(--theme-text) transition-colors cursor-pointer" title="Book Chapters" id=drawer-toc-overview-btn type=button><svg class="w-4 h-4" viewbox="0 0 672 672" fill="none" stroke="currentColor" stroke-width="2"><path d="M328 121C330.9 123.5 333.6 126.1 336.1 128.7 338.6 126 341.2 123.5 344.2 121c31.1-26.6 82.5-37 159.9-37 28.6.0 54.8 18.3 63 47C581.7 181.8 611.3 297.7 615.5 419.1 616.6 451 590.7 476.1 560 476.1c-75.2.0-125.8 10.8-156.7 27.1-16.1 8.5-26.4 18.2-32.4 28.9L560 532c15.5.0 28 12.5 28 28s-12.5 28-28 28H112c-15.5.0-28-12.5-28-28s12.5-28 28-28H301.1c-6-10.7-16.3-20.4-32.4-28.9C237.8 486.8 187.2 476 112 476c-30.7.0-56.6-25.1-55.5-57 4.3-121.3 33.8-237.2 48.4-288.1C113.1 102.3 139.3 83.9 167.9 83.9c77.4.0 128.8 10.5 159.9 37zM158.8 146.5c-14.1 49-42.1 159.3-46.3 273.5 78.6.0 139.8 11.1 182.3 33.6C311.3 462.4 325.1 472.9 336 485.1c10.8-12.2 24.6-22.8 41.2-31.5 42.6-22.5 103.7-33.5 182.3-33.6C555.3 305.7 527.3 195.4 513.2 146.5 512.2 143 508.8 140 504 140c-76.6.0-109.2 11.3-123.6 23.6-12.3 10.5-16.4 26.2-16.4 60.3V392c0 15.5-12.5 28-28 28s-28-12.5-28-28V224C308 189.9 303.8 174.1 291.6 163.6 277.2 151.3 244.6 140 168 140 163.2 140 159.8 142.9 158.8 146.5z" fill="currentColor"/></svg></button><button class="p-1 rounded text-(--theme-muted) hover:text-(--theme-text) transition-colors cursor-pointer" title="Book Details & Progress" data-open-details=TNpb id=drawer-toc-details-btn type=button><svg class="w-4 h-4" viewbox="0 0 640 640" fill="none" stroke-width="2">><path d="M128 112h48C184.8 112 192 119.2 192 128v32H112V128c0-8.8 7.2-16 16-16zm-16 96h80V432H112V208zm128-78v-2c0-35.3-28.7-64-64-64H128c-35.3.0-64 28.7-64 64V512c0 35.3 28.7 64 64 64h48C191.1 576 205 570.7 216 562 227 570.8 240.9 576 256 576h48C315.1 576 325.6 573.2 334.7 568.2 326 554.8 318.9 540.2 313.8 524.7 311.1 526.8 307.7 528 304 528H256C247.2 528 240 520.8 240 512V192C240 183.2 247.2 176 256 176h48C312.8 176 320 183.2 320 192V387.1C337 348.1 366.7 315.9 403.8 295.5l-19.5-72.9 77.3-20.7 18.9 70.6C485.6 272.1 490.8 271.9 496.1 271.9 508 271.9 519.6 273 530.9 275L487.2 112.3C478 78.2 442.9 57.9 408.8 67.1L362.4 79.5c-24.4 6.5-41.8 26.4-46.3 49.7C312.2 128.4 308.1 128.1 304 128.1H256c-5.5.0-10.9.700000000000017-16 2zM192 512C192 520.8 184.8 528 176 528H128C119.2 528 112 520.8 112 512V480h80v32zM421.2 113.4C429.7 111.1 438.5 116.2 440.8 124.7L449.1 155.6l-77.3 20.7L363.5 145.4C361.2 136.9 366.3 128.1 374.8 125.8l46.4-12.4zM496 608c79.5.0 144-64.5 144-144S575.5 320 496 320 352 384.5 352 464s64.5 144 144 144zM485.3 384h21.3C515.4 384 522.6 391.2 522.6 4e2v37.3h37.3C568.7 437.3 575.9 444.5 575.9 453.3v21.3C575.9 483.4 568.7 490.6 559.9 490.6H522.6v37.3C522.6 536.7 515.4 543.9 506.6 543.9H485.3C476.5 543.9 469.3 536.7 469.3 527.9V490.6H432C423.2 490.6 416 483.4 416 474.6V453.3C416 444.5 423.2 437.3 432 437.3h37.3V4e2C469.3 391.2 476.5 384 485.3 384z" fill="currentColor"/></svg></button></div></div><div class="mt-2 space-y-1" id=toc-progress-block><div class="w-full h-1 bg-gray-200 dark:bg-gray-700 overflow-hidden rounded-full"><div class="h-full bg-[#17D2CC] transition-all duration-300" id=toc-drawer-progress-bar style=width:0%></div></div><div class="flex items-center justify-between text-[11px] text-theme-muted"><span class="font-semibold text-theme-text" id=toc-drawer-progress-pct>0% complete</span><span id=toc-drawer-time-left>Approx. 10 hours left</span></div></div></div><button aria-label="Collapse book details" class="book-info-toogle-accordion px-5 py-1.5 text-xs font-semibold text-theme-text hover:text-[#D3002D] flex items-center gap-1.5 border-b border-theme-border/50 cursor-pointer select-none transition-colors" aria-expanded=true id=toc-accordion-toggle type=button><span class="toogle-button inline-flex items-center"> <svg class="w-4 h-4 fill-current transition-transform duration-200" viewbox="0 0 20 20" aria-hidden="true" focusable="false" id="toc-accordion-icon"><path d="M16.7142 15C17.4465 15 18 14.3897 18 13.6295 18 13.2484 17.8528 12.9211 17.6304 12.6718L10.9405 5.42447 10.9365 5.42017C10.6849 5.15388 10.3615 5 9.99568 5 9.65583 5 9.30318 5.14145 9.05271 5.43187L2.37726 12.6726C2.14511 12.9196 2 13.2517 2 13.6295 2 14.3897 2.55348 15 3.28584 15 3.63671 15 3.95598 14.8514 4.18983 14.6184L4.19737 14.6109 9.99593 8.33405 15.7956 14.6034 15.7993 14.6073C16.0335 14.8552 16.3602 15 16.7142 15z"/></svg> </span><span id=toc-accordion-label>Collapse</span></button><div class="flex border-b border-theme-border px-5 text-sm font-semibold shrink-0"><button class="toc-tab-btn py-2.5 px-2 border-b-2 border-blue-600 text-blue-600 dark:text-blue-400 cursor-pointer" id=toc-tab-contents-btn type=button>Contents</button><button class="toc-tab-btn py-2.5 px-2 border-b-2 border-transparent text-theme-muted hover:text-theme-text cursor-pointer" id=toc-tab-highlights-btn type=button>Highlights</button></div><div class="flex-1 overflow-y-auto p-4 space-y-1 autohide-scrollbar" id=toc-tab-contents-panel><ol class=space-y-1 data-testid=tocItems id=toc-items-list></ol></div><div class="flex-1 overflow-y-auto p-4 space-y-3 hidden autohide-scrollbar" id=toc-tab-highlights-panel><div class="flex items-center justify-between pb-3 border-b border-[#d0d7de]/60 dark:border-[#30363d]/60 text-xs shrink-0"><div class=relative><button class="text-blue-600 dark:text-blue-400 font-semibold hover:underline cursor-pointer" id=btn-export-all-highlights type=button>Export All</button><div class="hidden absolute left-0 top-full mt-1 w-44 bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded-md shadow-xl py-1 z-30 text-xs" id=export-highlights-menu><button class="export-opt-btn w-full px-3 py-1.5 text-left text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-format=md type=button>Export Markdown (.md)</button><button class="export-opt-btn w-full px-3 py-1.5 text-left text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-format=csv type=button>Export CSV (.csv)</button><button class="export-opt-btn w-full px-3 py-1.5 text-left text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-format=json type=button>Export JSON (.json)</button></div></div><div class="flex items-center gap-2"><div class="relative flex items-center gap-1.5 text-[#656d76] dark:text-[#8b949e]"><span class=text-[11px]>Sort by</span><button class="px-2 py-1 rounded border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#21262d] text-theme-text font-medium flex items-center gap-1 hover:border-gray-400 cursor-pointer" id=hl-sort-btn type=button><span id=hl-sort-current-label>Chapter</span> <svg class="w-3 h-3" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="hidden absolute right-0 top-full mt-1 w-28 bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded-md shadow-xl py-1 z-30 text-xs" id=hl-sort-menu><button class="hl-sort-opt w-full px-3 py-1.5 text-left flex items-center justify-between text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-sort=chapter type=button><span>Chapter</span> <span class="text-blue-600 font-bold" id=sort-check-chapter>✓</span></button><button class="hl-sort-opt w-full px-3 py-1.5 text-left flex items-center justify-between text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-sort=date type=button><span>Date</span> <span class="text-blue-600 font-bold hidden" id=sort-check-date>✓</span></button></div></div><div class=relative><button class="px-2 py-1 rounded border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#21262d] flex items-center gap-1 hover:border-gray-400 cursor-pointer" title="Filter highlights by color" id=hl-filter-color-btn type=button><div class="flex items-center -space-x-0.5" id=hl-filter-dots><span class="w-2.5 h-2.5 rounded-full bg-[#ffedb0] border border-black/20"></span><span class="w-2.5 h-2.5 rounded-full bg-[#14d4d8] border border-black/20"></span><span class="w-2.5 h-2.5 rounded-full bg-[#ff7593] border border-black/20"></span></div><svg class="w-3 h-3 text-theme-muted ml-0.5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="hidden absolute right-0 top-full mt-1 w-36 bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded-md shadow-xl py-1 z-30 text-xs select-none" id=hl-filter-color-menu><label class="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-theme-text border-b border-gray-100 dark:border-gray-800 font-semibold"><input class="rounded border-gray-300 dark:border-gray-600 text-blue-600 cursor-pointer focus:ring-0" checked id=hl-filter-all-checkbox type=checkbox> <span>All Colors</span></label><label class="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-theme-text"><input class="hl-color-checkbox rounded border-gray-300 dark:border-gray-600 text-amber-500 cursor-pointer focus:ring-0" checked data-color=yellow type=checkbox> <span class="w-3 h-3 rounded-full bg-[#ffedb0] border border-black/20 shrink-0"></span> <span>Yellow</span></label><label class="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-theme-text"><input class="hl-color-checkbox rounded border-gray-300 dark:border-gray-600 text-cyan-500 cursor-pointer focus:ring-0" checked data-color=blue type=checkbox> <span class="w-3 h-3 rounded-full bg-[#14d4d8] border border-black/20 shrink-0"></span> <span>Blue</span></label><label class="flex items-center gap-2 px-3 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer text-theme-text"><input class="hl-color-checkbox rounded border-gray-300 dark:border-gray-600 text-rose-500 cursor-pointer focus:ring-0" checked data-color=red type=checkbox> <span class="w-3 h-3 rounded-full bg-[#ff7593] border border-black/20 shrink-0"></span> <span>Red</span></label></div></div></div></div><div class=space-y-3 id=highlights-list><div class="p-6 text-center text-xs text-[#656d76] dark:text-[#8b949e]">Select any text in the book to save notes and highlights!</div></div></div></aside><aside aria-label=Search class=reader-drawer id=search-drawer><div class="p-4 flex items-center justify-between border-b border-[#d0d7de] dark:border-[#30363d] shrink-0"><h2 class="text-2xl font-bold tracking-tight text-[#1f2328] dark:text-[#f0f6fc]">Search</h2><button aria-label="Close search" class="p-1 rounded text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" title="Close search" id=btn-close-search-drawer type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="p-4 border-b border-[#d0d7de]/60 dark:border-[#30363d]/60 shrink-0"><div class="relative flex items-center border-2 border-[#007b82] rounded-md px-3 py-2 bg-white dark:bg-[#0d1117] focus-within:ring-2 focus-within:ring-[#007b82]/40"><svg class="w-4 h-4 text-gray-500 mr-2.5 shrink-0" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 21l-6-6m2-5A7 7 0 113 10a7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"/></svg><input class="w-full bg-transparent text-sm text-[#1f2328] dark:text-[#f0f6fc] placeholder-gray-400 focus:outline-none font-sans" placeholder="Search in this book" id=book-search-input></div></div><div class="flex-1 overflow-y-auto p-4 space-y-3" id=book-search-results><div class="p-8 text-center text-xs text-[#656d76] dark:text-[#8b949e]">Start typing to search chapters, concepts, and code in this book...</div></div></aside><aside aria-label="Ask AI" class="reader-drawer flex flex-col bg-theme-bg border-l border-theme-border text-theme-text" aria-modal=true id=ai-drawer role=dialog><div class="flex items-center w-full box-border px-4 py-3 border-b border-theme-border bg-theme-bg shrink-0" id=ai-drawer-header><div class="flex items-center gap-2 shrink-0"><svg class="w-5 h-5 text-[#14d4d8] shrink-0" viewbox="0 0 24 24" fill="currentColor"><path d="M12 2l1.8 5.6L19 9.4l-5.2 1.8L12 16.8l-1.8-5.6L5 9.4l5.2-1.8L12 2zm7 13 .9 2.6L22.5 18.5l-2.6.9L19 22l-.9-2.6-2.6-.9 2.6-.9L19 15z"/></svg><h2 class="text-base font-bold tracking-tight text-theme-text truncate" id=ai-drawer-title>Ask AI</h2></div><div style=flex:auto;min-width:0></div><div class="flex items-center gap-3 shrink-0"><div class=relative id=ai-engine-root><button class="flex items-center gap-1.5 px-2 py-1 rounded-full border border-theme-border bg-theme-secondary hover:border-[#007b82] text-xs font-semibold text-theme-text cursor-pointer" aria-expanded=false aria-haspopup=menu id=btn-engine-picker type=button><span class="w-4 h-4 flex items-center justify-center shrink-0" id=engine-active-icon></span> <span class="max-w-[92px] truncate" id=engine-active-name>ChatGPT</span> <svg class="w-3 h-3 text-theme-muted" viewbox="0 0 24 24" fill="none" id="engine-caret" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div aria-label="AI engine" class="hidden absolute right-0 top-full mt-1.5 w-64 p-1.5 rounded-lg border border-theme-border bg-theme-bg shadow-xl z-50 max-h-72 overflow-y-auto" id=ai-engine-menu role=menu></div></div><button aria-label="Close Ask AI" class="p-1 rounded text-theme-muted hover:text-theme-text cursor-pointer" id=btn-close-ai-drawer title=Close type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18 18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div><div class="flex-1 overflow-y-auto autohide-scrollbar px-4 py-4 space-y-4 bg-theme-bg"><div class=space-y-1.5><div class="flex items-center gap-2 pt-3 text-xs min-w-0"><svg class="w-3.5 h-3.5 text-[#D3002D] shrink-0" viewbox="0 0 20 20" aria-hidden="true" fill="currentColor"><path d="M9 4.804A7.968 7.968.0 005.5 4c-1.255.0-2.443.29-3.5.804v10A7.969 7.969.0 015.5 14c1.669.0 3.218.51 4.5 1.385A7.962 7.962.0 0114.5 14c1.255.0 2.443.29 3.5.804v-10A7.968 7.968.0 0014.5 4c-1.255.0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg><span class="font-semibold text-theme-text truncate text-xs flex-1" id=ai-context-chapter-title>Chapter 16: Optimizing Performance in React Applications</span><span class="ml-auto shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#007b82]/15 text-[#14d4d8] border border-[#007b82]/30" id=ai-scope-chip>Whole chapter</span></div><div class="hidden items-start gap-1.5 text-[11px] bg-theme-secondary border border-theme-border rounded-md px-2.5 py-1.5 shadow-2xs" id=ai-selection-chip><span class="text-[#14d4d8] shrink-0 font-semibold" id=ai-selection-count>0 words</span><span class="text-theme-muted italic truncate flex-1 select-text" id=ai-selection-text></span><button class="shrink-0 text-[#ef4444] hover:text-[#D3002D] cursor-pointer font-medium text-xs transition-colors hover:underline" title="Use whole chapter again" id=btn-clear-selection type=button>Clear</button></div></div><div class="rounded-lg border border-theme-border bg-theme-secondary focus-within:border-[#007b82] focus-within:ring-2 focus-within:ring-[#007b82]/25 transition-all shadow-2xs flex flex-col" id=ai-composer-card><textarea class="w-full resize-y min-h-[84px] max-h-[300px] bg-transparent rounded-t-lg px-3 pt-2.5 pb-2 text-xs leading-relaxed text-theme-text placeholder-theme-muted focus:outline-none" placeholder="Ask about this chapter — or tap a quick action below" id=ai-composer-input rows=4></textarea><div class="flex items-center justify-between px-3 py-2 border-t border-theme-border bg-black/5 dark:bg-black/20 rounded-b-lg shrink-0" id=composer-dest-bar><span class="text-[10px] text-theme-muted">Opens in <span class="font-semibold text-theme-text" id=composer-dest>ChatGPT</span></span><div class="flex items-center gap-1.5 shrink-0"><button class="p-1.5 rounded-full border border-theme-border bg-theme-bg hover:border-[#007b82] text-theme-muted hover:text-theme-text cursor-pointer transition-colors shadow-2xs flex items-center justify-center" title="Copy prompt to clipboard" id=btn-copy-composer type=button><svg class="w-3.5 h-3.5" viewbox="0 0 24 24" fill="none" id="copy-composer-icon" stroke="currentColor" stroke-width="2"><path d="M8 5H6A2 2 0 004 7v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0 3-3m-3 3 3 3" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#007b82] hover:bg-[#008f96] text-white text-xs font-semibold disabled:opacity-60 cursor-pointer transition-colors shadow-2xs" title="Send prompt" id=btn-send-prompt type=button><span id=send-label>Send</span> <svg class="w-3.5 h-3.5" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 5l7 7m0 0-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></div></div><div><div class="text-[10px] font-bold uppercase tracking-wider text-theme-muted mb-2">QUICK ACTIONS</div><div class="flex flex-wrap gap-1.5" id=quick-action-pills></div><p class="text-[10px] text-theme-muted mt-4 mb-2">Selecting an action fills the box above — review or edit it, then press Send when ready.</div></div><div class="shrink-0 px-4 py-3 border-t border-theme-border bg-theme-bg space-y-1" id=ai-drawer-footer><div class="text-[11px] text-theme-muted flex items-center gap-1.5" id=ai-dest-note><svg class="w-3.5 h-3.5 shrink-0" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 6H6A2 2 0 004 8v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Prompts open in <b class="font-semibold text-theme-text" id=dest-note-engine>ChatGPT</b> in a new tab. Replies stay there.</span></div><div class="text-[10px] text-theme-muted flex items-center gap-1.5"><svg class="w-3.5 h-3.5 shrink-0" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 16h-1v-4h-1m1-4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg><span>AI-generated content may be incorrect — verify against the chapter.</span></div></div></aside><div class="hidden fixed left-1/2 -translate-x-1/2 bottom-14 z-[70] px-4 py-2 rounded-full bg-[#1f2328] dark:bg-[#f0f6fc] text-white dark:text-[#0d1117] text-xs font-semibold shadow-2xl whitespace-nowrap transition-all duration-200 pointer-events-none flex items-center gap-2" aria-live=polite id=ai-toast></div><footer class="fixed bottom-0 left-0 right-0 z-20 border-t backdrop-blur-md transition-all duration-300" id=reader-bottom-bar><div class="w-full h-1 bg-gray-200 dark:bg-gray-700 relative" aria-valuemax=100 aria-valuemin=0 aria-valuenow=0 role=progressbar><div class="h-full bg-[#17D2CC] transition-all duration-300" id=bottom-book-progress-fill style=width:0%></div></div><section class="flex items-center justify-between px-4 sm:px-8 py-2 min-h-[3.25rem]"><div class="flex items-center min-w-0" data-testid=statusBarPrevious><a aria-label="Previous Chapter" class="flex items-center gap-1.5 hover:text-[#D3002D] font-medium text-xs sm:text-sm py-1 transition-colors" href=https://nemokaul.github.io/ag/books/TNpb/VsKBrA id=reader-prev-link><svg class="w-3.5 h-3.5 text-[#D3002D] shrink-0" viewbox="0 0 20 20" fill="currentColor"><path d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414.0z" clip-rule="evenodd" fill-rule="evenodd"/></svg> <span class="truncate max-w-[120px] sm:max-w-[220px]">Previous</span></a></div><div class="text-center px-2 flex-1 min-w-0" data-datadog-id=ucv-nav-title lang=en><div class="flex items-center justify-center gap-2 max-w-full"><div class="font-bold text-xs sm:text-sm truncate text-theme-text" title="Chapter 16: Optimizing Performance in React Applications">Chapter 16: Optimizing Performance in React Applications</div><button class="cursor-pointer shrink-0 p-1 rounded hover:bg-theme-secondary transition-colors" title="Table of contents" id=bottom-toc-btn type=button><svg class="w-4 h-4 text-theme-text" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="cursor-pointer shrink-0 p-1 rounded hover:bg-theme-secondary transition-colors" title="Book details & progress" data-open-details=TNpb id=bottom-details-btn type=button><svg class="w-4 h-4 text-theme-text" viewbox="0 0 640 640" fill="none" stroke="currentColor" stroke-width="2"><path d="M128 112h48C184.8 112 192 119.2 192 128v32H112V128c0-8.8 7.2-16 16-16zm-16 96h80V432H112V208zm128-78v-2c0-35.3-28.7-64-64-64H128c-35.3.0-64 28.7-64 64V512c0 35.3 28.7 64 64 64h48C191.1 576 205 570.7 216 562 227 570.8 240.9 576 256 576h48C315.1 576 325.6 573.2 334.7 568.2 326 554.8 318.9 540.2 313.8 524.7 311.1 526.8 307.7 528 304 528H256C247.2 528 240 520.8 240 512V192C240 183.2 247.2 176 256 176h48C312.8 176 320 183.2 320 192V387.1C337 348.1 366.7 315.9 403.8 295.5l-19.5-72.9 77.3-20.7 18.9 70.6C485.6 272.1 490.8 271.9 496.1 271.9 508 271.9 519.6 273 530.9 275L487.2 112.3C478 78.2 442.9 57.9 408.8 67.1L362.4 79.5c-24.4 6.5-41.8 26.4-46.3 49.7C312.2 128.4 308.1 128.1 304 128.1H256c-5.5.0-10.9.700000000000017-16 2zM192 512C192 520.8 184.8 528 176 528H128C119.2 528 112 520.8 112 512V480h80v32zM421.2 113.4C429.7 111.1 438.5 116.2 440.8 124.7L449.1 155.6l-77.3 20.7L363.5 145.4C361.2 136.9 366.3 128.1 374.8 125.8l46.4-12.4zM496 608c79.5.0 144-64.5 144-144S575.5 320 496 320 352 384.5 352 464s64.5 144 144 144zM485.3 384h21.3C515.4 384 522.6 391.2 522.6 4e2v37.3h37.3C568.7 437.3 575.9 444.5 575.9 453.3v21.3C575.9 483.4 568.7 490.6 559.9 490.6H522.6v37.3C522.6 536.7 515.4 543.9 506.6 543.9H485.3C476.5 543.9 469.3 536.7 469.3 527.9V490.6H432C423.2 490.6 416 483.4 416 474.6V453.3C416 444.5 423.2 437.3 432 437.3h37.3V4e2C469.3 391.2 476.5 384 485.3 384z" fill="currentColor"/></svg></button></div><div class="text-[11px] font-medium truncate opacity-70 text-theme-muted">React Design Patterns and Best Practices - 5 Edition - Design, build, and deploy production-ready web applications by leveraging industry-best practices - React Design Patterns and Best Practices (for . .)</div></div><div class="flex items-center justify-end gap-3 min-w-0" data-testid=statusBarNext><div class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border transition-all select-none border-theme-border/60 text-theme-muted" title="0% Completed" id=bottom-reading-status-badge><span class="status-indicator-dot text-[10px]">●</span><span class=status-indicator-text>Reading (0%)</span></div></div></section></footer><div aria-label="Text selection actions" class="fixed z-60 bg-[#2b2b36] text-white rounded-lg shadow-2xl flex flex-col text-xs font-sans hidden select-none transition-opacity duration-150 border border-gray-700/70" id=reader-selection-toolbar role=toolbar><div class="selection-toolbar-arrow selection-toolbar-arrow-down" id=toolbar-arrow></div><button aria-label="Explain this concept" class="enhanced-answers-button w-full flex items-center gap-2 px-3.5 py-2.5 text-left text-xs sm:text-sm font-semibold text-white hover:bg-white/10 transition-colors cursor-pointer border-b border-gray-700/60 rounded-t-lg" title="Explain this concept with AI" id=toolbar-btn-explain type=button> <svg class="w-4 h-4 text-white shrink-0" viewbox="0 0 21 21" aria-hidden="true" fill="currentColor" focusable="false"><path d="M7.83078.608837c.194-.434178.81033-.434178 1.00432.0L9.22055 1.47149l.86265.38544C10.5174 2.05093 10.5174 2.66725 10.0832 2.86124l-.86265.38545L8.8351 4.10934C8.64111 4.54352 8.02478 4.54352 7.83078 4.10934l-.38545-.86265-.86266-.38545c-.43419-.19399-.43419-.81031.0-1.00431l.86266-.38544.38545-.862653z"/><path d="M2.38992 3.88548c.291-.65127 1.21549-.65127 1.50649.0l.57817 1.29398 1.29399.57817c.65128.29099.65128 1.21547.0 1.50646L4.47458 7.84226 3.89641 9.13624C3.60541 9.78751 2.68092 9.78751 2.38992 9.13624L1.81175 7.84226.517753 7.26409C-.133522 6.9731-.133522 6.04862.517753 5.75763L1.81175 5.17946l.57817-1.29398z"/><path d="M14.1147 6.25128c-.6297-1.40932-2.6302-1.40931-3.2599.0L9.56187 9.14488C9.42843 9.44354 9.1895 9.68246 8.89084 9.8159L5.9972 11.1088c-1.40933.6297-1.40932 2.6302.0 3.2599l2.89364 1.2929C9.1895 15.795 9.42843 16.034 9.56187 16.3326l1.29293 2.8936C11.4845 20.6355 13.485 20.6355 14.1147 19.2262l1.2929-2.8936C15.5411 16.034 15.78 15.795 16.0787 15.6616l2.8936-1.2929c1.4093-.6297 1.4093-2.6302.0-3.2599L16.0787 9.8159C15.78 9.68246 15.5411 9.44354 15.4076 9.14488l-1.2929-2.8936zM12.2194 6.861c.102499999999999-.22943.4282-.22942.5307.0L14.043 9.75461C14.3266 10.3892 14.8343 10.897 15.4689 11.1805l2.8937 1.2929C18.592 12.5759 18.592 12.9016 18.3626 13.0041L15.4689 14.297C14.8343 14.5805 14.3266 15.0883 14.043 15.7229l-1.2929 2.8936C12.6476 18.8459 12.3219 18.8459 12.2194 18.6165l-1.2929-2.8936C10.6429 15.0883 10.1352 14.5805 9.50057 14.297L6.60693 13.0041C6.3775 12.9016 6.37751 12.5759 6.60693 12.4734l2.89364-1.2929c.63463-.2835 1.14233-.7913 1.42593-1.42589L12.2194 6.861z" clip-rule="evenodd" fill-rule="evenodd"/></svg> <span>Explain this concept</span></button><div class="flex items-center divide-x divide-gray-700/60 py-0.5 px-0.5"><div class="relative flex items-center"><button aria-label="Highlight color select" class="flex items-center gap-1 px-2 py-1.5 hover:bg-white/10 rounded-l cursor-pointer text-white" title="Select highlight color" aria-expanded=false id=toolbar-color-btn type=button><span class="w-3.5 h-3.5 rounded-full bg-[#ffedb0] border border-black/20 shrink-0" id=toolbar-active-color-dot></span> <svg class="w-3 h-3 text-gray-300 transition-transform duration-150" viewbox="0 0 24 24" fill="none" id="toolbar-color-chevron" stroke="currentColor" stroke-width="2.5"><path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="px-2.5 py-1.5 font-semibold text-white hover:text-yellow-200 hover:bg-white/10 cursor-pointer" title="Highlight text" id=toolbar-btn-highlight type=button>Highlight</button><div class="hidden absolute top-full left-0 mt-2 p-1.5 bg-[#2b2b36] border border-gray-700 rounded-md shadow-2xl flex items-center gap-2 z-70" id=toolbar-color-palette><button class="palette-color-btn w-5 h-5 rounded-full bg-[#ffedb0] border-2 border-white hover:scale-110 transition-transform cursor-pointer" data-color=yellow title=Yellow type=button></button><button class="palette-color-btn w-5 h-5 rounded-full bg-[#14d4d8] border-2 border-transparent hover:scale-110 transition-transform cursor-pointer" data-color=blue title=Blue type=button></button><button class="palette-color-btn w-5 h-5 rounded-full bg-[#ff7593] border-2 border-transparent hover:scale-110 transition-transform cursor-pointer" data-color=red title=Red type=button></button></div></div><button class="px-3 py-1.5 font-semibold text-white hover:text-blue-300 hover:bg-white/10 cursor-pointer transition-colors" title="Add Note to highlight" id=toolbar-btn-note type=button>Add Note</button><button class="px-3 py-1.5 text-white hover:bg-white/10 cursor-pointer transition-colors" title="Copy text to clipboard" id=toolbar-btn-copy type=button>Copy</button><button class="px-2.5 py-1.5 text-white hover:bg-white/10 cursor-pointer transition-colors" title="Copy link to selection" id=toolbar-btn-link type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13.828 10.172a4 4 0 00-5.656.0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656.0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" stroke-linecap="round" stroke-linejoin="round"/></svg></button><button class="px-2.5 py-1.5 text-rose-400 hover:bg-rose-900/30 hover:text-rose-300 cursor-pointer transition-colors hidden" title="Delete Highlight" id=toolbar-btn-delete type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4A1 1 0 009 4v3M4 7h16" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="hidden absolute z-70 w-80 max-h-[85vh] overflow-y-auto autohide-scrollbar p-2.5 bg-[#202028] border border-gray-700/80 rounded-xl shadow-2xl backdrop-blur-md transition-all duration-150" id=toolbar-explain-popover><div class="flex items-center justify-between pb-1.5 mb-2 border-b border-gray-700/60 text-[11px] font-semibold text-gray-300"><span class="flex items-center gap-1.5"><span>✨</span> <span>Ask AI to Explain Concept</span> </span><button class="text-gray-400 hover:text-white text-base leading-none cursor-pointer" id=btn-close-explain-popover type=button>×</button></div><div class="grid grid-cols-2 gap-1.5 text-xs"><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=claude type=button><div class="w-6 h-6 rounded-md bg-[#D97706]/15 flex items-center justify-center shrink-0 group-hover:bg-[#D97706]/30"><svg class="w-4 h-4 text-[#F59E0B]" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width=".5"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997.0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114z"/></svg></div><div><div class="font-semibold text-xs">Claude</div><div class="text-[10px] text-gray-400">Anthropic</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=chatgpt type=button><div class="w-6 h-6 rounded-md bg-[#10A37F]/15 flex items-center justify-center shrink-0 group-hover:bg-[#10A37F]/30"><svg class="w-4 h-4 text-[#10A37F]" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.217 19.384A3.501 3.501.0 0018 18.167V13l-6-3.35"/><path d="M5.214 15.014A3.501 3.501.0 009.66 20.28L14 17.746V10.8"/><path d="M6 7.63c-1.391-.236-2.787.395-3.534 1.689a3.474 3.474.0 001.271 4.745L8 16.578l6-3.348"/><path d="M12.783 4.616A3.501 3.501.0 006 5.833V10.9l6 3.45"/><path d="M18.786 8.986A3.501 3.501.0 0014.34 3.72L10 6.254V13.2"/><path d="M18 16.302c1.391.236 2.787-.395 3.534-1.689a3.474 3.474.0 00-1.271-4.745l-4.308-2.514L10 10.774"/></svg></div><div><div class="font-semibold text-xs">ChatGPT</div><div class="text-[10px] text-gray-400">OpenAI</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=gemini type=button><div class="w-6 h-6 rounded-md bg-[#3B82F6]/15 flex items-center justify-center shrink-0 group-hover:bg-[#3B82F6]/30"><svg class="w-4 h-4 text-[#60A5FA]" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C12 7.5 7.5 12 2 12c5.5.0 10 4.5 10 10 0-5.5 4.5-10 10-10-5.5.0-10-4.5-10-10z"/></svg></div><div><div class="font-semibold text-xs">Gemini</div><div class="text-[10px] text-gray-400">Google</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=copilot type=button><div class="w-6 h-6 rounded-md bg-[#0EA5E9]/15 flex items-center justify-center shrink-0 group-hover:bg-[#0EA5E9]/30"><svg class="w-4 h-4 text-[#38BDF8]" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.16 9.6c.25-.85 1.03-1.44 1.92-1.44h5.78c-.88.0-1.67-.58-1.92-1.43l-.56-1.93c-.25-.85-1.03-1.44-1.92-1.43m-1.34 10.07-.28.97c-.25.85-1.03 1.44-1.92 1.44H5.35c.89.0 1.68.58 1.92 1.44l.55 1.91c.25.85 1.03 1.44 1.92 1.44"/><path d="M14.38 3.37H7.45c-1.98.0-3.17 2.61-3.95 5.23-.95 3.1-2.17 7.24 1.38 7.24h2.99c.89.0 1.68-.59 1.92-1.45.52-1.82 1.43-4.99 2.15-7.41.36-1.23.66-2.28 1.13-2.94.3-.43.78-.68 1.31-.67zM9.63 20.64h6.92c1.98.0 3.17-2.61 3.96-5.23.94-3.1 2.16-7.24-1.38-7.24h-3c-.89.0-1.67.59-1.92 1.45-.7 2.47-1.42 4.94-2.15 7.41-.36 1.23-.67 2.28-1.13 2.94-.3.43-.79.68-1.3.67z"/></svg></div><div><div class="font-semibold text-xs">Copilot</div><div class="text-[10px] text-gray-400">Microsoft</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=deepseek type=button><div class="w-6 h-6 rounded-md bg-[#4D6BFE]/15 flex items-center justify-center shrink-0 group-hover:bg-[#4D6BFE]/30"><svg class="w-4 h-4 text-[#4D6BFE]" viewbox="0 0 24 24" fill="currentColor"><path d="M23.748 4.651c-.254-.124-.364.113-.512.233-.051.04-.094.09-.137.137-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.155-.708-.311-.955-.65-.172-.24-.219-.509-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.094.172.187.129.323-.082.28-.18.553-.266.833-.055.179-.137.218-.328.14a5.5 5.5.0 01-1.737-1.179c-.857-.828-1.631-1.743-2.597-2.46a12 12 0 00-.689-.47c-.985-.957.13-1.743.387-1.836.27-.098.094-.433-.778-.428-.872.003-1.67.295-2.687.685a3 3 0 01-.465.136 9.6 9.6.0 00-2.883-.101c-1.885.21-3.39 1.1-4.497 2.622C.082 8.776-.231 10.854.152 13.02c.403 2.284 1.568 4.175 3.36 5.653 1.857 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.132-.284 4.994-1.86.47.234.962.328 1.78.398.629.058 1.235-.031 1.705-.129.735-.155.684-.836.418-.961-2.155-1.004-1.682-.595-2.112-.926 1.095-1.295 2.768-3.598 3.284-6.733.05-.346.115-.834.108-1.114-.004-.171.035-.238.23-.257a4.2 4.2.0 001.545-.475c1.397-.763 1.96-2.016 2.093-3.517.02-.23-.004-.467-.247-.588M11.58 18.168c-2.088-1.642-3.101-2.183-3.52-2.16-.39.024-.32.472-.234.763.09.288.207.487.371.74.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.168-1.361-.801-2.5-1.86-3.301-3.306-.775-1.393-1.225-2.888-1.299-4.482-.02-.385.094-.522.477-.592a4.7 4.7.0 011.53-.038c2.131.311 3.946 1.264 5.467 2.774.868.86 1.525 1.887 2.202 2.89.72 1.066 1.494 2.082 2.48 2.915.348.291.626.513.892.677-.802.09-2.14.109-3.055-.615zm1.001-6.44a.306.306.0 01.415-.287.3.3.0 01.113.074.3.3.0 01.086.214c0 .17-.136.307-.308.307a.303.303.0 01-.306-.307m3.11 1.596c-.2.081-.4.151-.591.16a1.25 1.25.0 01-.798-.254c-.274-.23-.47-.358-.551-.758a1.7 1.7.0 01.015-.588c.07-.327-.007-.537-.238-.727-.188-.156-.426-.199-.689-.199a.6.6.0 01-.254-.078.253.253.0 01-.114-.358 1 1 0 01.192-.21c.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.392.451.462.576.685.915.176.264.336.536.446.848.066.194-.02.353-.25.45"/></svg></div><div><div class="font-semibold text-xs">DeepSeek</div><div class="text-[10px] text-gray-400">DeepSeek AI</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=grok type=button><div class="w-6 h-6 rounded-md bg-white/10 flex items-center justify-center shrink-0 group-hover:bg-white/20"><svg class="w-4 h-4 text-white" viewbox="0 0 34 33" fill="currentColor" stroke="currentColor" stroke-width=".5"><path d="M13.2371 21.0407l11.0815-8.1901C24.8619 12.4491 25.6384 12.6057 25.8973 13.2294 27.2597 16.5185 26.651 20.4712 23.9403 23.1851c-2.7106 2.7138-6.4822 3.309-9.9295 1.9535l-3.7659 1.7457c5.4014 3.6963 11.9604 2.7822 16.0591-1.3242 3.2511-3.255 4.258-7.6918 3.3165-11.6928L29.629 13.8758C28.2637 7.99809 29.9647 5.64871 33.449.844576 33.5314.730667 33.6139.616757 33.6964.5L29.1113 5.09055V5.07631L13.2343 21.0436"/><path d="M10.9503 23.0313C7.07343 19.3235 7.74185 13.5853 11.0498 10.2763c2.4461-2.44908 6.4538-3.44863 9.9523-1.9792l3.7574-1.73712c-.6769-.48981-1.5445-1.01664-2.54-1.38685-4.4997-1.85387-9.8869-.93121-13.54471 2.72813C5.15635 11.4239 4.0499 16.8403 5.94992 21.4622 7.36924 24.9165 5.04257 27.3598 2.69884 29.826 1.86829 30.7002 1.0349 31.5745.36364 32.5L10.9474 23.0341"/></svg></div><div><div class="font-semibold text-xs">Grok</div><div class="text-[10px] text-gray-400">xAI</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=zai type=button><div class="w-6 h-6 rounded-md bg-[#257AF1]/15 flex items-center justify-center shrink-0 group-hover:bg-[#257AF1]/30"><svg class="w-4 h-4 text-[#257AF1]" viewbox="0 0 30 30" fill="currentColor"><path d="M15.47 7.1l-1.3 1.85c-.2.29-.54.47-.9.47h-7.1V7.09C6.16 7.1 15.47 7.1 15.47 7.1z"/><polygon points="24.3,7.1 13.14,22.91 5.7,22.91 16.86,7.1"/><path d="M14.53 22.91l1.31-1.86c.2-.29.54-.47.9-.47h7.09v2.33h-9.3z"/></svg></div><div><div class="font-semibold text-xs">Z.ai</div><div class="text-[10px] text-gray-400">GLM / Zhipu</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=mistral type=button><div class="w-6 h-6 rounded-md bg-[#EA580C]/15 flex items-center justify-center shrink-0 group-hover:bg-[#EA580C]/30"><svg class="w-4 h-4 text-[#F97316]" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width=".5"><path d="M17.143 3.429v3.428h-3.429v3.429h-3.428V6.857H6.857V3.43H3.43v13.714H0v3.428h10.286v-3.428H6.857v-3.429h3.429v3.429h3.429v-3.429h3.428v3.429h-3.428v3.428H24v-3.428h-3.43V3.429z"/></svg></div><div><div class="font-semibold text-xs">Mistral</div><div class="text-[10px] text-gray-400">Le Chat</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=duckai type=button><div class="w-6 h-6 rounded-md bg-[#DE5833]/15 flex items-center justify-center shrink-0 group-hover:bg-[#DE5833]/30"><svg class="w-4 h-4 text-[#DE5833]" viewbox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37.0.0 5.37.0 12s5.37 12 12 12 12-5.37 12-12S18.63.0 12 0zm0 .984C18.083.984 23.016 5.916 23.016 12S18.084 23.016 12 23.016.984 18.084.984 12C.984 5.917 5.916.984 12 .984zm0 .938C6.434 1.922 1.922 6.434 1.922 12c0 4.437 2.867 8.205 6.85 9.55-.237-.82-.776-2.753-1.6-6.052-1.184-4.741-2.064-8.606 2.379-9.813.047-.011.064-.064.03-.093-.514-.467-1.382-.548-2.233-.38a.06.06.0 01-.07-.058c0-.011.0-.023.011-.035.205-.286.572-.507.822-.64a1.843 1.843.0 00-.607-.335c-.059-.022-.059-.12-.006-.144.006-.006.012-.012.024-.012 1.749-.233 3.586.292 4.49 1.448.011.011.023.017.035.023 2.968.635 3.509 4.837 3.328 5.998a9.607 9.607.0 002.346-.576c.746-.286 1.008-.222 1.101-.053.1.193-.018.513-.28.81-.496.567-1.393 1.01-2.974 1.137-.546.044-1.029.024-1.445.006-.789-.035-1.339-.059-1.633.39-.192.298-.041.998 1.487 1.22 1.09.157 2.078.047 2.798-.034.643-.07 1.073-.118 1.172.069.21.402-.996 1.207-3.066 1.224-.158.0-.315-.006-.467-.011-1.283-.065-2.227-.414-2.816-.735a.094.094.0 01-.035-.017c-.105-.059-.31.045-.188.267.07.134.444.478 1.004.776-.058.466.087 1.184.338 2l.088-.016c.041-.009.087-.019.134-.025.507-.082.775.012.926.175.717-.536 1.913-1.294 2.03-1.154.583.694.66 2.332.53 2.99-.004.012-.017.024-.04.035-.274.117-1.783-.296-1.783-.511-.059-1.075-.26-1.173-.493-1.225h-.156c.006.006.012.018.018.03l.052.12c.093.257.24 1.063.13 1.26-.112.199-.835.297-1.284.303-.443.006-.543-.158-.637-.408-.07-.204-.103-.675-.103-.95a.857.857.0 01.012-.216c-.134.058-.333.193-.397.281-.017.262-.017.682.123 1.149.07.221-1.518 1.164-1.74.99-.227-.181-.634-1.952-.459-2.67-.187.017-.338.075-.42.191-.367.508.093 2.933.582 3.248.257.169 1.54-.553 2.176-1.095.105.145.305.158.553.158.326-.012.782-.06 1.103-.158.192.45.423.972.613 1.388 4.47-1.032 7.803-5.037 7.803-9.82.0-5.566-4.512-10.078-10.078-10.078zm1.791 5.646c-.42.0-.678.146-.795.332-.023.047.047.094.094.07.14-.075.357-.161.701-.156.328.006.516.09.67.159l.023.01c.041.017.088-.03.059-.065-.134-.18-.332-.35-.752-.35zm-5.078.198a1.24 1.24.0 00-.522.082c-.454.169-.67.526-.67.76.0.051.112.057.141.011.081-.123.21-.31.617-.478.408-.17.73-.146.951-.094.047.012.083-.041.041-.07a.989.989.0 00-.558-.211zm5.434 1.423a.651.651.0 00-.655.647.652.652.0 001.307.0.646.646.0 00-.652-.647zm.283.262h.008a.17.17.0 01.17.17c0 .093-.077.17-.17.17a.17.17.0 01-.17-.17c0-.09.072-.165.162-.17zm-5.358.076a.752.752.0 00-.758.758c0 .42.338.758.758.758s.758-.337.758-.758a.756.756.0 00-.758-.758zm.328.303h.01c.112.0.2.089.2.2.0.11-.088.197-.2.197a.195.195.0 01-.197-.198c0-.107.082-.194.187-.199z"/></svg></div><div><div class="font-semibold text-xs">Duck.ai</div><div class="text-[10px] text-gray-400">DuckDuckGo</div></div></button><button class="explain-provider-btn flex items-center gap-2 px-2.5 py-2 rounded-lg hover:bg-white/10 transition-colors text-left text-white cursor-pointer group" data-explain-provider=brave type=button><div class="w-6 h-6 rounded-md bg-[#FB542B]/15 flex items-center justify-center shrink-0 group-hover:bg-[#FB542B]/30"><svg class="w-4 h-4 text-[#FB542B]" viewbox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width=".5"><path d="M15.68.0l2.096 2.38s1.84-.512 2.709.358c.868.87 1.584 1.638 1.584 1.638l-.562 1.381.715 2.047s-2.104 7.98-2.35 8.955c-.486 1.919-.818 2.66-2.198 3.633-1.38.972-3.884 2.66-4.293 2.916-.409.256-.92.692-1.38.692-.46.0-.97-.436-1.38-.692a185.796 185.796.0 01-4.293-2.916c-1.38-.973-1.712-1.714-2.197-3.633-.247-.975-2.351-8.955-2.351-8.955l.715-2.047-.562-1.381s.716-.768 1.585-1.638c.868-.87 2.708-.358 2.708-.358L8.321.0h7.36zm-3.679 14.936c-.14.0-1.038.317-1.758.69s-1.242.637-1.409.742c-.167.104-.065.301.087.409.152.107 2.194 1.69 2.393 1.866.198.175.489.464.687.464.198.0.49-.29.688-.464.198-.175 2.24-1.759 2.392-1.866.152-.108.254-.305.087-.41-.167-.104-.689-.368-1.41-.741-.72-.373-1.617-.69-1.757-.69zm0-11.278s-.409.001-1.022.206-1.278.46-1.584.46c-.307.0-2.581-.434-2.581-.434S4.119 7.152 4.119 7.849s.339.881.68 1.243l2.02 2.149c.192.203.59.511.356 1.066-.235.555-.58 1.26-.196 1.977.384.716 1.042 1.194 1.464 1.115.421-.08 1.412-.598 1.776-.834.364-.237 1.518-1.19 1.518-1.554.0-.365-1.193-1.02-1.413-1.168-.22-.15-1.226-.725-1.247-.95-.02-.227-.012-.293.284-.851.297-.559.831-1.304.742-1.8-.089-.495-.95-.753-1.565-.986-.615-.232-1.799-.671-1.947-.74-.148-.068-.11-.133.339-.175.448-.043 1.719-.212 2.292-.052.573.16 1.552.403 1.632.532.079.13.149.134.067.579-.081.445-.5 2.581-.541 2.96-.04.38-.12.63.288.724.409.094 1.097.256 1.333.256s.924-.162 1.333-.256c.408-.093.329-.344.288-.723-.04-.38-.46-2.516-.541-2.961-.082-.445-.012-.45.067-.579.08-.129 1.059-.372 1.632-.532s1.845.009 2.292.052c.449.042.487.107.339.175-.148.069-1.332.508-1.947.74-.615.233-1.476.49-1.565.986-.09.496.445 1.241.742 1.8.297.558.304.624.284.85-.02.226-1.026.802-1.247.95-.22.15-1.413.804-1.413 1.169.0.364 1.154 1.317 1.518 1.554.364.236 1.355.755 1.776.834.422.079 1.08-.4 1.464-1.115.384-.716.039-1.422-.195-1.977-.235-.555.163-.863.355-1.066l2.02-2.149c.341-.362.68-.546.68-1.243.0-.697-2.695-3.96-2.695-3.96s-2.274.436-2.58.436c-.307.0-.972-.256-1.585-.461-.613-.205-1.022-.206-1.022-.206z"/></svg></div><div><div class="font-semibold text-xs">Brave Search</div><div class="text-[10px] text-gray-400">Independent Web Index</div></div></button></div></div></div><div class="fixed z-70 bg-white dark:bg-[#1f242c] border border-gray-300 dark:border-gray-700 rounded-lg shadow-2xl p-3 w-80 text-xs hidden font-sans" id=reader-note-editor><div class="flex items-center justify-between pb-2 border-b border-gray-200 dark:border-gray-800 mb-2 font-semibold text-theme-text"><span id=note-editor-title>Add Note to Highlight</span><button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 text-sm cursor-pointer" id=btn-close-note-editor type=button>×</button></div><textarea class="w-full p-2 border border-gray-300 dark:border-gray-700 rounded bg-gray-50 dark:bg-[#161b22] text-theme-text outline-none focus:border-blue-500 text-xs resize-none" placeholder="Type your personal note here..." id=note-editor-input rows=3></textarea><div class="flex justify-end gap-2 pt-2"><button class="px-2.5 py-1 rounded border border-gray-300 dark:border-gray-700 text-theme-text hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" id=btn-cancel-note type=button>Cancel</button><button class="px-3 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold cursor-pointer" id=btn-save-note type=button>Save Note</button></div></div><div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=backup-modal-title aria-modal=true id=backup-modal role=dialog><div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-md w-full p-6 text-left transform transition-all"><div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4"><h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=backup-modal-title><span>💾</span> <span>Library Reading Progress Backup & Restore</span></h3><button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button></div><p class="text-xs text-[#656d76] dark:text-[#8b949e] mb-4 leading-relaxed">Export your complete e-book reading completion history, active chapters, and highlights to a JSON file to transfer between devices or restore later.<div class=space-y-3><button class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg bg-[#238636] hover:bg-[#2ea043] text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer" id=btn-export-backup type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4-4 4m0 0-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <span>Export Progress & Highlights (JSON)</span></button><button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-white dark:bg-[#161b22] hover:bg-gray-50 dark:hover:bg-[#21262d] text-xs font-semibold cursor-pointer transition-colors text-[#1f2328] dark:text-[#f0f6fc]" id=btn-export-highlights-md type=button><svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e]" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <span>Export Highlights as Markdown (.md)</span></button><label class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-[#21262d] hover:bg-[#eaeef2] dark:hover:bg-[#30363d] text-xs font-semibold cursor-pointer transition-colors text-[#1f2328] dark:text-[#f0f6fc]"><svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e]" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8-4-4m0 0L8 8m4-4v12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <span>Import Progress Backup</span> <input accept=.json class=hidden id=import-file-input type=file></label><button class="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-950/40 border border-transparent hover:border-rose-200 dark:hover:border-rose-900/60 text-xs font-semibold transition-colors cursor-pointer mt-4" id=btn-reset-backup type=button><svg class="w-4 h-4" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4A1 1 0 009 4v3M4 7h16" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg> <span>Reset All Progress</span></button></div></div></div><div aria-label="Global Library Search" class="modal-backdrop fixed inset-0 z-50 flex items-start justify-center pt-6 sm:pt-12 bg-black/60 backdrop-blur-xs hidden p-4" aria-modal=true id=search-modal role=dialog><div class="global-search-dialog-card bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-2xl w-full overflow-hidden flex flex-col"><div class="flex items-center gap-3 px-4 py-3 border-b border-[#d0d7de] dark:border-[#30363d] shrink-0"><svg class="w-4 h-4 text-[#656d76] dark:text-[#8b949e] shrink-0" viewbox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 21l-6-6m2-5A7 7 0 113 10a7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg><input class="flex-1 bg-transparent text-sm focus:outline-none text-[#1f2328] dark:text-[#f0f6fc]" placeholder="Search books, chapters, and topics across the library..." aria-autocomplete=list aria-controls=global-search-results aria-expanded=false id=global-search-input role=combobox><button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] cursor-pointer" data-close-modal type=button><kbd class="px-1.5 py-0.5 rounded border border-[#d0d7de] dark:border-[#30363d] bg-[#f6f8fa] dark:bg-[#0d1117] text-[10px] font-mono">ESC</kbd></button></div><div aria-label="Search results" class="global-search-dialog-list flex-1 min-h-0 overflow-y-auto p-2 divide-y divide-[#d0d7de]/40 dark:divide-[#30363d]/40" id=global-search-results role=listbox><div class="p-8 text-center text-xs text-[#656d76] dark:text-[#8b949e]" id=global-search-empty-prompt>Type a keyword to search across all e-books and chapters...</div></div><div class="px-4 py-2.5 bg-[#f6f8fa] dark:bg-[#0d1117] border-t border-[#d0d7de] dark:border-[#30363d] flex items-center justify-between text-[11px] text-[#656d76] dark:text-[#8b949e] shrink-0"><div class="flex items-center gap-3"><span class="inline-flex items-center gap-1"><kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded shadow-xs">↑</kbd><kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded shadow-xs">↓</kbd> navigate</span><span class="inline-flex items-center gap-1"><kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded shadow-xs">↵</kbd> select</span><span class="inline-flex items-center gap-1"><kbd class="px-1.5 py-0.5 text-[10px] font-mono bg-white dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] rounded shadow-xs">esc</kbd> close</span></div><span class="font-mono text-[10px] text-[#656d76] dark:text-[#8b949e]" id=global-search-count></span></div></div></div><div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=pref-modal-title aria-modal=true id=preferences-modal role=dialog><div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-md w-full p-6 text-left"><div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4"><h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=pref-modal-title><span>⚙️</span> <span>Reader Display Preferences</span></h3><button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button></div><div class="space-y-4 text-xs"><div><label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Color Mode / Theme</label><div class="grid grid-cols-4 gap-2" id=pref-theme-options><button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-white text-gray-900 border-gray-300 hover:border-gray-500 cursor-pointer" data-theme-val=light type=button>Light</button><button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-[#fbf0d9] text-[#3e2723] border-[#e6d0a0] hover:border-[#bcaaa4] cursor-pointer" data-theme-val=sepia type=button>Sepia</button><button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-[#161b22] text-[#f0f6fc] border-[#30363d] hover:border-[#58a6ff] cursor-pointer" data-theme-val=dark type=button>Dark</button><button class="pref-theme-btn p-2 rounded-lg border text-center font-medium bg-black text-white border-neutral-800 hover:border-neutral-500 cursor-pointer" data-theme-val=black type=button>Black</button></div></div><div><label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Typography</label><div class="grid grid-cols-3 gap-2" id=pref-font-options><button class="pref-font-btn p-2 rounded-lg border font-serif text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=serif type=button>Serif</button><button class="pref-font-btn p-2 rounded-lg border font-sans text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=sans type=button>Sans-Serif</button><button class="pref-font-btn p-2 rounded-lg border font-mono text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-font-val=mono type=button>Monospace</button></div></div><div><div class="flex items-center justify-between mb-2"><label class="font-semibold text-[#1f2328] dark:text-[#f0f6fc]">Font Size</label><span class="font-mono text-[11px] text-[#656d76] dark:text-[#8b949e]" id=pref-size-indicator>18px</span></div><div class="flex items-center gap-3"><button class="px-3 py-1.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] font-bold text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800" id=pref-size-dec type=button>A-</button><input class="flex-1 accent-[#D3002D] cursor-pointer" id=pref-size-slider max=24 min=14 step=1 type=range value=18><button class="px-3 py-1.5 rounded-lg border border-[#d0d7de] dark:border-[#30363d] font-bold text-sm cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800" id=pref-size-inc type=button>A+</button></div></div><div><label class="block font-semibold mb-2 text-[#1f2328] dark:text-[#f0f6fc]">Reading Width</label><div class="grid grid-cols-3 gap-2" id=pref-width-options><button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=narrow type=button>Narrow (60ch)</button><button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=normal type=button>Standard (75ch)</button><button class="pref-width-btn p-2 rounded-lg border text-center cursor-pointer border-[#d0d7de] dark:border-[#30363d]" data-width-val=wide type=button>Wide (90ch)</button></div></div></div></div></div><div class="modal-backdrop fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs hidden p-4" aria-labelledby=details-modal-title aria-modal=true id=details-modal role=dialog><div class="bg-white dark:bg-[#161b22] border border-[#d0d7de] dark:border-[#30363d] rounded-xl shadow-2xl max-w-lg w-full p-6 text-left"><div class="flex items-center justify-between pb-3 border-b border-[#d0d7de] dark:border-[#30363d] mb-4"><h3 class="font-bold text-sm text-[#1f2328] dark:text-[#f0f6fc] flex items-center gap-2" id=details-modal-title><span>📖</span> <span>Book Overview & Details</span></h3><button class="text-[#656d76] hover:text-[#1f2328] dark:text-[#8b949e] dark:hover:text-[#f0f6fc] text-xl leading-none cursor-pointer" data-close-modal type=button>×</button></div><div class="flex gap-4 mb-4"><img class="w-24 h-32 object-cover rounded-md shadow-md shrink-0 bg-gray-100" alt=Cover id=modal-book-cover><div class="space-y-1.5 min-w-0"><h4 class="font-bold text-base text-[#1f2328] dark:text-[#f0f6fc] leading-snug" id=modal-book-title></h4><p class="text-xs text-[#D3002D] font-medium leading-relaxed" id=modal-book-authors><p class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=modal-book-publisher><p class="text-[11px] text-[#656d76] dark:text-[#8b949e]" id=modal-book-date></div></div><div class="grid grid-cols-3 gap-2 p-3 rounded-lg bg-[#f6f8fa] dark:bg-[#21262d] border border-[#d0d7de] dark:border-[#30363d] mb-4 text-center"><div><div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Chapters</div><div class="text-sm font-bold text-[#1f2328] dark:text-[#f0f6fc]" id=modal-book-chapters>0</div></div><div><div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Est. Time</div><div class="text-sm font-bold text-[#1f2328] dark:text-[#f0f6fc]" id=modal-book-time>0h</div></div><div><div class="text-[10px] uppercase font-semibold text-[#656d76] dark:text-[#8b949e]">Completed</div><div class="text-sm font-bold text-[#238636] dark:text-[#3fb950]" id=modal-book-progress>0%</div></div></div><div class="flex items-center justify-end gap-2"><button class="px-4 py-2 rounded-lg border border-[#d0d7de] dark:border-[#30363d] text-xs font-semibold hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer" data-close-modal type=button>Close</button><a class="group/btn px-4 py-2 rounded-lg bg-[#D3002D] hover:bg-[#b00026] text-white text-xs font-semibold transition-colors cursor-pointer inline-flex items-center gap-1 shrink-0" href=# id=modal-book-read-btn> <span class="block leading-[16px] pb-[3px]">Read Book</span> <svg class="block shrink-0 transition-transform duration-200 group-hover/btn:translate-x-1" viewbox="0 0 16 16" aria-hidden="true" fill="none" height="14" width="14"><path d="M5.5 3.5 10 8 5.5 12.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/></svg></a></div></div></div><div aria-live=polite class=floating-tooltip id=floating-tooltip role=tooltip>Not Started</div>
